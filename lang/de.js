@@ -140,7 +140,7 @@ window.KOW_I18N_DE = {
   "Restore App Backup": "App-Sicherung wiederherstellen",
   "Save Progress": "Fortschritt speichern",
   "Reset Progress": "Fortschritt zurücksetzen",
-  "Current Upgrades": "Aktuelle Ausbauten",
+  "Current Upgrades": "Aktuelle Offiziersausbauten",
   "Select saved plan": "Gespeicherten Plan auswählen",
   "— Select saved plan —": "— Gespeicherten Plan auswählen —",
   "Optimise automatically": "Automatisch optimieren",
@@ -175,7 +175,7 @@ window.KOW_HELP_HTML_DE = '<div class="notice"><b>Empfohlener Ablauf:</b> Offizi
 Object.assign(window.KOW_I18N_DE, {
   "Goals Planner":"Zielplaner", "Goal":"Ziel", "Resource":"Ressource", "Required":"Benötigt", "Held":"Vorhanden", "Shortfall":"Fehlbestand",
   "Legendary Stars":"Legendäre Sterne", "Officer Badges":"Offiziersabzeichen", "Officer Readiness Vouchers":"Offiziersbereitschaftsgutscheine", "Exclusive Stars":"Exklusivsterne", "Star Readiness Vouchers":"Sternbereitschaftsgutscheine",
-  "Max Officer":"Offizier maximieren", "Current Upgrades":"Aktuelle Ausbauten", "Fully funded":"Vollständig gedeckt", "Select saved plan":"Gespeicherten Plan auswählen",
+  "Max Officer":"Offizier maximieren", "Current Upgrades":"Aktuelle Offiziersausbauten", "Fully funded":"Vollständig gedeckt", "Select saved plan":"Gespeicherten Plan auswählen",
   "Optimise automatically":"Automatisch optimieren", "Enter resources and select an Officer to see the optimiser preview.":"Gib Ressourcen ein und wähle einen Offizier, um die Optimierer-Vorschau zu sehen.",
   "Select an Officer and enter resources to see the current upgrade position.":"Wähle einen Offizier und gib Ressourcen ein, um den aktuellen Ausbaufortschritt zu sehen.",
   "Officer XP Books":"Offiziers-XP-Bücher", "XP required for selected levels":"Benötigte XP für die gewählten Level", "Badges used":"Verwendete Abzeichen", "Badges required":"Benötigte Abzeichen",
@@ -205,4 +205,33 @@ Object.assign(window.KOW_I18N_DE, {
   'Officer': 'Offizier',
   'Displayed': 'Angezeigt',
   'Saved': 'Gespeichert'
+});
+
+// v4.3.27 German dynamic/status translation completion
+Object.assign(window.KOW_I18N_DE, {
+  "RESOURCES REQUIRED":"RESSOURCEN ERFORDERLICH",
+  "Still required:":"Noch erforderlich:",
+  "Saved plan deleted.":"Gespeicherter Plan gelöscht.",
+  "Restore failed:":"Wiederherstellung fehlgeschlagen:",
+  "No backup created yet.":"Noch keine Sicherung erstellt.",
+  "Open the in-app User Guide for the recommended setup order, explanations of every tab, saving, database publishing, vouchers, badges and Original Officer restrictions.":"Öffne das Benutzerhandbuch in der App für die empfohlene Einrichtungsreihenfolge, Erklärungen zu allen Tabs, Speichern, Datenbankveröffentlichung, Gutscheinen, Abzeichen und Einschränkungen für Original-Offiziere.",
+  "Export all locally saved KoW Companion browser data, or restore a previous JSON backup.":"Exportiere alle lokal gespeicherten KoW-Companion-Browserdaten oder stelle eine frühere JSON-Sicherung wieder her.",
+  "Each Selection Chest can be used as either 1 Universal Legendary Badge or 600 Officer Readiness Vouchers. The ORV value follows the highest ORV-per-badge cost in the latest published season.":"Jede Auswahltruhe kann entweder als 1 Universelles legendäres Abzeichen oder als 600 Offiziersbereitschaftsgutscheine verwendet werden. Der ORV-Wert entspricht den höchsten ORV-Kosten pro Abzeichen der neuesten veröffentlichten Saison.",
+  "Saved ":"Gespeichert ",
+  "Not saved yet":"Noch nicht gespeichert",
+  "Can I Max This Officer?":"Kann ich diesen Offizier maximieren?",
+  "NO":"NEIN",
+  "YES":"JA",
+  "Current upgrade items":"Aktuelle Ausbauten",
+  "Next:":"Als Nächstes:",
+  "Priority: XP":"Priorität: XP",
+  "more XP is required.":"weitere XP erforderlich.",
+  "Forecast only — replace with confirmed costs when released.":"Nur Prognose — nach Veröffentlichung durch bestätigte Kosten ersetzen.",
+  "Planning estimate using ":"Planungsschätzung mit ",
+  " growth per Officer release from the latest known 600 ORV / 300 SRV release. For ":" Zuwachs je Offiziersveröffentlichung ausgehend von der letzten bekannten Veröffentlichung mit 600 ORV / 300 SRV. Für ",
+  " badges and ":" Abzeichen und ",
+  " Star value (":" Sternwert (",
+  " Exclusive Stars), plan for approximately ":" Exklusivsterne) sind ungefähr ",
+  " ORV and ":" ORV und ",
+  " SRV. Forecast only — replace with confirmed costs when released.":" SRV einzuplanen. Nur Prognose — nach Veröffentlichung durch bestätigte Kosten ersetzen."
 });
