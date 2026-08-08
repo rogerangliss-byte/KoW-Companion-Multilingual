@@ -1,4 +1,4 @@
-const CACHE='kow-v4.3.24-test';
+const CACHE='kow-v4.3.27-planname-fix2';
 const ASSETS=[
   './',
   './index.html',

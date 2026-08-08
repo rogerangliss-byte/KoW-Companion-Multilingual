@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>KoW Companion Multilingual v4.3.25</title>
+<title>KoW Companion Multilingual v4.3.27</title>
 <link rel="manifest" href="./manifest.json">
 <style>
 :root{
@@ -132,7 +132,7 @@ input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px
 <header class="topbar">
   <div>
     <h1 id="appTitle">⚔ GODS OF WAR 371</h1>
-    <p>Officer Companion v4.3.25</p>
+    <p>Officer Companion v4.3.27</p>
   </div>
   <div class="creator-credit">Created by FireStorm (371)</div>
 </header>
@@ -460,7 +460,7 @@ input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px
       <button id="resetAppearance" class="primary">Reset Appearance & Backgrounds</button>
       <h3>App Updates</h3>
       <div class="notice">
-        <div><b>Installed version:</b> <span id="installedVersion">v4.3.25</span></div>
+        <div><b>Installed version:</b> <span id="installedVersion">v4.3.27</span></div>
         <div id="updateStatus">Tap Check for Updates to compare with the latest GitHub Pages version.</div>
       </div>
       <div class="two">
@@ -468,7 +468,7 @@ input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px
         <button id="refreshLatest" class="primary">Refresh Latest Version</button>
       </div>
       <h3>About</h3>
-      <p class="notice"><b>KoW Companion v4.3.25 TEST</b><br>Created by FireStorm (371)</p>
+      <p class="notice"><b>KoW Companion v4.3.27</b><br>Created by FireStorm (371)</p>
       <h3>Help & Instructions</h3>
       <p class="notice">Open the in-app User Guide for the recommended setup order, explanations of every tab, saving, database publishing, vouchers, badges and Original Officer restrictions.</p>
       <button id="openUserGuide" class="primary">📖 User Guide</button>
@@ -983,7 +983,7 @@ function loadProgress(){
 }
 
 
-const APP_VERSION='4.3.25';
+const APP_VERSION='4.3.27';
 
 function parseVersion(v){
  return String(v||'').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0);
@@ -1404,6 +1404,24 @@ function translateNodeText(root=document.body){
    const tr=tText(ph); if(tr!==ph)el.setAttribute('placeholder',tr);
  });
 }
+function translateFormValues(){
+ const lang=currentLang();
+ const planName=document.getElementById('multiPlanName');
+ if(planName){
+   const known={
+     en:['Current Upgrades','Aktuelle Offiziersausbauten','Améliorations actuelles','Potenziamenti attuali'],
+     de:['Current Upgrades','Aktuelle Offiziersausbauten','Améliorations actuelles','Potenziamenti attuali'],
+     fr:['Current Upgrades','Aktuelle Offiziersausbauten','Améliorations actuelles','Potenziamenti attuali'],
+     it:['Current Upgrades','Aktuelle Offiziersausbauten','Améliorations actuelles','Potenziamenti attuali']
+   };
+   const current=String(planName.value||'').trim();
+   if((known[lang]||known.en).includes(current)){
+     const translated=(I18N[lang]&&I18N[lang]['Current Upgrades']) || 'Current Upgrades';
+     planName.value=translated;
+   }
+ }
+}
+
 function translateOptions(){
  const lang=currentLang();
  const releaseTranslations={
@@ -1547,6 +1565,7 @@ function applyLanguage(lang){
 
   translateNodeText(document.body);
   translateOptions();
+  translateFormValues();
   renderHelpLanguage(lang);
   
   // Dynamic renderers can recreate English strings, so run the existing translator once more.
@@ -1940,7 +1959,7 @@ document.querySelectorAll('.bottom-nav button').forEach(b=>b.onclick=()=>{docume
  setBackground('landscapeBackgroundPicker','kow_bg_landscape_v401','landscapeBgStatus','Custom landscape');
  $('resetAppearance').onclick=()=>{
   ['kow_app_name_v4','kow_bg_v4','kow_bg_portrait_v401','kow_bg_landscape_v401'].forEach(k=>localStorage.removeItem(k));
-  $('appName').value='GODS OF WAR 371';$('appTitle').textContent='GODS OF WAR 371';document.title='KoW Companion v4.3.25';
+  $('appName').value='GODS OF WAR 371';$('appTitle').textContent='GODS OF WAR 371';document.title='KoW Companion v4.3.27';
   $('portraitBgStatus').textContent='Built-in default portrait';$('landscapeBgStatus').textContent='Built-in default landscape';
   $('portraitBackgroundPicker').value='';$('landscapeBackgroundPicker').value='';
    applyResponsivePageBackground();
@@ -1971,18 +1990,19 @@ document.querySelectorAll('.bottom-nav button').forEach(b=>b.onclick=()=>{docume
  $('refreshLatest').onclick=clearAppCacheAndReload;
 
  loadProgress();
+ translateFormValues();
 
- // v4.3.25 translation hardening: translate UI text recreated by dynamic renderers.
+ // v4.3.27 translation hardening: translate UI text recreated by dynamic renderers.
  let kowI18nBusy=false;
  const kowI18nObserver=new MutationObserver(()=>{
    const lang=currentLang();
    if(lang==='en'||kowI18nBusy)return;
    kowI18nBusy=true;
-   try{translateNodeText(document.body);translateOptions();}catch(e){}
+   try{translateNodeText(document.body);translateOptions();translateFormValues();kowTranslateTree(lang,document.body);}catch(e){}
    kowI18nBusy=false;
  });
  kowI18nObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
- // v4.3.25 feature wiring
+ // v4.3.27 feature wiring
  populateCompareOfficers();
  const compareSelect=$('compareOfficerSelect');
  if(compareSelect){
@@ -2023,7 +2043,7 @@ const kowI18nObserver=new MutationObserver(()=>{
   if(currentLang()==='en')return;
   clearTimeout(kowI18nObserverTimer);
   kowI18nObserverTimer=setTimeout(()=>{
-    try{translateNodeText(document.body);translateOptions();renderHelpLanguage(currentLang());}catch(e){}
+    try{const lang=currentLang();translateNodeText(document.body);translateOptions();translateFormValues();kowTranslateTree(lang,document.body);renderHelpLanguage(lang);}catch(e){}
   },0);
 });
 kowI18nObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
