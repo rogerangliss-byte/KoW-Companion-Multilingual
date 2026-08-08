@@ -167,7 +167,29 @@ window.KOW_I18N_FR = {
   "Still required": "Encore requis",
   "Priority: XP": "Priorité : XP",
   "Priority: Development": "Priorité : Développement",
-  "Priority: Stars": "Priorité : Étoiles"
+  "Priority: Stars": "Priorité : Étoiles",
+  "Still required: XP": "Encore requis : XP",
+  "ACTIVE OFFICER": "OFFICIER ACTIF",
+  "Officer Upgrades": "Améliorations de l’officier",
+  "Next": "Suivant",
+  "Saved": "Enregistré",
+  "NO": "NON",
+  "No": "Non",
+  "Planning estimate using 20% growth": "Estimation de planification avec une croissance de 20 %",
+  "No backup created yet.": "Aucune sauvegarde créée pour le moment.",
+  "Created by FireStorm (371)": "Créé par FireStorm (371)",
+  "Export all locally saved data": "Exporter toutes les données enregistrées localement",
+  "Choose File": "Choisir un fichier",
+  "No file chosen": "Aucun fichier choisi",
+  "Each Selection Chest can be used as either": "Chaque Coffre de sélection peut être utilisé soit comme",
+  "Selection Chest": "Coffre de sélection",
+  "Selection Chests": "Coffres de sélection",
+  "Officer Readiness Vouchers": "Bons de préparation d’officier",
+  "Star Readiness Vouchers": "Bons de préparation d’étoile",
+  "Exclusive Stars": "Étoiles exclusives",
+  "Legendary Stars": "Étoiles légendaires",
+  "Officer Badges": "Insignes d’officier",
+  "Current Upgrade": "Amélioration actuelle"
 };
 
 window.KOW_HELP_HTML_FR = '<div class="notice"><b>Flux de travail recommandé :</b> suivez Officier → Étoiles → Développement → XP → Planificateur, puis utilisez <b>Sauvegarder la progression</b>. Utilisez <b>Sauvegarde et restauration</b> dans Paramètres avant des changements importants ou lorsque vous souhaitez une copie portable des données enregistrées localement.</div>\n<h3>1. Officier</h3>\n<p>Utilisez les filtres <b>Recherche</b>, <b>Saison</b> et <b>Type / Rôle d’officier</b> pour réduire la liste. Sélectionnez l’officier à calculer. Son portrait s’affiche automatiquement lorsque le fichier correspondant est disponible dans le dossier <b>officer-portraits</b>.</p>\n<p>L’officier sélectionné détermine le coût d’un Insigne d’officier en <b>Bons de préparation d’officier (ORV)</b> et le coût d’une Étoile exclusive en <b>Bons de préparation d’étoile (SRV)</b>.</p>\n<p>Le <b>Résumé d’amélioration de l’officier</b> affiche les Insignes, Étoiles et XP d’officier encore nécessaires.</p>\n<p><b>Officiers originaux :</b> les ORV et SRV ne peuvent pas être utilisés pour les Officiers originaux.</p>\n<h3>2. Étoiles</h3>\n<p>Définissez le niveau d’étoiles actuel et cible. Saisissez les Étoiles légendaires I, II et III ainsi que les <b>SRV</b> détenus. L’application calcule la valeur d’étoiles détenue, les Étoiles exclusives obtenables avec les SRV et le besoin restant.</p>\n<h3>3. Développement</h3>\n<p>Saisissez l’état de déverrouillage, les points de compétence terminés et le niveau d’entraînement. Ajoutez ensuite les Insignes d’officier, Insignes légendaires universels, Coffres de sélection et <b>ORV</b> détenus.</p>\n<p>Chaque <b>Insigne légendaire universel</b> vaut <b>1 Insigne d’officier</b> pour un officier légendaire.</p>\n<p>Chaque <b>Coffre de sélection d’insignes légendaires</b> peut être utilisé soit comme 1 Insigne légendaire universel, soit converti en ORV selon la valeur de la dernière saison. Un coffre ne peut pas compter de deux façons. Avec la base S7 actuelle, la référence est <b>600 ORV par coffre</b>.</p>\n<h3>4. XP</h3>\n<p>Saisissez le niveau actuel et cible de l’officier, puis le nombre de Livres XP détenus pour chaque valeur. L’application calcule les XP détenus, requis et manquants.</p>\n<h3>5. Planificateur et Optimiseur de ressources</h3>\n<p>Utilisez le Planificateur après avoir saisi Étoiles, Développement et XP. Choisissez un objectif pour afficher les besoins, ressources détenues et manques.</p>\n<p>L’<b>Optimiseur de ressources</b> compare deux officiers selon leur coût ORV par Insigne d’officier.</p>\n<p><b>Interprétation :</b> lorsque les deux officiers peuvent utiliser des ORV, privilégiez les ORV sur celui dont le coût par insigne est le plus faible et les ressources universelles partagées sur celui dont le coût ORV est le plus élevé.</p>\n<p>L’optimiseur est <b>uniquement un aperçu</b> : il ne dépense, n’alloue ni ne modifie automatiquement vos ressources.</p>\n<h3>5a. Planificateur d’amélioration multi-officiers</h3>\n<p>Créez une liste de priorités de plusieurs officiers et prévisualisez comment les ORV, Insignes universels et Coffres de sélection partagés peuvent couvrir le plan.</p>\n<p>Utilisez <b>Utiliser les ressources détenues</b> pour copier les ressources actuelles. Les plans sont des aperçus et peuvent être sauvegardés localement puis rechargés.</p>\n<h3>6. Sauvegarder la progression</h3>\n<p>Utilisez <b>Sauvegarder la progression</b> après toute modification. La progression est stockée localement dans le navigateur de cet appareil et n’est pas publiée pour les autres utilisateurs.</p>\n<h3>7. Base de données</h3>\n<p>Le Gestionnaire de base de données contrôle la liste principale des officiers. Utilisez-le pour ajouter ou modifier des officiers et exporter la base. <b>Exporter CSV</b> est distinct de la sauvegarde de progression et de la sauvegarde de l’application.</p>\n<p>Pour publier des officiers nouveaux ou modifiés pour tous, mettez à jour <b>officers.json</b> et <b>officers.csv</b> dans le dépôt GitHub.</p>\n<h3>8. Paramètres, sauvegarde et restauration</h3>\n<p>Paramètres contient le nom de l’application, les arrière-plans, les contrôles de mise à jour et <b>Sauvegarde et restauration</b>.</p>\n<p><b>Exporter la sauvegarde de l’application</b> crée une sauvegarde JSON locale. <b>Restaurer la sauvegarde</b> recharge un fichier JSON exporté précédemment.</p>\n<p><b>Rechercher des mises à jour</b> compare la version installée à la version publiée. <b>Actualiser la dernière version</b> actualise le cache sans supprimer volontairement la progression sauvegardée.</p>\n<h3>Terminologie</h3>\n<p><b>ORV</b> = Bon de préparation d’officier<br><b>SRV</b> = Bon de préparation d’étoile<br><b>Insigne légendaire universel</b> = 1 Insigne d’officier légendaire<br><b>Étoile exclusive</b> = 110 de valeur d’étoiles d’officier</p>';
@@ -213,5 +235,17 @@ Object.assign(window.KOW_I18N_FR, {
   'Officer Readiness Vouchers (ORV) required': 'Bons de préparation d’officier (ORV) requis',
   'Use Selection Chests as': 'Utiliser les coffres de sélection comme',
   'Universal Legendary Badges': 'Insignes légendaires universels',
-  'About': 'À propos'
+  'About': 'À propos',
+  'January': 'Janvier',
+  'February': 'Février',
+  'March': 'Mars',
+  'April': 'Avril',
+  'May': 'Mai',
+  'June': 'Juin',
+  'July': 'Juillet',
+  'August': 'Août',
+  'September': 'Septembre',
+  'October': 'Octobre',
+  'November': 'Novembre',
+  'December': 'Décembre'
 });
