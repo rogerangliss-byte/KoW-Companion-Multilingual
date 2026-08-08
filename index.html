@@ -2057,5 +2057,41 @@ document.addEventListener('change',()=>setTimeout(updateSmartDashboard,0));
 document.addEventListener('click',()=>setTimeout(updateSmartDashboard,0));
 window.addEventListener('load',()=>{setTimeout(updateSmartDashboard,100);setTimeout(updateSmartDashboard,500);});
 </script>
+
+<script>
+/* v4.3.27 French residual dynamic cleanup */
+(function(){
+ const FR={
+  "August":"Août","September":"Septembre","October":"Octobre","November":"Novembre",
+  "December":"Décembre","January":"Janvier","February":"Février","March":"Mars",
+  "April":"Avril","May":"Mai","June":"Juin","July":"Juillet",
+  "PARTIALLY READY":"PARTIELLEMENT PRÊT","Still required":"Encore requis",
+  "ACTIVE OFFICER":"OFFICIER ACTIF","Current Upgrades":"Améliorations actuelles",
+  "Officer Upgrades":"Améliorations de l’officier","Fully funded":"Entièrement financé",
+  "fully funded":"entièrement financé","partially funded":"partiellement financé",
+  "No backup created yet.":"Aucune sauvegarde créée pour le moment.",
+  "Created by FireStorm (371)":"Créé par FireStorm (371)",
+  "Planning estimate using 20% growth":"Estimation de planification avec une croissance de 20 %",
+  "Choose File":"Choisir un fichier","No file chosen":"Aucun fichier choisi"
+ };
+ function pass(){
+   const sel=document.getElementById('languageSelect')||document.querySelector('select[id*="lang" i],select[name*="lang" i]');
+   const lang=(sel&&sel.value)||localStorage.getItem('kowLanguage')||localStorage.getItem('language')||'';
+   if(!String(lang).toLowerCase().startsWith('fr')) return;
+   const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+   let n;
+   while(n=w.nextNode()){
+     if(!n.parentElement||['SCRIPT','STYLE'].includes(n.parentElement.tagName)) continue;
+     let v=n.nodeValue;
+     for(const [a,b] of Object.entries(FR)) if(v.includes(a)) v=v.split(a).join(b);
+     n.nodeValue=v;
+   }
+ }
+ new MutationObserver(()=>setTimeout(pass,0)).observe(document.body,{childList:true,subtree:true});
+ document.addEventListener('change',e=>{if(e.target.matches('select[id*="lang" i],select[name*="lang" i]'))setTimeout(pass,20)});
+ setTimeout(pass,100);
+})();
+</script>
+
 </body>
 </html>
