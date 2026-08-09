@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>KoW Companion Multilingual v4.3.27</title>
+<title>KoW Companion Multilingual v4.3.28</title>
 <link rel="manifest" href="./manifest.json">
 <style>
 :root{
@@ -126,13 +126,20 @@ input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px
 
 .button-like{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;background:rgba(0,0,0,.28);font-weight:700}
 .result-box{padding:12px;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.28);line-height:1.55}
+
+@media(max-width:760px){
+  .bottom-nav{display:flex!important;overflow-x:auto!important;overflow-y:hidden;justify-content:flex-start;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:8px 10px}
+  .bottom-nav::-webkit-scrollbar{display:none}
+  .bottom-nav button{flex:0 0 72px;min-width:72px;padding:8px 4px}
+  .bottom-nav span{font-size:.65rem}
+}
 </style>
 </head>
-<body><div id="testBanner" style="position:sticky;top:0;z-index:9999;background:#8b0000;color:white;text-align:center;font-weight:800;padding:7px 10px;letter-spacing:.5px"></div>
+<body>
 <header class="topbar">
   <div>
     <h1 id="appTitle">⚔ GODS OF WAR 371</h1>
-    <p>Officer Companion v4.3.27</p>
+    <p>Officer Companion v4.3.28</p>
   </div>
   <div class="creator-credit">Created by FireStorm (371)</div>
 </header>
@@ -460,15 +467,16 @@ input,select,button{font:inherit}input,select{width:100%;padding:11px;border:1px
       <button id="resetAppearance" class="primary">Reset Appearance & Backgrounds</button>
       <h3>App Updates</h3>
       <div class="notice">
-        <div><b>Installed version:</b> <span id="installedVersion">v4.3.27</span></div>
+        <div><b>Installed version:</b> <span id="installedVersion">v4.3.28</span></div>
         <div id="updateStatus">Tap Check for Updates to compare with the latest GitHub Pages version.</div>
       </div>
       <div class="two">
         <button id="checkUpdates" class="primary">Check for Updates</button>
         <button id="refreshLatest" class="primary">Refresh Latest Version</button>
       </div>
-      <h3>About</h3>
-      <p class="notice"><b>KoW Companion v4.3.27</b><br>Created by FireStorm (371)</p>
+      <h3 data-i18n="About">About</h3>
+      <p class="notice"><b>KoW Companion v4.3.28</b><br><span data-i18n="Created by FireStorm (371)">Created by FireStorm (371)</span></p>
+<h3 data-i18n="Version Integrity">Version Integrity</h3><div id="versionIntegrity" class="notice" data-i18n="Checking build version consistency…">Checking build version consistency…</div>
       <h3>Help & Instructions</h3>
       <p class="notice">Open the in-app User Guide for the recommended setup order, explanations of every tab, saving, database publishing, vouchers, badges and Original Officer restrictions.</p>
       <button id="openUserGuide" class="primary">📖 User Guide</button>
@@ -983,7 +991,7 @@ function loadProgress(){
 }
 
 
-const APP_VERSION='4.3.27';
+const APP_VERSION='4.3.28';
 
 function parseVersion(v){
  return String(v||'').replace(/^v/i,'').split('.').map(n=>parseInt(n,10)||0);
@@ -1959,7 +1967,7 @@ document.querySelectorAll('.bottom-nav button').forEach(b=>b.onclick=()=>{docume
  setBackground('landscapeBackgroundPicker','kow_bg_landscape_v401','landscapeBgStatus','Custom landscape');
  $('resetAppearance').onclick=()=>{
   ['kow_app_name_v4','kow_bg_v4','kow_bg_portrait_v401','kow_bg_landscape_v401'].forEach(k=>localStorage.removeItem(k));
-  $('appName').value='GODS OF WAR 371';$('appTitle').textContent='GODS OF WAR 371';document.title='KoW Companion v4.3.27';
+  $('appName').value='GODS OF WAR 371';$('appTitle').textContent='GODS OF WAR 371';document.title='KoW Companion v4.3.28';
   $('portraitBgStatus').textContent='Built-in default portrait';$('landscapeBgStatus').textContent='Built-in default landscape';
   $('portraitBackgroundPicker').value='';$('landscapeBackgroundPicker').value='';
    applyResponsivePageBackground();
@@ -1992,7 +2000,7 @@ document.querySelectorAll('.bottom-nav button').forEach(b=>b.onclick=()=>{docume
  loadProgress();
  translateFormValues();
 
- // v4.3.27 translation hardening: translate UI text recreated by dynamic renderers.
+ // v4.3.28 translation hardening: translate UI text recreated by dynamic renderers.
  let kowI18nBusy=false;
  const kowI18nObserver=new MutationObserver(()=>{
    const lang=currentLang();
@@ -2002,7 +2010,7 @@ document.querySelectorAll('.bottom-nav button').forEach(b=>b.onclick=()=>{docume
    kowI18nBusy=false;
  });
  kowI18nObserver.observe(document.body,{childList:true,subtree:true,characterData:true});
- // v4.3.27 feature wiring
+ // v4.3.28 feature wiring
  populateCompareOfficers();
  const compareSelect=$('compareOfficerSelect');
  if(compareSelect){
@@ -2059,7 +2067,7 @@ window.addEventListener('load',()=>{setTimeout(updateSmartDashboard,100);setTime
 </script>
 
 <script>
-/* v4.3.27 French residual dynamic cleanup */
+/* v4.3.28 French residual dynamic cleanup */
 (function(){
  const FR={
   "August":"Août","September":"Septembre","October":"Octobre","November":"Novembre",
@@ -2093,5 +2101,37 @@ window.addEventListener('load',()=>{setTimeout(updateSmartDashboard,100);setTime
 })();
 </script>
 
+
+<script>
+function updateVersionIntegrity(){
+  const expected='v4.3.28';
+  const el=document.getElementById('versionIntegrity');
+  if(!el)return;
+  const lang=(localStorage.getItem('kow_language')||'en').toLowerCase();
+  const strings={
+    en:{ok:'Build integrity: OK',sync:'Multilingual build is synchronised at v4.3.28.',bad:'Build integrity: MISMATCH',expected:'Expected v4.3.28.'},
+    it:{ok:'Integrità build: OK',sync:'La build multilingue è sincronizzata alla v4.3.28.',bad:'Integrità build: NON CORRISPONDENTE',expected:'Versione prevista: v4.3.28.'},
+    fr:{ok:'Intégrité de la build : OK',sync:'La version multilingue est synchronisée en v4.3.28.',bad:'Intégrité de la build : NON CONFORME',expected:'Version attendue : v4.3.28.'},
+    de:{ok:'Build-Integrität: OK',sync:'Der mehrsprachige Build ist auf v4.3.28 synchronisiert.',bad:'Build-Integrität: ABWEICHUNG',expected:'Erwartete Version: v4.3.28.'}
+  };
+  const s=strings[lang]||strings.en;
+  const installed=(document.getElementById('installedVersion')?.textContent||'').trim();
+  const bodyText=document.body.innerText||'';
+  const stale=/\bv4\.3\.27\b/i.test(bodyText);
+  const installedOK=!installed || installed===expected;
+  el.removeAttribute('data-i18n');
+  el.innerHTML=(!stale&&installedOK)
+    ? '<b>'+s.ok+'</b><br>'+s.sync
+    : '<b>'+s.bad+'</b><br>'+s.expected;
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(updateVersionIntegrity,0));
+}else{
+  setTimeout(updateVersionIntegrity,0);
+}
+document.addEventListener('change',e=>{
+  if(e.target&&e.target.id==='appLanguage')setTimeout(updateVersionIntegrity,10);
+});
+</script>
 </body>
 </html>
