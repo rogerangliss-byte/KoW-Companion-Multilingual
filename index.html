@@ -548,8 +548,6 @@ nav.bottom-nav::-webkit-scrollbar,
 
 </head>
 <body>
-<div id="english-test-banner" style="position:sticky;top:0;z-index:99999;background:#d00000;color:#fff;text-align:center;font-weight:800;padding:9px 12px;">KoW Companion — v4.3.55</div>
-
 <header class="topbar">
   <div>
     <h1 id="appTitle">⚔ GODS OF WAR 371</h1>
@@ -959,7 +957,43 @@ nav.bottom-nav::-webkit-scrollbar,
   <div class="notice">Your language choice is saved automatically on this device.</div>
 </article>
 
-    
+    <article class="card">
+      <h2>⚙ Settings</h2>
+      <label>App Name</label><input id="appName" value="GODS OF WAR 371">
+      <h3>Responsive Backgrounds</h3>
+      <p class="notice">The app automatically uses the Portrait background on portrait screens and the Landscape background on landscape/PC screens.</p>
+      <label>Portrait Background (Mobile / Tablet)</label>
+      <input id="portraitBackgroundPicker" type="file" accept="image/*">
+      <div class="background-status"><span>Active portrait background</span><b id="portraitBgStatus">Built-in default portrait</b></div>
+      <label>Landscape Background (PC / Landscape)</label>
+      <input id="landscapeBackgroundPicker" type="file" accept="image/*">
+      <div class="background-status"><span>Active landscape background</span><b id="landscapeBgStatus">Built-in default landscape</b></div>
+      <button id="resetAppearance" class="primary">Reset Appearance & Backgrounds</button>
+      <h3>App Updates</h3>
+      <div class="notice">
+        <div><b>Installed version:</b> <span id="installedVersion"></span></div>
+        <div id="updateStatus">Tap Check for Updates to compare with the latest GitHub Pages version.</div>
+      </div>
+      <div class="two">
+        <button id="checkUpdates" class="primary">Check for Updates</button>
+        <button id="refreshLatest" class="primary">Refresh Latest Version</button>
+      </div>
+      <h3>About</h3>
+      <p class="notice"><b>KoW Companion <span id="aboutVersion"></span> LIVE</b><br>Created by FireStorm (371)</p>
+      <h3>Version Integrity</h3>
+      <div id="versionIntegrity" class="notice">Checking build version consistency…</div>
+
+      <h3>Help & Instructions</h3>
+      <p class="notice">Open the in-app User Guide for the recommended setup order, explanations of every tab, saving, database publishing, vouchers, badges and Original Officer restrictions.</p>
+      <button id="openUserGuide" class="primary">📖 User Guide</button>
+<h3>Backup & Restore</h3>
+      <p class="notice">Export all locally saved KoW Companion browser data, or restore a previous JSON backup.</p>
+      <div class="two">
+        <button id="backupAppData" class="primary">⬇ Export App Backup</button>
+        <label class="button-like">⬆ Restore App Backup<input id="restoreAppData" type="file" accept=".json,application/json" hidden></label>
+      </div>
+      <div id="backupStatus" class="notice" style="margin-top:10px">No backup created yet.</div>
+</article>
   </section>
 </main>
 
@@ -1717,7 +1751,7 @@ function loadProgress(){
 }
 
 
-const APP_VERSION='v4.3.55';
+const APP_VERSION='4.3.55';
 function syncVersionUI(){
  const v='v'+APP_VERSION;
  if($('headerVersion'))$('headerVersion').textContent=v;
@@ -2299,20 +2333,20 @@ document.querySelectorAll('.bottom-nav button').forEach(b=>b.onclick=()=>{docume
  $('checkUpdates').onclick=async()=>{
   const status=$('updateStatus');
   $('checkUpdates').disabled=true;
-  status.textContent='Checking GitHub Pages for the la …';
+  status.textContent='Checking GitHub Pages for the latest version…';
   try{
     const latest=await fetchPublishedVersion();
     if(!latest){
-      status.textContent='Could not determine the published version. You can still use Refresh La .';
+      status.textContent='Could not determine the published version. You can still use Refresh Latest Version.';
     }else if(compareVersions(latest,APP_VERSION)>0){
-      status.textContent=`Update available: v${latest}. Tap Refresh La to install it.`;
+      status.textContent=`Update available: v${latest}. Tap Refresh Latest Version to install it.`;
     }else if(compareVersions(latest,APP_VERSION)===0){
       status.textContent=`You are up to date — v${APP_VERSION}.`;
     }else{
       status.textContent=`Installed v${APP_VERSION}; published site reports v${latest}.`;
     }
   }catch(e){
-    status.textContent='Unable to check right now. Check your internet connection, or use Refresh La .';
+    status.textContent='Unable to check right now. Check your internet connection, or use Refresh Latest Version.';
   }finally{
     $('checkUpdates').disabled=false;
   }
@@ -3356,8 +3390,5 @@ window.addEventListener('load',()=>setTimeout(()=>apply(),100));
 window.__kowApplyItalianDynamicTranslations=apply;
 })();
 </script>
-
-
-
 </body>
 </html>
