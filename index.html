@@ -1313,34 +1313,6 @@ nav.bottom-nav::-webkit-scrollbar,
       </div>
       <div id="backupStatus" class="notice" style="margin-top:10px">No backup created yet.</div>
 </article>
-  
-<article class="card" id="languageQaCard">
-  <h2>🧪 Language QA / Translation Test</h2>
-  <p class="muted">Run a translation audit at any time to verify the multilingual interface. This diagnostic does not change Officer or Inventory data.</p>
-  <div class="two">
-    <div><label>Language to test</label>
-      <select id="languageQaTarget">
-        <option value="all">All Languages</option>
-        <option value="en">English</option><option value="fr">Français</option>
-        <option value="de">Deutsch</option><option value="it">Italiano</option>
-      </select>
-    </div>
-    <div><label>Test scope</label>
-      <select id="languageQaScope">
-        <option value="full">Full app</option>
-        <option value="planner">Advanced Planner</option>
-        <option value="releases">Releases</option>
-        <option value="help">Help / What's New</option>
-      </select>
-    </div>
-  </div>
-  <div class="two">
-    <button type="button" class="primary" id="runLanguageQa">▶ Run Language Test</button>
-    <button type="button" id="downloadLanguageQa" disabled>⬇ Download Language Test Report</button>
-  </div>
-  <div id="languageQaSummary" class="notice" style="margin-top:10px">No language test has been run yet.</div>
-  <div id="languageQaResults" style="margin-top:10px;max-height:420px;overflow:auto"></div>
-</article>
 </section>
 </main>
 
@@ -4149,81 +4121,5 @@ document.addEventListener('change',e=>{if(e.target?.id==='appLanguage')setTimeou
 window.kowV4358Translate3=()=>apply(document.body);
 })();
 </script>
-
-<script id="v4358-language-qa" style="display:none!important">
-(function(){
-'use strict';
-let lastReport=null;
-const LANGS=['en','fr','de','it'];
-const NAMES={en:'English',fr:'French',de:'German',it:'Italian'};
-const ALLOWED=new Set(['XP','ORV','SRV','MAX','S2','S3','S4','S5','S6','S7','S8','English','Français','Deutsch','Italiano','FireStorm','KoW Companion']);
-function dict(l){return (window.KOW_LANG&&window.KOW_LANG[l])||window['KOW_LANG_'+l]||{};}
-function flatten(o,p='',r={}){
- if(!o||typeof o!=='object')return r;
- Object.keys(o).forEach(k=>{const v=o[k],q=p?p+'.'+k:k;if(v&&typeof v==='object')flatten(v,q,r);else r[q]=v;});
- return r;
-}
-function scopeRoot(scope){
- if(scope==='planner')return document.getElementById('planner');
- if(scope==='releases')return document.getElementById('releases');
- if(scope==='help')return document.getElementById('help');
- return document.querySelector('main')||document.body;
-}
-function visibleStrings(root){
- const arr=[]; const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
- let n; while(n=walker.nextNode()){
-   if(['SCRIPT','STYLE','OPTION'].includes(n.parentElement?.tagName))continue;
-   const s=(n.nodeValue||'').replace(/\s+/g,' ').trim();
-   if(s.length>=3)arr.push(s);
- }
- root.querySelectorAll('button,label,option,input[placeholder],select').forEach(el=>{
-   const s=(el.placeholder||el.textContent||'').replace(/\s+/g,' ').trim(); if(s.length>=3)arr.push(s);
- });
- return [...new Set(arr)];
-}
-function englishResiduals(strings,l){
- if(l==='en')return [];
- const markers=['Advanced Planner','Advanced Multi-Officer Planning','Planning session','Saved Officers','All Officer sessions','Officer Session','Future Officer','Projected','Resource Requirement','Show all','Collapse','Inventory detected','Recommendation','Releases','What’s New','Help & Instructions','Analyse Planning Session','Refresh Recommendation','Include Not Started','Include Original Officers'];
- return strings.filter(s=>markers.some(m=>s.toLowerCase().includes(m.toLowerCase()))&&!ALLOWED.has(s));
-}
-async function testLanguage(l,scope){
- const before=localStorage.getItem('kow_language')||localStorage.getItem('appLanguage')||'en';
- if(typeof window.kowApplyLanguage==='function')window.kowApplyLanguage(l);
- const sel=document.getElementById('appLanguage'); if(sel){sel.value=l;sel.dispatchEvent(new Event('change',{bubbles:true}));}
- await new Promise(r=>setTimeout(r,180));
- const switched=(document.documentElement.lang||'').slice(0,2)===l || (sel&&sel.value===l);
- const en=flatten(dict('en')), tr=flatten(dict(l));
- const missing=l==='en'?[]:Object.keys(en).filter(k=>!(k in tr)||tr[k]===null||tr[k]==='');
- const strings=visibleStrings(scopeRoot(scope));
- const residual=englishResiduals(strings,l);
- const status=(!switched||missing.length>0||residual.length>0)?(switched?'WARNING':'FAIL'):'PASS';
- return {language:l,name:NAMES[l],scope,status,switched,missingKeys:missing,residualEnglish:residual,visibleStringCount:strings.length};
-}
-async function run(){
- const target=document.getElementById('languageQaTarget').value,scope=document.getElementById('languageQaScope').value;
- const langs=target==='all'?LANGS:[target], results=[];
- for(const l of langs)results.push(await testLanguage(l,scope));
- // Always verify return to English after an All Languages run.
- if(target==='all'&&typeof window.kowApplyLanguage==='function')window.kowApplyLanguage('en');
- const fail=results.filter(x=>x.status==='FAIL').length,warn=results.filter(x=>x.status==='WARNING').length;
- const overall=fail?'FAIL':warn?'WARNING':'PASS';
- lastReport={appVersion:'4.3.58',build:'Multilingual Language QA',generated:new Date().toISOString(),scope,overall,results};
- const sum=document.getElementById('languageQaSummary');
- sum.innerHTML='<b>'+overall+'</b> — '+results.length+' language test(s): '+(results.length-fail-warn)+' PASS, '+warn+' WARNING, '+fail+' FAIL.';
- document.getElementById('languageQaResults').innerHTML=results.map(x=>'<div class="result-box"><b>'+x.name+' — '+x.status+'</b><br>Switch test: '+(x.switched?'PASS':'FAIL')+' · Missing translation keys: '+x.missingKeys.length+' · Residual English flags: '+x.residualEnglish.length+(x.missingKeys.length?'<br><small>Missing: '+x.missingKeys.slice(0,30).join(', ')+'</small>':'')+(x.residualEnglish.length?'<br><small>Residual English: '+x.residualEnglish.slice(0,30).join(' | ')+'</small>':'')+'</div>').join('');
- document.getElementById('downloadLanguageQa').disabled=false;
-}
-function download(){
- if(!lastReport)return;
- const blob=new Blob([JSON.stringify(lastReport,null,2)],{type:'application/json;charset=utf-8'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='KoW-Language-QA-v4.3.58-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-}
-document.addEventListener('click',e=>{
- if(e.target?.id==='runLanguageQa')run();
- if(e.target?.id==='downloadLanguageQa')download();
-});
-})();
-</script>
-
 </body>
 </html>
