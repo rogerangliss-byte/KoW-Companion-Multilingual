@@ -1,3 +1,12 @@
+## Anleitung v4.3.58 — Erweiterte Planung
+Beginne mit **Inventar**, speichere danach den Fortschritt der **Offiziere**, prüfe **Fortschritt**, öffne **Veröffentlichungen** und anschließend den **Erweiterten Planer**. Der Session/Saison-Filter (Original, S2–S7) funktioniert zusammen mit dem Offizier-Typ. Beispiel: **S6 + Panzer**. Eine bestimmte zukünftige Session wie **April — Panzer** zeigt nur **S8 Panzer — PROGNOSTIZIERT**. MAX-Offiziere sind ausgeschlossen. ORV/SRV-Prognosen bleiben Schätzungen, bis echte Kosten veröffentlicht werden. Der Planer verändert oder verbraucht keine Ressourcen.
+
+# Neu in v4.3.58 LIVE — Erweiterte Planung
+v4.3.58 ergänzt Multi-Offizier-Planung, Prognosen für zukünftige Offiziere und gezielte Filter nach Session / Saison / Typ. Wiederkehrende Sessions sind Oktober, Januar, April und Juli. Eine genaue Auswahl wie **April — Panzer — S8** zeigt nur das PROGNOSTIZIERTE S8-Panzer-Szenario. Saison und Typ lassen sich kombinieren, z. B. **S6 + Panzer**. MAX-Offiziere werden aus Empfehlungen ausgeschlossen. Zukünftige ORV/SRV-Kosten bleiben als **PROGNOSE** gekennzeichnet, bis echte Kosten veröffentlicht sind.
+
+Der Planner verwendet gespeicherten Fortschritt, gemeinsames Inventar und XP-Bücher. Saved Officers und All Officer Sessions lesen die tatsächlich gespeicherten Profile; Show all / Collapse steuert lange Berichte. Releases führt direkt zum erweiterten Planner.
+
+
 # KoW Companion Benutzerleitfaden v4.3.36
 
 Empfohlener Ablauf:

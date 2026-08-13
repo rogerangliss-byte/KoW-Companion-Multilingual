@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>KoW Companion Multilingual v4.3.55</title>
+<title>KoW Companion Multilingual v4.3.58</title>
 <link rel="manifest" href="./manifest.json">
 <style>
 :root{
@@ -378,6 +378,9 @@ html.ios-safari{
 }
 
 
+
+/* FIX9 planner bottom clearance */
+#view-planner{padding-bottom:140px}
 </style>
 <script>
 (function(){
@@ -557,6 +560,32 @@ nav.bottom-nav::-webkit-scrollbar,
 </header>
 <main class="app">
   <section id="dashboard" class="view active">
+<article class="card" id="guidedWorkflowCard">
+  <h2>🧭 Guided Workflow</h2>
+  <p class="notice">Recommended order: <b>Inventory → Officer → Stars → Development → XP → Planner → Save Progress</b>. You can still use any tab at any time.</p>
+  <div id="guidedWorkflowSteps" style="display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px"></div>
+  <div id="guidedNextStep" class="result-box">Start by saving your Inventory.</div>
+</article>
+<article class="card" id="inventoryIntelligenceCard">
+  <h2>📦 Inventory Readiness</h2>
+  <div id="inventoryReadinessSummary" class="result-box">Save Inventory to see a readiness summary.</div>
+  <div class="two">
+    <div class="result-box"><b>Badge resources</b><br><span id="invIntelBadges">—</span></div>
+    <div class="result-box"><b>Star value</b><br><span id="invIntelStars">—</span></div>
+  </div>
+  <div class="two">
+    <div class="result-box"><b>XP held</b><br><span id="invIntelXP">—</span></div>
+    <div class="result-box"><b>Individual Officer Badges</b><br><span id="invIntelOfficerBadges">—</span></div>
+  </div>
+  <button type="button" data-go-view="inventory" class="primary" style="margin-top:10px">📦 Open Inventory</button>
+</article>
+<article class="card" id="officerReadinessCard">
+  <h2>🧠 Officer Readiness Intelligence</h2>
+  <div id="officerReadinessTitle" class="result-box"><b>Select an Officer</b> to see what your saved Inventory can achieve now.</div>
+  <div id="officerReadinessGrid" class="grid" style="margin-top:10px"></div>
+  <div id="officerReadinessShortfall" class="notice" style="margin-top:10px">Readiness is calculated from the selected Officer's saved progress plus the resources currently available from Inventory.</div>
+<button type="button" data-go-view="officer" class="primary" style="margin-top:10px">👤 Open Officer Progress</button>
+</article>
 <article class="card" id="smartDashboardCard">
   <h2>🎯 Smart Dashboard</h2>
   <div id="readinessStatus" class="result-box"><b>Readiness:</b> Select an Officer and enter your resources.</div>
@@ -573,6 +602,9 @@ nav.bottom-nav::-webkit-scrollbar,
     <div class="result-box"><b>Upcoming Release</b><br><span id="dashRelease">—</span></div>
   </div>
   <div id="dashWarning" class="notice" style="margin-top:10px">Enter resources to see planning guidance.</div>
+  <div style="display:flex;gap:8px;overflow-x:auto;margin-top:10px">
+    <button type="button" data-go-view="development">🏅 Development</button><button type="button" data-go-view="stars">⭐ Stars</button><button type="button" data-go-view="xp">📘 XP</button><button type="button" data-go-view="planner">🎯 Planner</button><button type="button" data-go-view="releases">📅 Releases</button>
+  </div>
 </article>
 
     <div class="grid">
@@ -847,6 +879,52 @@ nav.bottom-nav::-webkit-scrollbar,
       </div>
       <div id="multiPlannerSummary" class="result-box">Add Officers to build an upgrade plan.</div>
     </article>
+
+<div class="card" id="advancedMultiOfficerPlanning" style="margin-top:14px">
+  <h2>🧠 Advanced Multi-Officer Planning</h2>
+  <p class="muted">Preview-only recommendations. This tool never spends or changes Inventory.</p>
+  <div class="two" style="margin:10px 0">
+    <div><label>Planning session</label><select id="kowPlannerSession">
+      <option value="saved">Saved Officers only</option>
+      <option value="all">All Officer sessions</option>
+      <option value="next">Next Officer session</option>
+      <option value="october">October — Rally / Garrison</option>
+      <option value="january">January — Infantry</option>
+      <option value="april">April — Tanks</option>
+      <option value="july">July — Tank Destroyers</option>
+    </select></div>
+    <div><label>Officer Session / Season</label><select id="kowPlannerSeasonFilter">
+      <option value="all">All Sessions</option>
+      <option value="original">Original</option>
+      <option value="S2">S2</option><option value="S3">S3</option><option value="S4">S4</option>
+      <option value="S5">S5</option><option value="S6">S6</option><option value="S7">S7</option>
+    </select></div>
+    <div><label>Future Officer Type</label><select id="kowFutureOfficerType">
+      <option value="auto">All applicable types / session default</option>
+      <option value="Tank">Tank</option>
+      <option value="Tank Destroyer">Tank Destroyer</option>
+      <option value="Infantry">Infantry</option>
+      <option value="Rally">Rally</option>
+      <option value="Garrison">Garrison</option>
+    </select></div>
+  </div>
+  <div class="notice" style="margin-bottom:10px">Future Officers are planning placeholders only. The session can suggest a type, or Future Officer Type can override it manually.</div>
+  <div style="display:flex;gap:18px;flex-wrap:wrap;margin:10px 0;align-items:center">
+    <label style="display:flex;gap:7px;align-items:center"><input id="kowPlannerIncludeNotStarted" type="checkbox"> Include Not Started</label>
+    <label style="display:flex;gap:7px;align-items:center"><input id="kowPlannerIncludeOriginals" type="checkbox"> Include Original Officers</label>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0">
+    <button class="primary" type="button" onclick="kowRunAdvancedPlanner()">Analyse Planning Session</button>
+    <button type="button" onclick="kowRunAdvancedPlanner(true)">Refresh Recommendation</button>
+  </div>
+  <div id="kowAdvancedPlannerSummary" class="notice">Save progress for the Officers you are considering, then run the analysis.</div>
+  <div id="kowAdvancedPlannerResults" style="margin-top:10px"></div>
+  <div id="kowPlannerResultControls" style="display:none;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <button type="button" id="kowPlannerShowAll" onclick="kowPlannerToggleAll(true)">Show all</button>
+    <button type="button" id="kowPlannerCollapse" onclick="kowPlannerToggleAll(false)" style="display:none">Collapse</button>
+  </div>
+  <div id="kowProjectedResourceForecast" style="margin-top:12px"></div>
+</div>
 </section>
 
   <section id="database" class="view">
@@ -870,7 +948,248 @@ nav.bottom-nav::-webkit-scrollbar,
   <section id="help" class="view">
     <article class="card">
       <h2>❓ Help & Instructions</h2>
-      <div id="helpLanguageBody"></div>
+
+<div class="card" id="whatsNewV4329" style="margin-bottom:16px">
+  <h3 style="margin-top:0">✨ What’s New — v4.3.58 LIVE</h3>
+  <div class="notice">
+    <b>v4.3.58 LIVE adds Advanced Multi-Officer Planning, Future Officer forecasting, focused Session/Season/Type filtering, saved Officer analysis, XP/Inventory integration and direct Releases-to-Planner navigation.</b>
+  </div>
+
+  
+<h3>📘 v4.3.58 — Advanced Planning & Future Officer Forecasting Guide</h3>
+
+<h4>What’s New in v4.3.58</h4>
+<p>v4.3.58 expands KoW Companion from single-Officer resource tracking into advanced multi-Officer and future-session planning. It links your saved Officer progress, shared Inventory, recurring release schedule and projected future Officer costs so you can decide whether to finish current Officers or preserve resources for future releases.</p>
+<ul>
+  <li><b>Advanced Multi-Officer Planning</b> with saved Officer analysis.</li>
+  <li><b>Future Officer Planning</b> using recurring October, January, April and July release sessions.</li>
+  <li><b>Future Officer Type</b> selection for Rally, Garrison, Infantry, Tank and Tank Destroyer.</li>
+  <li><b>Officer Session / Season filtering</b> for All Sessions, Original and S2–S7.</li>
+  <li><b>Combined Season + Type reports</b>, for example S6 + Tank.</li>
+  <li><b>Focused future-session reports</b>: April — Tanks shows only S8 Tank — PROJECTED.</li>
+  <li><b>Projected S8 resources</b> for one or two future Legendary Officers.</li>
+  <li><b>ORV/SRV forecasts</b> linked to the Releases forecast growth setting.</li>
+  <li><b>Inventory-aware readiness</b> using ORV, SRV, Universal Badges, Selection Chests, Stars and XP Books.</li>
+  <li><b>Top 10 compact results</b> for larger Saved/All reports, with Show all and Collapse.</li>
+  <li><b>Releases → Planner shortcut</b> for Advanced Future Officer Planning.</li>
+  <li><b>MAXED Officers excluded</b> from Advanced Planner recommendations.</li>
+</ul>
+
+<h4>Recommended Flow</h4>
+<ol>
+  <li><b>Inventory first:</b> enter and save the resources you currently hold.</li>
+  <li><b>Officer:</b> enter each Officer’s current progress and save the Officer profile.</li>
+  <li><b>Progress:</b> confirm Officers are correctly shown as MAXED, IN PROGRESS or NOT STARTED.</li>
+  <li><b>Releases:</b> review the recurring release schedule and set the forecast increase percentage.</li>
+  <li><b>Planner:</b> run Advanced Multi-Officer Planning using the session, season and type filters required.</li>
+  <li><b>Review the forecast:</b> compare current candidates with projected future resource requirements before committing flexible resources.</li>
+</ol>
+
+<h4>1. Prepare Inventory</h4>
+<p>Advanced Planning uses the same shared resource information as the rest of the app. Before running a report, update Inventory with your current ORV, SRV, Universal Legendary Badges, Legendary Officer Badge Selection Chests, Star resources and XP Books. XP is calculated from the quantities entered for each XP Book denomination.</p>
+<p>The Planner is <b>preview-only</b>. Running or refreshing a recommendation does not spend, deduct or change Inventory.</p>
+
+<h4>2. Save Officer Progress</h4>
+<p>For each Officer you want included in current-Officer planning, open the Officer page, enter the Officer’s current Stars, Level, Skills, Training and Officer-specific resources, then save the profile. Advanced Planning reads the same Progress information used by the Progress screen.</p>
+<p><b>MAXED Officers are always excluded</b> from Advanced Planner recommendations because no further development resources are required for them.</p>
+
+<h4>3. Planning Session</h4>
+<p>The <b>Planning session</b> selector controls the overall purpose of the report:</p>
+<ul>
+  <li><b>Saved Officers only</b> — analyse eligible saved/current Officers only.</li>
+  <li><b>All Officer sessions</b> — combine projected future Officer scenarios with eligible saved/current Officers.</li>
+  <li><b>Next Officer session</b> — plan for the next recurring future release session.</li>
+  <li><b>October — Rally / Garrison</b> — focused future Rally/Garrison planning.</li>
+  <li><b>January — Infantry</b> — focused future Infantry planning.</li>
+  <li><b>April — Tanks</b> — focused future Tank planning.</li>
+  <li><b>July — Tank Destroyers</b> — focused future Tank Destroyer planning.</li>
+</ul>
+<p>When a <b>specific future session</b> is selected, the results intentionally show only that projected future Officer scenario. For example, <b>April — Tanks</b> shows <b>S8 Tank — PROJECTED</b>. Use <b>All Officer sessions</b> when you want projected Officers and saved/current Officers in the same report.</p>
+
+<h4>4. Officer Session / Season Filter</h4>
+<p>The <b>Officer Session / Season</b> filter narrows the saved/current Officer side of a report. Available choices are All Sessions, Original, S2, S3, S4, S5, S6 and S7.</p>
+<p>Example: choose <b>Saved Officers only → S6 → Tank</b> to analyse eligible saved S6 Tank Officers only.</p>
+
+<h4>5. Future Officer Type</h4>
+<p><b>All applicable types / session default</b> uses the Officer type expected for the selected recurring release session. You can override it with Rally, Garrison, Infantry, Tank or Tank Destroyer.</p>
+<p>The type selector also works with the Season filter for saved/current reports. This enables focused reports such as <b>S6 + Tank</b> or <b>S7 + Infantry</b>.</p>
+
+<h4>6. Include Not Started / Include Original Officers</h4>
+<p><b>Include Not Started</b> adds eligible Officers that are marked NOT STARTED. Leave it off when you only want active development candidates.</p>
+<p><b>Include Original Officers</b> allows Original Officers to be included where relevant. Original Officers remain subject to their own resource eligibility rules and should not be treated as seasonal ORV/SRV Officers.</p>
+
+<h4>7. Analyse Planning Session</h4>
+<p>Select the required options and press <b>Analyse Planning Session</b>. The summary explains the active session/filter combination and the recommendation. <b>Refresh Recommendation</b> recalculates the report using the latest saved Progress and Inventory.</p>
+<p>For larger Saved Officers or All Sessions reports, the Planner displays the <b>Top 10</b> results initially. Use <b>Show all</b> to display the full report and <b>Collapse</b> to return to the compact view.</p>
+
+<h4>8. Understanding PROJECTED Officers</h4>
+<p>A row such as <b>S8 Tank — PROJECTED</b> is a planning placeholder, not a published Officer record. It allows resources to be reserved before the actual Officer details are known. The projection does not add an unpublished Officer to the Officer Database and does not assume that forecast ORV/SRV costs are confirmed.</p>
+
+<h4>9. Projected S8 Resource Requirement</h4>
+<p>For projected Legendary Officers, the Planner shows resource requirements for both <b>one Officer</b> and <b>two Officers</b>.</p>
+<table style="width:100%;border-collapse:collapse">
+<thead><tr><th>Scenario</th><th>Badges</th><th>Star value</th><th>XP</th></tr></thead>
+<tbody>
+<tr><td>1 projected Legendary Officer</td><td>1,600</td><td>98,000</td><td>199,646,700</td></tr>
+<tr><td>2 projected Legendary Officers</td><td>3,200</td><td>196,000</td><td>399,293,400</td></tr>
+</tbody>
+</table>
+<p>The Planner compares these requirements with held resources and reports the expected readiness or shortfall for badges, Stars and XP.</p>
+
+<h4>10. ORV/SRV Forecasts</h4>
+<p>The Releases page field <b>Forecast increase per Officer release (%)</b> controls projected cost growth. The default shown by the app is a percentage, not a fixed number of ORV/SRV.</p>
+<p>Future ORV/SRV figures are labelled <b>FORECAST</b>. They are estimates derived from the latest published cost baseline and the selected percentage/release distance. When actual future Officer costs are published, the published values should replace the forecast.</p>
+
+<h4>11. Releases → Advanced Planner</h4>
+<p>The <b>Future Officer Cost Forecast</b> section on Releases includes an <b>Advanced Future Officer Planning</b> note and an <b>Open Advanced Planner</b> button. Use it after reviewing a future release forecast to move directly to the Planner and compare the projected release against your saved resources.</p>
+
+<h4>12. Example — Planning for April S8 Tanks</h4>
+<ol>
+  <li>Update and save Inventory.</li>
+  <li>Review Releases and confirm the forecast percentage.</li>
+  <li>Open Advanced Planner.</li>
+  <li>Select <b>April — Tanks</b>.</li>
+  <li>Leave Future Officer Type on the session default, or select Tank manually.</li>
+  <li>Run <b>Analyse Planning Session</b>.</li>
+  <li>The focused result shows <b>S8 Tank — PROJECTED</b>.</li>
+  <li>Review the one-Officer and two-Officer badge, Star, XP, ORV and SRV forecast.</li>
+</ol>
+
+<h4>13. Example — S6 Tank Development Report</h4>
+<ol>
+  <li>Select <b>Saved Officers only</b>.</li>
+  <li>Select <b>S6</b> under Officer Session / Season.</li>
+  <li>Select <b>Tank</b> as Officer Type.</li>
+  <li>Choose whether to include Not Started Officers.</li>
+  <li>Press <b>Analyse Planning Session</b>.</li>
+</ol>
+<p>The result contains only eligible S6 Tank candidates matching those settings.</p>
+
+<h4>Important Forecasting Notes</h4>
+<ul>
+  <li>PROJECTED future Officers are planning scenarios only.</li>
+  <li>ORV/SRV forecasts are estimates until actual costs are published.</li>
+  <li>Inventory and saved Officer progress are never automatically spent by the Planner.</li>
+  <li>MAXED Officers are intentionally excluded.</li>
+  <li>Use Saved Officers only for current development decisions; use All Officer sessions for current-versus-future comparison; use a specific future session for a focused future-release report.</li>
+</ul>
+
+<h4>🔎 Focused Session, Season & Type Filtering</h4>
+<p><b>New in this build:</b> specific future sessions now show only their selected projected Officer (for example April — Tanks → S8 Tank — PROJECTED); Saved/All reports use a Top 10 view with Show all / Collapse; Officer Session / Season filtering supports All, Original and S2–S7; Season and Officer Type can be combined for reports such as S6 + Tank; projected S8 planning includes one- and two-Officer resource requirements; Releases links directly to Advanced Planner; and future ORV/SRV costs remain clearly identified as forecasts.</p>
+<h4>🔗 Planner Integration & Releases Link</h4>
+<p>The Advanced Planner now receives saved Progress, Officer database data, XP Books and shared Inventory through an explicit bridge from the main app module. This resolves the module-scope issue that prevented Saved Officers and XP held from appearing in Advanced Planning. The Releases Future Officer Cost Forecast now also includes a note and direct <b>Open Advanced Planner</b> button.</p>
+<h4>🔧 Progress, XP & Inventory Integration</h4>
+<p>The Advanced Planner now reads current Officer candidates from the exact same <b>Progress</b> data source used by the Progress screen, and reads XP Books and shared resources from the exact same global resource store used by the XP and Inventory calculations. This fixes Saved Officers / All Sessions candidate detection and projected XP readiness.</p>
+<h4>🛠 Saved/All Sessions & ORV/SRV Forecasting</h4>
+<p>Saved Officers and All Officer Sessions now use the actual saved profile store. MAXED Officers remain excluded. The Projected S8 Resource Requirement now shows ORV and SRV forecasts derived from the Releases percentage growth setting, and the Releases input label now explicitly shows <b>(%)</b> for clarity.</p>
+<h4>🔮 Saved Officers & S8 Resource Forecast</h4>
+<p>Saved Officers mode now reads actual saved Officer profiles correctly. The Advanced Planner also shows projected resource requirements for one and two future S8 Legendary Officers, including 1,600 / 3,200 badges, 98,000 / 196,000 Star value, and 199,646,700 / 399,293,400 XP. ORV and SRV amounts are explicitly labelled FORECAST until S8 costs are published.</p>
+<h4>🧭 Saved Officers & Session Scope</h4>
+<p>Advanced Planning now uses only genuinely saved Officer profiles for current candidates. Planning Session can be set to Saved Officers only, All Officer sessions, Next Officer session, or a specific recurring Officer session. Include Not Started and Include Original Officers remain optional toggles. MAXED Officers remain excluded, and future scenarios are projected as S8+ Officer types without assuming unpublished ORV/SRV costs.</p>
+<h4>🎯 Focused Advanced Planner</h4>
+  <p>Advanced Planning now excludes MAXED Officers, shows In Progress seasonal Officers by default, adds optional Not Started and Original Officer toggles, corrects future projections to the next database season (S8 with the current S7 database), and places PROJECTED scenarios prominently in the comparison.</p>
+  <h4>🔭 Future Session & Officer Type Planning</h4>
+<p>Advanced Multi-Officer Planning can now select a future Officer session and a specific future Officer Type: Tank, Tank Destroyer, Infantry, Rally or Garrison. Session defaults can be overridden manually. Future entries are clearly marked PROJECTED, MAXED Officers are excluded, and the Home Officer Readiness card includes an Open Officer Progress shortcut.</p>
+<h4>🧠 Officer Readiness Intelligence</h4>
+  <p>The Home screen now analyses the selected Officer against saved Inventory and shows <b>Ready / Shortfall</b> for Unlock, Next Star, 5★, Skills, Training, Level 70 XP and MAX Officer. Guided Workflow steps are clickable and take you directly to each stage.</p>
+  <h4>🧭 Guided Workflow & Inventory Intelligence</h4>
+  <p>The Home screen now guides users through the recommended Inventory-first workflow and shows the next suggested step. A new Inventory Readiness panel summarises saved badge resources, Star value, XP and individual Officer Badges. Smart Dashboard shortcut buttons take you directly to the relevant calculator.</p>
+  <h4>📦 New Central Inventory</h4>
+  <p>Enter your shared resources once in <b>Inventory</b> and press <b>Save Inventory</b>. The saved values are then available throughout the app instead of being re-entered for each Officer.</p>
+  <p>Inventory includes ORV, SRV, Universal Legendary/Epic/Elite Badges, Legendary Officer Badge Chests and Selection Chests, rarity-specific Stars, XP Books, and individual Officer Badges. Individual Officer Badge quantities are stored separately for each Officer.</p>
+  <p><b>Recommended starting point:</b> update and save Inventory first so the Officer, Stars, Development, XP and Planner calculations can work from the resources you actually hold.</p>
+
+  <h4>📊 Officer Progress</h4>
+  <p>Officers are automatically classified as <b>MAXED</b>, <b>IN PROGRESS</b>, or <b>NOT STARTED</b>. The main Progress filters and Compare Officer Progress filters work independently.</p>
+  <p><b>New in v4.3.50 LIVE:</b> Officer Rarity now supports <b>Legendary (Gold)</b>, <b>Epic (Purple)</b> and <b>Elite (Blue)</b>. Training costs are 5 / 25 / 100 badges per point respectively. Epic and Elite Original Officers are included, with multi-role filtering. Skill Strand unlocking remains identical for every rarity.</p>
+
+  <h4>🔎 Compare Officer Progress</h4>
+  <p>Compare saved Officers in Season order. You can compare Not Started and In Progress Officers even when the main Officer Progress table is filtered differently.</p>
+
+  <h4>✏️ Edit Officer Progress</h4>
+  <p>The Officer tab now has <b>Edit Officer Progress</b>, allowing you to enter the key Officer-specific values in one place: Current Star Level, Current Officer Level, Officer Unlocked, Skill Strands and Training Level.</p>
+
+  <h4>⭐ MAX Officer</h4>
+  <p>Use <b>MAX Officer</b> to set the selected Officer to <b>5★, Level 70, Unlocked, all four Skill Strands at Level 5, and Training Level 180</b>.</p>
+
+  <h4>✅ Automatic Unlock</h4>
+  <p>Setting an Officer above Level 0 automatically selects <b>Officer unlocked</b>, reducing the chance of missing the unlock status.</p>
+
+  <h4>🎚 Exact Training Level</h4>
+  <p>Training can now be entered as an exact number from <b>0–180</b> as well as using the slider.</p>
+
+  <h4>🧩 Four Independent Skill Strands</h4>
+  <p>Each Officer has four independent Skill Strands. Strand availability follows Current Star Level: <b>0★ = Strand 1</b>, <b>1★ = Strands 1–2</b>, <b>2★ = Strands 1–3</b>, and <b>3★+ = all four strands</b>. Level 1 is free when each strand unlocks, and available strands can be advanced separately to Level 5.</p>
+
+  <p>The 16 paid skill increases share one badge-cost sequence, regardless of which strand is increased:</p>
+  <div class="notice"><b>10, 10, 15, 15, 30, 30, 40, 40, 45, 45, 50, 50, 75, 75, 80, 80</b></div>
+  <p>All 16 paid skill increases cost <b>690 Officer Badges</b> in total.</p>
+
+  <h4>ℹ️ Skill Cost Information</h4>
+  <p>The Development screen now shows <b>Next Cost</b>, <b>badges used / 690</b>, and <b>badges remaining</b>. Select the <b>i</b> button to view the full cost sequence and current strand information.</p>
+
+  <h4>🎨 Skill Progress Colours</h4>
+  <p><b>Gold</b> means that skill level has been reached. <b>Black/dark</b> means an available skill level has not yet been reached. <b>Grey</b> means the strand is not yet available at the Officer’s current Star Level. Locked strands show the Star requirement.</p>
+
+  <h4>💾 Improved Saving & Synchronisation</h4>
+  <p>Progress saved through Edit Officer Progress is written back to the Officer profile so the Officer, Stars, Develop, XP and Progress views stay synchronised.</p>
+</div>
+
+      <div class="notice"><b>Recommended workflow:</b> start with <b>Inventory</b> and save the resources you currently hold, then work through <b>Officer → Stars → Development → XP → Planner → Save Progress</b>. Use <b>Backup & Restore</b> in Settings before major changes or when you want a portable copy of locally saved app data.</div>
+
+      <h3>1. Inventory</h3>
+      <p>Start here. Enter the resources you currently hold and press <b>Save Inventory</b>. Inventory is shared throughout the app, so you only need to maintain these resource totals in one place.</p>
+      <p>Inventory includes <b>Officer Readiness Vouchers (ORV)</b>, <b>Star Readiness Vouchers (SRV)</b>, Universal Legendary/Epic/Elite Badges, Legendary Officer Badge Chests and Selection Chests, Legendary/Epic/Elite Stars, XP Books, and individual Officer Badges.</p>
+      <p>For individual Officer Badges, enter quantities against the appropriate Officer. Each Officer's badge quantity is stored separately. Update Inventory whenever your in-game resources change, then save it before planning upgrades.</p>
+
+      <h3>2. Officer</h3>
+      <p>Use <b>Search</b>, <b>Season</b> and <b>Officer Type / Role</b> filters to narrow the Officer list. Select the Officer you want to calculate. A matching portrait is displayed automatically when its file is available in the <b>officer-portraits</b> folder.</p>
+      <p>The selected Officer determines the cost of an Officer Badge in <b>Officer Readiness Vouchers (ORV)</b> and the cost of an Exclusive Star in <b>Star Readiness Vouchers (SRV)</b>.</p>
+      <p>The <b>Officer Upgrade Summary</b> shows the remaining Officer Badges, Officer Stars and Officer XP for the currently selected Officer.</p>
+      <p><b>Original Officers:</b> Officer Readiness Vouchers (ORV) and Star Readiness Vouchers (SRV) cannot be used for Original Officers.</p>
+
+      <h3>3. Stars</h3>
+      <p>Set the Officer's current and target Star level. The Stars tab automatically follows the selected Officer rarity: Legendary, Epic or Elite Star I / II / III. <b>Star Readiness Vouchers (SRV)</b> are shown only for Legendary Officers and cannot be used by Epic or Elite Officers.</p>
+
+      <h3>4. Development</h3>
+      <p>Enter unlock status, the four independent Skill Strand levels and Training Level. Development uses the relevant saved Inventory resources when calculating what is available for the selected Officer.</p>
+      <p>Each <b>Universal Legendary Badge</b> is worth <b>1 Officer Badge</b> for a Legendary Officer.</p>
+      <p>Each <b>Legendary Officer Badge Selection Chest</b> can be used as <b>either</b> 1 Universal Legendary Badge <b>or</b> converted to the latest-Season Officer Readiness Voucher (ORV) value. A chest cannot count as both. With the current S7 database the benchmark is <b>600 ORV per chest</b>.</p>
+
+      <h3>5. XP</h3>
+      <p>Enter current and target Officer Level. Saved XP Book quantities from Inventory are used to calculate XP held, XP required and the remaining shortfall.</p>
+
+      <h3>6. Planner & Resource Optimiser</h3>
+      <p>Use Planner after entering Inventory and the Officer's Stars, Development and XP progress. Select a goal such as Max Officer, Next Star, Reach 5★, Max Skills or Max Training to see requirements, resources held and shortfalls.</p>
+      <p>The <b>Resource Optimiser</b> lets you select a second Officer in <b>Compare with Officer</b>. It compares the Officer Readiness Voucher (ORV) cost per Officer Badge for the two Officers.</p>
+      <p><b>How to interpret the recommendation:</b> where both Officers can use ORV, the optimiser recommends favouring ORV on the Officer with the <b>lower ORV cost per badge</b> and favouring shared <b>Universal Legendary Badges / Legendary Officer Badge Chests</b> on the Officer with the <b>higher ORV cost per badge</b>. This protects the more expensive Officer from unnecessary ORV spending.</p>
+      <p>The optimiser is <b>preview only</b>. It does not automatically spend, allocate or change your saved resources.</p>
+
+      <h3>7. Multi-Officer Upgrade Planner</h3>
+      <p>The Multi-Officer Planner lets you create a priority list of several Officers, set the Officer Badges still needed for each, and preview how shared ORV, Universal Legendary Badges and Legendary Officer Badge Chests could cover the plan.</p>
+      <p>Plans are preview-only and do not spend or alter the saved Inventory. Named plans can be saved locally in the browser and loaded again later.</p>
+
+      <h3>8. Save Progress</h3>
+      <p><b>MAX Officer:</b> use the ⭐ MAX Officer button to set the selected Officer to 5 Stars, Level 70, Unlocked, all 4 Skill Strands at Level 5 and Training Level 180. The Officer profile is saved immediately. Shared inventory is not spent or changed.</p>
+      <p>Use <b>Save Progress</b> after entering or changing Officer progress information. Progress is stored locally in the browser on the current device. Save Progress does not publish your personal data to other users.</p>
+
+      <h3>9. Database</h3>
+      <p>The Database Manager controls the Officer master list. Use it to add or edit Officers and export the database. <b>Export CSV</b> exports the Officer database; it is different from Save Progress and App Backup.</p>
+      <p>To publish new or edited Officers for everyone, update the published <b>officers.json</b> and <b>officers.csv</b> files in the GitHub repository.</p>
+
+      <h3>10. Recurring Release Calendar</h3>
+      <p>The <b>Releases</b> tab shows the recurring August → July annual KoW release cycle. The current month and next scheduled release are highlighted automatically, so the calendar does not require a yearly reset.</p>
+
+      <h3>11. Settings, Backup & Restore</h3>
+      <p>Settings contains the app name, portrait and landscape backgrounds, update controls and <b>Backup & Restore</b>.</p>
+      <p><b>Export App Backup</b> creates a JSON backup of KoW Companion data stored locally by the browser. Keep this file somewhere safe. <b>Restore App Backup</b> loads a previously exported JSON backup and reloads the app.</p>
+      <p><b>Check for Updates</b> compares the installed version with the published version. <b>Refresh Latest Version</b> refreshes the KoW Companion application cache without intentionally deleting saved calculator progress.</p>
+
+      <h3>Terminology</h3>
+      <p><b>ORV</b> = Officer Readiness Voucher<br>
+      <b>SRV</b> = Star Readiness Voucher<br>
+      <b>Universal Legendary Badge</b> = 1 Officer Badge for a Legendary Officer<br>
+      <b>Exclusive Star</b> = 110 Officer Star value</p>
     </article>
   </section>
 
@@ -891,7 +1210,7 @@ nav.bottom-nav::-webkit-scrollbar,
       </select>
     </div>
     <div>
-      <label>Forecast increase per Officer release</label>
+      <label>Forecast increase per Officer release (%)</label>
       <input id="forecastGrowth" type="number" min="0" max="100" step="0.1" value="20">
     </div>
   </div>
@@ -916,6 +1235,10 @@ nav.bottom-nav::-webkit-scrollbar,
     <div class="result-box"><b>Estimated SRV to fund Stars</b><br><span id="forecastTotalSrv">—</span></div>
   </div>
   <div class="notice" id="forecastNote">Forecast only — actual release costs should replace the estimate when published.</div>
+  <div class="notice" style="margin-top:12px">
+    <b>Advanced Future Officer Planning:</b> Use the Planner to compare your current saved Officers and Inventory against projected future Officer sessions, including expected resources for one or two future Officers.
+  </div>
+  <button type="button" data-go-view="planner" class="primary" style="margin-top:10px;width:100%">🧠 Open Advanced Planner</button>
 </article>
 
  <article class="card">
@@ -944,19 +1267,15 @@ nav.bottom-nav::-webkit-scrollbar,
 <div class="inventory-save-actions"><button id="saveInventory" type="button">Save Inventory</button><button id="resetInventory" type="button">Reset Inventory</button></div>
 </div></section>
 <section id="settings" class="view">
-<article class="card">
-  <h2>🌐 Language</h2>
-  <p class="muted">Choose the language used by the app interface. Officer names and game data are not translated.</p>
-  <label>App language</label>
-  <select id="appLanguage">
-    <option value="en">English</option>
-    <option value="fr">Français</option>
-    <option value="de">Deutsch</option>
-    <option value="it">Italiano</option>
-  </select>
-  <div class="notice">Your language choice is saved automatically on this device.</div>
-</article>
-
+    <article class="card">
+      <h2>🌐 Language</h2>
+      <p class="muted">Choose the language used by the app interface. Officer names and game data are not translated.</p>
+      <label>App language</label>
+      <select id="appLanguage">
+        <option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option>
+      </select>
+      <div class="notice">Your language choice is saved automatically on this device.</div>
+    </article>
     <article class="card">
       <h2>⚙ Settings</h2>
       <label>App Name</label><input id="appName" value="GODS OF WAR 371">
@@ -986,7 +1305,7 @@ nav.bottom-nav::-webkit-scrollbar,
       <h3>Help & Instructions</h3>
       <p class="notice">Open the in-app User Guide for the recommended setup order, explanations of every tab, saving, database publishing, vouchers, badges and Original Officer restrictions.</p>
       <button id="openUserGuide" class="primary">📖 User Guide</button>
-<h3>Backup & Restore</h3>
+          <h3>Backup & Restore</h3>
       <p class="notice">Export all locally saved KoW Companion browser data, or restore a previous JSON backup.</p>
       <div class="two">
         <button id="backupAppData" class="primary">⬇ Export App Backup</button>
@@ -994,7 +1313,35 @@ nav.bottom-nav::-webkit-scrollbar,
       </div>
       <div id="backupStatus" class="notice" style="margin-top:10px">No backup created yet.</div>
 </article>
-  </section>
+  
+<article class="card" id="languageQaCard">
+  <h2>🧪 Language QA / Translation Test</h2>
+  <p class="muted">Run a translation audit at any time to verify the multilingual interface. This diagnostic does not change Officer or Inventory data.</p>
+  <div class="two">
+    <div><label>Language to test</label>
+      <select id="languageQaTarget">
+        <option value="all">All Languages</option>
+        <option value="en">English</option><option value="fr">Français</option>
+        <option value="de">Deutsch</option><option value="it">Italiano</option>
+      </select>
+    </div>
+    <div><label>Test scope</label>
+      <select id="languageQaScope">
+        <option value="full">Full app</option>
+        <option value="planner">Advanced Planner</option>
+        <option value="releases">Releases</option>
+        <option value="help">Help / What's New</option>
+      </select>
+    </div>
+  </div>
+  <div class="two">
+    <button type="button" class="primary" id="runLanguageQa">▶ Run Language Test</button>
+    <button type="button" id="downloadLanguageQa" disabled>⬇ Download Language Test Report</button>
+  </div>
+  <div id="languageQaSummary" class="notice" style="margin-top:10px">No language test has been run yet.</div>
+  <div id="languageQaResults" style="margin-top:10px;max-height:420px;overflow:auto"></div>
+</article>
+</section>
 </main>
 
 <nav class="bottom-nav">
@@ -1012,10 +1359,10 @@ nav.bottom-nav::-webkit-scrollbar,
   <button data-view="help">📖<span>Help</span></button>
 </nav>
 
-<script src="lang/en.js?v=4.3.55"></script>
-<script src="lang/fr.js?v=4.3.55"></script>
-<script src="lang/de.js?v=4.3.55"></script>
-<script src="lang/it.js?v=4.3.55"></script>
+<script src="lang/en.js?v=4.3.58"></script>
+<script src="lang/fr.js?v=4.3.58"></script>
+<script src="lang/de.js?v=4.3.58"></script>
+<script src="lang/it.js?v=4.3.58"></script>
 <script type="module">
 const DEFAULT_OFFICERS=[{"name":"S7 Roisin","season":"S7","role":"Tank Destroyer","orv":600,"srv":300,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S7 Barbara","season":"S7","role":"Tank Destroyer","orv":600,"srv":300,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S7 Romana","season":"S7","role":"Tank","orv":500,"srv":250,"notes":"Tank","rarity":"Legendary"},{"name":"S7 Liora","season":"S7","role":"Tank","orv":500,"srv":250,"notes":"Tank","rarity":"Legendary"},{"name":"S7 Stella","season":"S7","role":"Infantry","orv":416,"srv":208,"notes":"Infantry","rarity":"Legendary"},{"name":"S7 Klara","season":"S7","role":"Infantry","orv":416,"srv":208,"notes":"Infantry","rarity":"Legendary"},{"name":"S7 Code","season":"S7","role":"Rally","orv":346,"srv":173,"notes":"Rally","rarity":"Legendary"},{"name":"S7 Kamila","season":"S7","role":"Garrison","orv":346,"srv":173,"notes":"Garrison","rarity":"Legendary"},{"name":"S6 Regina","season":"S6","role":"Tank Destroyer","orv":289,"srv":144,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S6 Veronica","season":"S6","role":"Tank Destroyer","orv":289,"srv":144,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S6 Silverhand","season":"S6","role":"Tank","orv":240,"srv":120,"notes":"Tank","rarity":"Legendary"},{"name":"S6 Red Queen","season":"S6","role":"Tank","orv":240,"srv":120,"notes":"Tank","rarity":"Legendary"},{"name":"S6 Samantha","season":"S6","role":"Infantry","orv":200,"srv":100,"notes":"Infantry","rarity":"Legendary"},{"name":"S6 Saoirse","season":"S6","role":"Infantry","orv":200,"srv":100,"notes":"Infantry","rarity":"Legendary"},{"name":"S6 Emily","season":"S6","role":"Rally","orv":167,"srv":84,"notes":"Rally","rarity":"Legendary"},{"name":"S6 Zoya","season":"S6","role":"Garrison","orv":167,"srv":84,"notes":"Garrison","rarity":"Legendary"},{"name":"S5 Feng","season":"S5","role":"Tank Destroyer","orv":139,"srv":69,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S5 Halina","season":"S5","role":"Tank Destroyer","orv":139,"srv":69,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S5 Eva","season":"S5","role":"Tank","orv":116,"srv":58,"notes":"Tank","rarity":"Legendary"},{"name":"S5 Elsa","season":"S5","role":"Tank","orv":116,"srv":58,"notes":"Tank","rarity":"Legendary"},{"name":"S5 Camile","season":"S5","role":"Infantry","orv":96,"srv":48,"notes":"Infantry","rarity":"Legendary"},{"name":"S5 Betty","season":"S5","role":"Infantry","orv":96,"srv":48,"notes":"Infantry","rarity":"Legendary"},{"name":"S5 Miyeon","season":"S5","role":"Rally","orv":80,"srv":40,"notes":"Rally","rarity":"Legendary"},{"name":"S5 Julia","season":"S5","role":"Garrison","orv":80,"srv":40,"notes":"Garrison","rarity":"Legendary"},{"name":"S4 Melina","season":"S4","role":"Tank Destroyer","orv":67,"srv":34,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S4 Jane","season":"S4","role":"Tank Destroyer","orv":67,"srv":34,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S4 Anna","season":"S4","role":"Tank","orv":56,"srv":28,"notes":"Tank","rarity":"Legendary"},{"name":"S4 Yuki","season":"S4","role":"Tank","orv":56,"srv":28,"notes":"Tank","rarity":"Legendary"},{"name":"S4 Eunice","season":"S4","role":"Infantry","orv":47,"srv":23,"notes":"Infantry","rarity":"Legendary"},{"name":"S4 Derya","season":"S4","role":"Infantry","orv":47,"srv":23,"notes":"Infantry","rarity":"Legendary"},{"name":"S4 Hardwin","season":"S4","role":"Rally","orv":39,"srv":20,"notes":"Rally","rarity":"Legendary"},{"name":"S4 Erin","season":"S4","role":"Garrison","orv":39,"srv":20,"notes":"Garrison","rarity":"Legendary"},{"name":"S3 Su","season":"S3","role":"Tank Destroyer","orv":33,"srv":16,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S3 Erica","season":"S3","role":"Tank Destroyer","orv":33,"srv":16,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S3 Aurora","season":"S3","role":"Tank","orv":28,"srv":14,"notes":"Tank","rarity":"Legendary"},{"name":"S3 Ada","season":"S3","role":"Tank","orv":28,"srv":14,"notes":"Tank","rarity":"Legendary"},{"name":"S3 Hannah","season":"S3","role":"Infantry","orv":23,"srv":11,"notes":"Infantry","rarity":"Legendary"},{"name":"S3 Christina","season":"S3","role":"Infantry","orv":23,"srv":11,"notes":"Infantry","rarity":"Legendary"},{"name":"S3 Sophia","season":"S3","role":"Rally","orv":23,"srv":11,"notes":"Rally","rarity":"Legendary"},{"name":"S3 Oliva","season":"S3","role":"Garrison","orv":23,"srv":11,"notes":"Garrison","rarity":"Legendary"},{"name":"S2 Lady Pandora","season":"S2","role":"Tank","orv":20,"srv":10,"notes":"Tank","rarity":"Legendary"},{"name":"S2 Amanda","season":"S2","role":"Infantry","orv":20,"srv":10,"notes":"Infantry","rarity":"Legendary"},{"name":"S2 Diana","season":"S2","role":"Tank Destroyer","orv":20,"srv":10,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"S2 Natalia","season":"S2","role":"Tank","orv":20,"srv":10,"notes":"Tank","rarity":"Legendary"},{"name":"Katherine","season":"Original","role":"Tank","orv":0,"srv":0,"notes":"Tank","rarity":"Legendary"},{"name":"Grace","season":"Original","role":"Tank","orv":0,"srv":0,"notes":"Tank","rarity":"Legendary"},{"name":"Chloe","season":"Original","role":"Rally","orv":0,"srv":0,"notes":"Rally","rarity":"Legendary"},{"name":"Ling","season":"Original","role":"Tank Destroyer","orv":0,"srv":0,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"Jessica","season":"Original","role":"Tank Destroyer","orv":0,"srv":0,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"Lilith","season":"Original","role":"Tank Destroyer","orv":0,"srv":0,"notes":"Tank Destroyer","rarity":"Legendary"},{"name":"Angel","season":"Original","role":"Gatherer","orv":0,"srv":0,"notes":"Gatherer","rarity":"Legendary"},{"name":"Sakura","season":"Original","role":"Infantry","orv":0,"srv":0,"notes":"Infantry","rarity":"Legendary"},{"name":"Loubna","season":"Original","role":"Infantry","orv":0,"srv":0,"notes":"Infantry","rarity":"Legendary"},{"name":"Angelica","season":"Original","role":"Infantry","orv":0,"srv":0,"notes":"Infantry","rarity":"Legendary"},{"name":"Ophelia","season":"Original","role":"Rally","orv":0,"srv":0,"notes":"Rally","rarity":"Legendary"},{"name":"Doireann","season":"Original","role":"Garrison","orv":0,"srv":0,"notes":"Garrison","rarity":"Legendary"},{"name":"Dorothea","season":"Original","role":"General","orv":0,"srv":0,"notes":"General","rarity":"Epic"},{"name":"Abigail","season":"Original","role":"Tank","orv":0,"srv":0,"notes":"Tank","rarity":"Epic"},{"name":"Monica","season":"Original","role":"Tank Destroyer, Gatherer","orv":0,"srv":0,"notes":"Tank Destroyer, Gatherer","rarity":"Epic"},{"name":"Linda","season":"Original","role":"Tank","orv":0,"srv":0,"notes":"Tank","rarity":"Epic"},{"name":"Riven","season":"Original","role":"Infantry","orv":0,"srv":0,"notes":"Infantry","rarity":"Epic"},{"name":"Maria","season":"Original","role":"Tank Destroyer","orv":0,"srv":0,"notes":"Tank Destroyer","rarity":"Epic"},{"name":"Evelyn","season":"Original","role":"Infantry, Gatherer","orv":0,"srv":0,"notes":"Infantry, Gatherer","rarity":"Epic"},{"name":"Helena","season":"Original","role":"General","orv":0,"srv":0,"notes":"General","rarity":"Epic"},{"name":"Marjorie","season":"Original","role":"Tank, Gatherer","orv":0,"srv":0,"notes":"Tank, Gatherer","rarity":"Elite"},{"name":"Jeanne","season":"Original","role":"Tank Destroyer, Gatherer","orv":0,"srv":0,"notes":"Tank Destroyer, Gatherer","rarity":"Elite"}];
 const STAR_CUM=[0,500,1500,8000,33000,98000];
@@ -1450,6 +1797,7 @@ function calculate(){
 
  renderPlanner(o,cs,starsUsed,legendaryHeld,srvHeld,badgesUsed,badgesHeld+universalBadgesAvailable,orvHeld,xpHeld,xpRequired);
  if(typeof updateSmartDashboard==='function')updateSmartDashboard();
+ if(typeof kowOfficerReadiness==='function')kowOfficerReadiness();
 }
 
 function renderPlanner(o,cs,starsUsed,legendaryHeld,srvHeld,badgesUsed,badgesHeld,orvHeld,xpHeld,xpRequiredSelected){
@@ -1751,7 +2099,7 @@ function loadProgress(){
 }
 
 
-const APP_VERSION='4.3.55';
+const APP_VERSION='4.3.58';
 function syncVersionUI(){
  const v='v'+APP_VERSION;
  if($('headerVersion'))$('headerVersion').textContent=v;
@@ -2745,6 +3093,29 @@ document.addEventListener('DOMContentLoaded',()=>{
  });
  q('quickProgressModal')?.addEventListener('click',e=>{if(e.target===q('quickProgressModal'))closeQuickProgress();});
 })();;
+
+
+// v4.3.58 FIX7 — explicit bridge for non-module Advanced Planner code.
+// This prevents the Planner from seeing module-scoped data/functions as undefined.
+window.KOW_PLANNER_BRIDGE = {
+  progressRows: () => (typeof savedOfficerProgressData === 'function' ? savedOfficerProgressData() : []),
+  globalResources: () => (typeof getGlobalResources === 'function' ? getGlobalResources() : {}),
+  officers: () => (Array.isArray(officers) ? officers : []),
+  xpDenoms: () => (Array.isArray(XP_DENOMS) ? XP_DENOMS : [50,100,500,1000,5000,10000,20000,50000]),
+  releaseForecast: () => {
+    const growth = Number(document.getElementById('forecastGrowth')?.value || 20);
+    const latestOrv = 600, latestSrv = 300;
+    const releaseStep = Math.max(1, Number(document.getElementById('forecastRelease')?.value || 1));
+    const factor = Math.pow(1 + growth / 100, releaseStep);
+    return {
+      growth,
+      releaseStep,
+      orvPerBadge: Math.round(latestOrv * factor),
+      srvPerStar: Math.round(latestSrv * factor),
+      source: `Latest published S7 cost (600 ORV / 300 SRV), ${growth}% compounded for ${releaseStep} future Officer release${releaseStep===1?'':'s'}`
+    };
+  }
+};
 </script>
 
 <div id="skillCostInfoModal" style="display:none;position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.82);padding:18px;overflow:auto">
@@ -2775,6 +3146,59 @@ document.addEventListener('DOMContentLoaded',()=>{
  </article>
 </div>
 <script>
+function kowGoView(view){
+ const b=document.querySelector('.bottom-nav button[data-view="'+view+'"]');
+ if(b){b.click();window.scrollTo({top:0,behavior:'smooth'});}
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go-view]');if(b)kowGoView(b.dataset.goView);});
+function kowInventoryIntelligence(){
+ const get=()=>{try{return JSON.parse(localStorage.getItem('kow_central_inventory_v1')||'{}')}catch(e){return {}}};
+ const x=get(), f=n=>Math.max(0,+x[n]||0), fmtN=n=>Math.round(n).toLocaleString();
+ const xp=f('invXp50')*50+f('invXp100')*100+f('invXp500')*500+f('invXp1000')*1000+f('invXp5000')*5000+f('invXp10000')*10000+f('invXp20000')*20000+f('invXp50000')*50000;
+ const star=f('invLegStar1')*110+f('invLegStar2')*420+f('invLegStar3')*960;
+ const universal=f('invUniversalLegendary')+f('invUniversalEpic')+f('invUniversalElite');
+ const chests=f('invLegendaryBadgeChests')+f('invLegendarySelectionChests');
+ const ob=Object.values(x.officerBadges||{}).reduce((a,b)=>a+Math.max(0,+b||0),0);
+ const set=(id,t)=>{const e=document.getElementById(id);if(e)e.textContent=t};
+ set('invIntelBadges',fmtN(universal)+' universal + '+fmtN(chests)+' chests');set('invIntelStars',fmtN(star)+' Legendary Star value');set('invIntelXP',fmtN(xp));set('invIntelOfficerBadges',fmtN(ob));
+ const s=document.getElementById('inventoryReadinessSummary');if(s)s.innerHTML=x.savedAt?'<b>Inventory saved</b><br>Last updated '+new Date(x.savedAt).toLocaleString():'<b>Inventory not yet saved.</b><br>Start here before planning upgrades.';
+ const steps=[['inventory','Inventory',!!x.savedAt],['officer','Officer',true],['stars','Stars',false],['development','Development',false],['xp','XP',false],['planner','Planner',false]];
+ const box=document.getElementById('guidedWorkflowSteps');if(box)box.innerHTML=steps.map((s,i)=>'<button type="button" data-go-view="'+s[0]+'" style="min-width:105px">'+(s[2]?'✓ ':'')+(i+1)+'. '+s[1]+'</button>').join('');
+ const next=document.getElementById('guidedNextStep');if(next)next.innerHTML=x.savedAt?'<b>Next suggested step:</b> Select an Officer and confirm their current progress.':'<b>Next suggested step:</b> Enter and Save Inventory.';
+}
+function kowOfficerReadiness(){
+ try{
+  const o=typeof currentOfficer==='function'?currentOfficer():null;if(!o)return;
+  const fmt=n=>Math.max(0,Math.ceil(Number(n)||0)).toLocaleString();
+  const cs=Math.max(0,Math.min(5,Number(document.getElementById('currentStar')?.value)||0));
+  const usedBadges=Number(String(document.getElementById('badgesUsed')?.textContent||'0').replace(/[^0-9.-]/g,''))||0;
+  const badgeShort=Number(String(document.getElementById('badgesRequired')?.textContent||'0').replace(/[^0-9.-]/g,''))||0;
+  const maxBadges=typeof maxBadgesForOfficer==='function'?maxBadgesForOfficer(o):1600;
+  const badgeAvailable=Math.max(0,maxBadges-usedBadges-badgeShort);
+  const totalBadgePower=usedBadges+badgeAvailable;
+  const skillTarget=(typeof promotionBadgeTotal==='function'?promotionBadgeTotal(o):10)+(typeof skillCostsForOfficer==='function'?skillCostsForOfficer(o).reduce((a,b)=>a+b,0):690);
+  const nextStarTarget=STAR_CUM[Math.min(5,cs+1)]||MAX_STAR;
+  const starsHeld=Number(String(document.getElementById('starsHeld')?.textContent||'0').replace(/[^0-9.-]/g,''))||0;
+  const starPower=(STAR_CUM[cs]||0)+starsHeld;
+  const cl=Math.max(1,Math.min(70,Number(document.getElementById('currentLevel')?.value)||1));
+  const xpHeld=Number(String(document.getElementById('xpHeld')?.textContent||'0').replace(/[^0-9.-]/g,''))||0;
+  const xpNeed=Math.max(0,MAX_XP-(cl>=70?MAX_XP:cumulativeXp(cl)));
+  const checks=[
+   ['🔓','Unlock',totalBadgePower>=10,Math.max(0,10-totalBadgePower),'Officer Badges'],
+   ['⭐','Next Star',cs>=5||starPower>=nextStarTarget,cs>=5?0:Math.max(0,nextStarTarget-starPower),'Officer Star value'],
+   ['🌟','Reach 5★',starPower>=MAX_STAR,Math.max(0,MAX_STAR-starPower),'Officer Star value'],
+   ['🏅','MAX Skills',totalBadgePower>=skillTarget,Math.max(0,skillTarget-totalBadgePower),'Officer Badges'],
+   ['🎖️','MAX Training',totalBadgePower>=maxBadges,Math.max(0,maxBadges-totalBadgePower),'Officer Badges'],
+   ['📘','Level 70 XP',xpHeld>=xpNeed,Math.max(0,xpNeed-xpHeld),'XP'],
+  ];
+  const canMax=checks.slice(2).every(x=>x[2]);checks.push(['🏆','MAX Officer',canMax,0,'']);
+  const title=document.getElementById('officerReadinessTitle');if(title)title.innerHTML='<b>'+officerDisplayName(o)+'</b> — what your current saved Inventory can achieve now.';
+  const grid=document.getElementById('officerReadinessGrid');if(grid)grid.innerHTML=checks.map(x=>'<div class="result-box"><b>'+x[0]+' '+x[1]+'</b><br><span style="font-weight:800">'+(x[2]?'✅ READY':'⚠️ SHORTFALL')+'</span>'+(x[2]?'':('<br>Need '+fmt(x[3])+' more '+x[4]))+'</div>').join('');
+  const misses=checks.filter(x=>!x[2]&&x[1]!=='MAX Officer');const sh=document.getElementById('officerReadinessShortfall');if(sh)sh.innerHTML=misses.length?'<b>Priority shortfalls:</b> '+misses.map(x=>x[1]+': '+fmt(x[3])+' '+x[4]).join(' · '):'<b>All requirements covered:</b> this Officer can be completed with the resources currently available.';
+ }catch(e){console.warn('Officer readiness',e)}
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{kowInventoryIntelligence();kowOfficerReadiness();},300));
+document.addEventListener('click',e=>{if(e.target?.id==='saveInventory'||e.target?.id==='resetInventory')setTimeout(()=>{kowInventoryIntelligence();kowOfficerReadiness();},100);});
 const KOW_INV_KEY='kow_central_inventory_v1',KOW_INV_IDS=['invOrv', 'invSrv', 'invUniversalLegendary', 'invUniversalEpic', 'invUniversalElite', 'invLegendaryBadgeChests', 'invLegendarySelectionChests', 'invLegStar1', 'invLegStar2', 'invLegStar3', 'invEpicStar1', 'invEpicStar2', 'invEpicStar3', 'invEliteStar1', 'invEliteStar2', 'invEliteStar3', 'invXp50', 'invXp100', 'invXp500', 'invXp1000', 'invXp5000', 'invXp10000', 'invXp20000', 'invXp50000'];
 function kowInvGet(){try{return JSON.parse(localStorage.getItem(KOW_INV_KEY)||'{}')}catch(e){return {}}}
 function kowInvField(id,v){const e=document.getElementById(id);if(e){e.value=Math.max(0,+v||0);e.dispatchEvent(new Event('input',{bubbles:true}));}}
@@ -2958,6 +3382,277 @@ document.addEventListener("click",function(e){
    row.style.display=(want==="All"||rarity===want)?"":"none";
  });
 });
+</script>
+
+<script id="kow-v4358-advanced-planner">
+(function(){
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function num(v){v=Number(v);return Number.isFinite(v)?v:0;}
+  function allStorage(){var out={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);out[k]=localStorage.getItem(k);}return out;}
+  function inventorySnapshot(){
+    var bridge=window.KOW_PLANNER_BRIDGE||{};
+    var g=(typeof bridge.globalResources==='function'?bridge.globalResources():{})||{};
+    var denoms=(typeof bridge.xpDenoms==='function'?bridge.xpDenoms():[50,100,500,1000,5000,10000,20000,50000]);
+    var inv={orv:0,srv:0,universal:0,selection:0,xp:0,starValue:0};
+
+    function liveNum(id,fallback){
+      var el=document.getElementById(id);
+      return el ? num(el.value) : num(fallback);
+    }
+
+    inv.orv=liveNum('orvHeld',g.orvHeld);
+    inv.srv=liveNum('srvHeld',g.srvHeld);
+    inv.universal=liveNum('universalBadgeHeld',g.universalBadgeHeld);
+    inv.selection=liveNum('legendaryBadgeChestHeld',g.legendaryBadgeChestHeld);
+
+    // Use the same XP Book inputs visible on the XP screen.
+    denoms.forEach(function(v){
+      var el=document.getElementById('xp'+v);
+      var qty=el ? num(el.value) : num((g.xp||{})[v] ?? (g.xp||{})[String(v)]);
+      inv.xp += qty*v;
+    });
+
+    // Shared Legendary/Exclusive Star inventory.
+    inv.starValue =
+      liveNum('ls1',g.ls1)*110 + liveNum('ls2',g.ls2)*420 + liveNum('ls3',g.ls3)*960 +
+      liveNum('es1',g.es1)*110 + liveNum('es2',g.es2)*420 + liveNum('es3',g.es3)*960;
+
+    return inv;
+  }
+  function dbOfficer(name){return (typeof officers!=='undefined'?officers:[]).find(function(o){return String(o.name||'').trim().toLowerCase()===String(name||'').trim().toLowerCase()})||{};}
+  function plannerOfficers(includeNotStarted,includeOriginals){
+    var bridge=window.KOW_PLANNER_BRIDGE||{};
+    var rows=(typeof bridge.progressRows==='function'?bridge.progressRows():[])||[];
+    var db=(typeof bridge.officers==='function'?bridge.officers():[])||[];
+
+    return rows.filter(function(r){
+      if(r.maxed)return false;
+      if(!includeNotStarted && r.notStarted)return false;
+      if(!includeOriginals && String(r.season||'').trim().toLowerCase()==='original')return false;
+      return true;
+    }).map(function(r){
+      var o=db.find(function(x){
+        return String(x.name||'').trim().toLowerCase()===String(r.name||'').trim().toLowerCase();
+      })||{};
+      return {
+        name:r.name,
+        season:r.season,
+        pct:num(r.overall),
+        maxed:false,
+        notStarted:!!r.notStarted,
+        status:r.status||'IN PROGRESS',
+        need:num(r.badgeShort),
+        orvCost:num(o.orv),
+        srvCost:num(o.srv),
+        type:o.role||o.notes||'Current',
+        future:false
+      };
+    });
+  }
+  function score(r,inv){var remaining=Math.max(0,r.need),affordable=inv.universal+inv.selection+(r.orvCost?Math.floor(inv.orv/r.orvCost):0),gap=Math.max(0,remaining-affordable);return (r.pct*1000)-gap;}
+  function futureSession(mode){
+    var sessions={
+      october:{label:'October — Rally / Garrison',types:['Rally','Garrison']},
+      january:{label:'January — Infantry',types:['Infantry']},
+      april:{label:'April — Tanks',types:['Tank']},
+      july:{label:'July — Tank Destroyers',types:['Tank Destroyer']}
+    };
+    if(mode==='all'){
+      return {label:'All Officer sessions',types:['Rally','Garrison','Infantry','Tank','Tank Destroyer'],all:true};
+    }
+    if(mode==='next'){
+      var month=(new Date()).getMonth(),
+          seq=[{m:9,k:'october'},{m:0,k:'january'},{m:3,k:'april'},{m:6,k:'july'}],
+          later=seq.filter(function(x){return x.m>month}).sort(function(a,b){return a.m-b.m})[0];
+      mode=later?later.k:'january';
+    }
+    return sessions[mode]||null;
+  }
+  function projectedSeason(){
+    var max=0;
+    (typeof officers!=='undefined'?officers:[]).forEach(function(o){
+      var m=String(o.season||'').match(/^S(\d+)$/i);
+      if(m)max=Math.max(max,+m[1]);
+    });
+    return 'S'+Math.max(8,max+1);
+  }
+
+
+  function releaseForecastPercent(){
+    var el=document.getElementById('forecastGrowth');
+    if(el && isFinite(+el.value))return +el.value;
+    // fallback: find known forecast increase field by common ids
+    var ids=['forecastIncrease','releaseForecastIncrease','forecastPct'];
+    for(var i=0;i<ids.length;i++){var x=document.getElementById(ids[i]);if(x&&isFinite(+x.value))return +x.value;}
+    return 20;
+  }
+  function latestPublishedLegendaryCosts(){
+    var seasonal=(typeof officers!=='undefined'?officers:[]).filter(function(o){
+      return /^S\d+$/i.test(String(o.season||'')) && +o.orv>0 && +o.srv>0 &&
+        String(o.rarity||'Legendary').toLowerCase()==='legendary';
+    });
+    if(!seasonal.length)return {orv:600,srv:300,season:7};
+    var maxSeason=seasonal.reduce(function(m,o){
+      var n=+(String(o.season).match(/\d+/)||[0])[0];
+      return Math.max(m,n);
+    },0);
+    var recent=seasonal.filter(function(o){
+      return +(String(o.season).match(/\d+/)||[0])[0]===maxSeason;
+    });
+    // Use the highest published cost in the latest season as a conservative baseline,
+    // matching the release planner's "latest known" approach.
+    return {
+      orv:Math.max.apply(null,recent.map(function(o){return +o.orv||0;})),
+      srv:Math.max.apply(null,recent.map(function(o){return +o.srv||0;})),
+      season:maxSeason
+    };
+  }
+  function forecastS8Costs(){
+    var bridge=window.KOW_PLANNER_BRIDGE||{};
+    if(typeof bridge.releaseForecast==='function'){
+      var f=bridge.releaseForecast();
+      return {
+        orv:f.orvPerBadge,
+        srv:f.srvPerStar,
+        source:f.source,
+        pct:f.growth
+      };
+    }
+    return {orv:720,srv:360,source:'Latest published S7 cost increased by 20%',pct:20};
+  }
+  function projectedResourceHtml(projected,inv){
+    var box=document.getElementById('kowProjectedResourceForecast');
+    if(!box)return;
+    if(!projected.length){box.innerHTML='';return;}
+    var c=forecastS8Costs();
+    var starsPerOfficer=Math.ceil(98000/110); // 891 Exclusive Stars
+    function scenarioRow(count,label){
+      var badges=1600*count, stars=98000*count, xp=199646700*count;
+      var orv=badges*c.orv;
+      var srv=starsPerOfficer*count*c.srv;
+      return '<tr><td><b>'+esc(label)+'</b></td><td>'+badges.toLocaleString()+' badges</td><td>'+stars.toLocaleString()+' Star value</td><td>'+xp.toLocaleString()+' XP</td><td>'+orv.toLocaleString()+' ORV <b>FORECAST</b></td><td>'+srv.toLocaleString()+' SRV <b>FORECAST</b></td></tr>';
+    }
+
+    var baseName=projected[0].name.replace(' — PROJECTED','');
+    var badgeEquiv=(inv.universal||0)+(inv.selection||0)+Math.floor((inv.orv||0)/c.orv);
+    var oneBadgeShort=Math.max(0,1600-badgeEquiv), twoBadgeShort=Math.max(0,3200-badgeEquiv);
+    var oneXpShort=Math.max(0,199646700-(inv.xp||0)), twoXpShort=Math.max(0,399293400-(inv.xp||0));
+    var starUnitsFromSrv=c.srv?Math.floor((inv.srv||0)/c.srv):0;
+    var starValueAvailable=(inv.starValue||0)+(starUnitsFromSrv*110);
+    var oneStarShort=Math.max(0,98000-starValueAvailable), twoStarShort=Math.max(0,196000-starValueAvailable);
+
+    box.innerHTML='<div class="card" style="margin-top:12px"><h3>🔮 Projected S8 Resource Requirement</h3>'+
+      '<div class="notice">Badge, Star and XP totals are established per Legendary Officer. ORV/SRV are forecast from the Releases growth setting and are clearly marked <b>FORECAST</b>.</div>'+
+      '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th>Scenario</th><th>Development</th><th>Stars</th><th>XP</th><th>ORV forecast</th><th>SRV forecast</th></tr></thead><tbody>'+
+      scenarioRow(1,'1 × '+baseName)+scenarioRow(2,'2 × '+baseName)+
+      '</tbody></table></div>'+
+      '<div class="two" style="margin-top:10px">'+
+        '<div class="result-box"><b>1 Officer — badge position</b><br>'+(oneBadgeShort===0?'READY':'Short by '+oneBadgeShort.toLocaleString()+' badge equivalents')+'</div>'+
+        '<div class="result-box"><b>2 Officers — badge position</b><br>'+(twoBadgeShort===0?'READY':'Short by '+twoBadgeShort.toLocaleString()+' badge equivalents')+'</div>'+
+      '</div>'+
+      '<div class="two">'+
+        '<div class="result-box"><b>1 Officer — Star position</b><br>'+(oneStarShort===0?'READY':'Short by '+oneStarShort.toLocaleString()+' Star value')+'</div>'+
+        '<div class="result-box"><b>2 Officers — Star position</b><br>'+(twoStarShort===0?'READY':'Short by '+twoStarShort.toLocaleString()+' Star value')+'</div>'+
+      '</div>'+
+      '<div class="two">'+
+        '<div class="result-box"><b>1 Officer — XP position</b><br>'+(oneXpShort===0?'READY':'Short by '+oneXpShort.toLocaleString()+' XP')+'</div>'+
+        '<div class="result-box"><b>2 Officers — XP position</b><br>'+(twoXpShort===0?'READY':'Short by '+twoXpShort.toLocaleString()+' XP')+'</div>'+
+      '</div>'+
+      '<p class="muted" style="margin-top:8px">Forecast basis: '+esc(c.source)+'. Inventory is not changed by this calculation.</p></div>';
+  }
+
+  window.__kowPlannerShowAll=false;
+  window.kowPlannerToggleAll=function(showAll){
+    window.__kowPlannerShowAll=!!showAll;
+    if(typeof window.kowRunAdvancedPlanner==='function')window.kowRunAdvancedPlanner(true);
+  };
+  window.kowRunAdvancedPlanner=function(){
+    var inv=inventorySnapshot(), box=document.getElementById('kowAdvancedPlannerResults'),
+        sum=document.getElementById('kowAdvancedPlannerSummary'),
+        controls=document.getElementById('kowPlannerResultControls'),
+        showBtn=document.getElementById('kowPlannerShowAll'),
+        collapseBtn=document.getElementById('kowPlannerCollapse');
+    if(!box||!sum)return;
+
+    var mode=(document.getElementById('kowPlannerSession')||{}).value||'saved',
+        typeChoice=(document.getElementById('kowFutureOfficerType')||{}).value||'auto',
+        seasonChoice=(document.getElementById('kowPlannerSeasonFilter')||{}).value||'all',
+        includeNS=!!document.getElementById('kowPlannerIncludeNotStarted')?.checked,
+        includeOrig=!!document.getElementById('kowPlannerIncludeOriginals')?.checked;
+
+    var current=plannerOfficers(includeNS,includeOrig);
+
+    if(seasonChoice!=='all'){
+      current=current.filter(function(r){
+        var s=String(r.season||'').trim();
+        if(seasonChoice==='original')return s.toLowerCase()==='original';
+        return s.toUpperCase()===seasonChoice.toUpperCase();
+      });
+    }
+    if(typeChoice!=='auto'){
+      current=current.filter(function(r){
+        return String(r.type||'').toLowerCase().split(',').map(function(x){return x.trim()}).indexOf(String(typeChoice).toLowerCase())>=0;
+      });
+    }
+    current.sort(function(a,b){return score(b,inv)-score(a,inv)});
+
+    var session=futureSession(mode), projected=[];
+    if(mode!=='saved'){
+      var types=typeChoice!=='auto'?[typeChoice]:(session?session.types:[]);
+      var season=projectedSeason();
+      projected=types.map(function(t){
+        return {name:season+' '+t+' — PROJECTED',pct:0,status:'PROJECTED',future:true,type:t};
+      });
+    }
+
+    var isSpecificFuture=['october','january','april','july','next'].indexOf(mode)>=0;
+    var rows;
+    if(mode==='saved') rows=current;
+    else if(mode==='all') rows=projected.concat(current);
+    else if(isSpecificFuture) rows=projected;
+    else rows=projected.concat(current);
+
+    if(!rows.length){
+      sum.innerHTML='<b>No eligible Officers are available for the selected filters.</b>';
+      box.innerHTML=''; projectedResourceHtml([],inv);
+      if(controls)controls.style.display='none'; return;
+    }
+
+    var filterBits=[];
+    if(seasonChoice!=='all')filterBits.push(seasonChoice==='original'?'Original':seasonChoice);
+    if(typeChoice!=='auto')filterBits.push(typeChoice);
+    var baseLabel=mode==='saved'?'Saved Officers only':(session?session.label:'Future Officer session');
+    var label=baseLabel+(filterBits.length?' — '+filterBits.join(' / '):'');
+    var best=current[0], futureNames=projected.map(function(x){return x.name.replace(' — PROJECTED','')});
+    var decision;
+    if(isSpecificFuture) decision=futureNames.length?'Plan specifically for '+futureNames.join(' / ')+'.':'No projected Officer selected.';
+    else if(mode==='all') decision=projected.length?(best?'Compare finishing '+best.name+' with reserving resources for '+futureNames.join(' / ')+'.':'Reserve resources for '+futureNames.join(' / ')+'.'):(best?'Current priority: '+best.name+'.':'No current candidate.');
+    else decision=best?'Current priority: '+best.name+'.':'No current candidate.';
+
+    sum.innerHTML='<b>Planning session: '+esc(label)+'</b><br><b>Recommendation: '+esc(decision)+'</b><br><span class="muted">'+
+      (isSpecificFuture?'Specific future sessions show only the selected projected Officer. Use All Officer sessions to compare against saved Officers.':'MAXED Officers are excluded. Season and Officer Type filters can narrow saved/current candidates, for example S6 + Tank.')+'</span>';
+
+    var canCollapse=(mode==='saved'||mode==='all')&&rows.length>10;
+    var displayRows=(canCollapse&&!window.__kowPlannerShowAll)?rows.slice(0,10):rows;
+    var html='<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th>Priority</th><th>Officer</th><th>Type</th><th>Status</th><th>Recommendation</th></tr></thead><tbody>';
+    displayRows.forEach(function(r,i){
+      var rec=r.future?'Reserve resources for this '+r.type+' scenario. Exact ORV/SRV cost will be used only when published.':
+        (r.orvCost&&Math.floor(inv.orv/r.orvCost)>0?'Use Officer-specific badges first, then ORV where eligible. Preserve Universal/Selection resources where practical.':'Use Officer-specific badges first. Use flexible Universal/Selection resources only where required.');
+      html+='<tr><td>'+(i+1)+'</td><td><b>'+esc(r.name)+'</b></td><td>'+esc(r.future?r.type:(r.type||'Current'))+'</td><td>'+esc(r.future?'PROJECTED':(r.notStarted?'NOT STARTED':(r.pct.toFixed(1)+'% — IN PROGRESS')))+'</td><td>'+esc(rec)+'</td></tr>';
+    });
+    html+='</tbody></table></div><p class="muted" style="margin-top:8px">'+
+      (canCollapse&&!window.__kowPlannerShowAll?'Showing top 10 of '+rows.length+' results.':'Showing '+rows.length+' result'+(rows.length===1?'':'s')+'.')+
+      '</p><p class="muted">Inventory detected: ORV '+inv.orv.toLocaleString()+', Universal Badges '+inv.universal.toLocaleString()+', Selection Chests '+inv.selection.toLocaleString()+', XP '+inv.xp.toLocaleString()+'. No Inventory values have been changed.</p>';
+    box.innerHTML=html;
+
+    if(controls){
+      controls.style.display=canCollapse?'flex':'none';
+      if(showBtn){showBtn.style.display=canCollapse&&!window.__kowPlannerShowAll?'inline-block':'none';showBtn.textContent='Show all '+rows.length;}
+      if(collapseBtn)collapseBtn.style.display=canCollapse&&window.__kowPlannerShowAll?'inline-block':'none';
+    }
+    projectedResourceHtml(projected,inv);
+  };
+})();
 </script>
 
 <script id="multilingual-v4355-runtime">
@@ -3200,11 +3895,6 @@ document.addEventListener("click",function(e){
 })();
 
 </script>
-
-
-
-
-
 <script id="v4360-french-dynamic-translation-fixes">
 (function(){
 'use strict';
@@ -3267,8 +3957,6 @@ window.addEventListener('load',()=>setTimeout(()=>apply(),100));
 window.__kowApplyFrenchDynamicTranslations=apply;
 })();
 </script>
-
-
 <script id="v4361-german-dynamic-translation-fixes">
 (function(){
 'use strict';
@@ -3328,8 +4016,6 @@ window.addEventListener('load',()=>setTimeout(()=>apply(),100));
 window.__kowApplyGermanDynamicTranslations=apply;
 })();
 </script>
-
-
 <script id="v4362-italian-dynamic-translation-fixes">
 (function(){
 'use strict';
@@ -3390,5 +4076,154 @@ window.addEventListener('load',()=>setTimeout(()=>apply(),100));
 window.__kowApplyItalianDynamicTranslations=apply;
 })();
 </script>
+
+
+<script id="v4358-translation-fix">
+(function(){
+const T={"fr": {"Advanced Multi-Officer Planning": "Planification avancée multi-Officiers", "Planning session": "Session de planification", "Saved Officers only": "Officiers enregistrés uniquement", "All Officer sessions": "Toutes les sessions d’Officiers", "Next Officer session": "Prochaine session d’Officiers", "Officer Session / Season": "Session / Saison de l’Officier", "All Sessions": "Toutes les sessions", "Original": "Original", "Future Officer Type": "Type d’Officier futur", "All applicable types / session default": "Tous les types applicables / défaut de la session", "Include Not Started": "Inclure Non commencé", "Include Original Officers": "Inclure les Officiers originaux", "Analyse Planning Session": "Analyser la session de planification", "Refresh Recommendation": "Actualiser la recommandation", "Show all": "Tout afficher", "Collapse": "Réduire", "Recommendation": "Recommandation", "Inventory detected": "Inventaire détecté", "PROJECTED": "PROJETÉ", "Projected S8 Resource Requirement": "Ressources requises projetées S8", "Future Officer Cost Forecast": "Prévision du coût des futurs Officiers", "Advanced Future Officer Planning": "Planification avancée des futurs Officiers", "Open Advanced Planner": "Ouvrir le planificateur avancé", "Forecast increase per Officer release (%)": "Augmentation prévue par sortie d’Officier (%)", "Forecast only — actual release costs should replace the estimate when published.": "Prévision uniquement — les coûts réels de sortie doivent remplacer l’estimation dès leur publication.", "Help & Instructions": "Aide et instructions", "What’s New": "Nouveautés", "Recommended Flow": "Parcours recommandé", "Inventory first": "Inventaire d’abord", "Officer Readiness Intelligence": "Intelligence de préparation des Officiers", "Specific future sessions show only the selected projected Officer. Use All Officer sessions to compare against saved Officers.": "Les sessions futures spécifiques affichent uniquement l’Officier projeté sélectionné. Utilisez Toutes les sessions d’Officiers pour comparer avec les Officiers enregistrés.", "MAXED Officers are excluded. Season and Officer Type filters can narrow saved/current candidates, for example S6 + Tank.": "Les Officiers MAX sont exclus. Les filtres Saison et Type d’Officier permettent de cibler les candidats enregistrés/actuels, par exemple S6 + Char.", "Reserve resources for this Tank scenario. Exact ORV/SRV cost will be used only when published.": "Réservez des ressources pour ce scénario Char. Le coût ORV/SRV exact ne sera utilisé qu’après publication.", "Plan specifically for": "Planifier spécifiquement pour", "Showing": "Affichage de", "results": "résultats", "result": "résultat", "No Inventory values have been changed.": "Aucune valeur d’Inventaire n’a été modifiée."}, "de": {"Advanced Multi-Officer Planning": "Erweiterte Multi-Offizier-Planung", "Planning session": "Planungssession", "Saved Officers only": "Nur gespeicherte Offiziere", "All Officer sessions": "Alle Offizier-Sessions", "Next Officer session": "Nächste Offizier-Session", "Officer Session / Season": "Offizier-Session / Saison", "All Sessions": "Alle Sessions", "Original": "Original", "Future Officer Type": "Zukünftiger Offizier-Typ", "All applicable types / session default": "Alle passenden Typen / Session-Standard", "Include Not Started": "Nicht begonnen einbeziehen", "Include Original Officers": "Original-Offiziere einbeziehen", "Analyse Planning Session": "Planungssession analysieren", "Refresh Recommendation": "Empfehlung aktualisieren", "Show all": "Alle anzeigen", "Collapse": "Einklappen", "Recommendation": "Empfehlung", "Inventory detected": "Inventar erkannt", "PROJECTED": "PROGNOSTIZIERT", "Projected S8 Resource Requirement": "Prognostizierter S8-Ressourcenbedarf", "Future Officer Cost Forecast": "Kostenprognose für zukünftige Offiziere", "Advanced Future Officer Planning": "Erweiterte Planung zukünftiger Offiziere", "Open Advanced Planner": "Erweiterten Planer öffnen", "Forecast increase per Officer release (%)": "Prognostizierte Erhöhung je Offizier-Veröffentlichung (%)", "Forecast only — actual release costs should replace the estimate when published.": "Nur Prognose — tatsächliche Veröffentlichungskosten sollen die Schätzung nach Bekanntgabe ersetzen.", "Help & Instructions": "Hilfe und Anleitungen", "What’s New": "Neuigkeiten", "Recommended Flow": "Empfohlener Ablauf", "Inventory first": "Zuerst Inventar", "Officer Readiness Intelligence": "Offizier-Bereitschaftsanalyse", "Specific future sessions show only the selected projected Officer. Use All Officer sessions to compare against saved Officers.": "Bestimmte zukünftige Sessions zeigen nur den ausgewählten prognostizierten Offizier. Verwende Alle Offizier-Sessions zum Vergleich mit gespeicherten Offizieren.", "MAXED Officers are excluded. Season and Officer Type filters can narrow saved/current candidates, for example S6 + Tank.": "MAX-Offiziere sind ausgeschlossen. Saison- und Offizier-Typ-Filter können gespeicherte/aktuelle Kandidaten eingrenzen, z. B. S6 + Panzer.", "Reserve resources for this Tank scenario. Exact ORV/SRV cost will be used only when published.": "Ressourcen für dieses Panzer-Szenario reservieren. Die exakten ORV/SRV-Kosten werden erst nach Veröffentlichung verwendet.", "Plan specifically for": "Gezielt planen für", "Showing": "Anzeige von", "results": "Ergebnissen", "result": "Ergebnis", "No Inventory values have been changed.": "Keine Inventarwerte wurden geändert."}, "it": {"Advanced Multi-Officer Planning": "Pianificazione avanzata multi-Ufficiale", "Planning session": "Sessione di pianificazione", "Saved Officers only": "Solo Ufficiali salvati", "All Officer sessions": "Tutte le sessioni Ufficiali", "Next Officer session": "Prossima sessione Ufficiali", "Officer Session / Season": "Sessione / Stagione Ufficiale", "All Sessions": "Tutte le sessioni", "Original": "Originale", "Future Officer Type": "Tipo di Ufficiale futuro", "All applicable types / session default": "Tutti i tipi applicabili / predefinito sessione", "Include Not Started": "Includi Non iniziati", "Include Original Officers": "Includi Ufficiali originali", "Analyse Planning Session": "Analizza sessione di pianificazione", "Refresh Recommendation": "Aggiorna raccomandazione", "Show all": "Mostra tutto", "Collapse": "Comprimi", "Recommendation": "Raccomandazione", "Inventory detected": "Inventario rilevato", "PROJECTED": "PREVISTO", "Projected S8 Resource Requirement": "Requisiti risorse S8 previsti", "Future Officer Cost Forecast": "Previsione costi Ufficiali futuri", "Advanced Future Officer Planning": "Pianificazione avanzata Ufficiali futuri", "Open Advanced Planner": "Apri Pianificatore avanzato", "Forecast increase per Officer release (%)": "Aumento previsto per uscita Ufficiale (%)", "Forecast only — actual release costs should replace the estimate when published.": "Solo previsione — i costi reali di uscita devono sostituire la stima quando pubblicati.", "Help & Instructions": "Aiuto e istruzioni", "What’s New": "Novità", "Recommended Flow": "Flusso consigliato", "Inventory first": "Prima l’Inventario", "Officer Readiness Intelligence": "Analisi preparazione Ufficiali", "Specific future sessions show only the selected projected Officer. Use All Officer sessions to compare against saved Officers.": "Le sessioni future specifiche mostrano solo l’Ufficiale previsto selezionato. Usa Tutte le sessioni Ufficiali per confrontarlo con gli Ufficiali salvati.", "MAXED Officers are excluded. Season and Officer Type filters can narrow saved/current candidates, for example S6 + Tank.": "Gli Ufficiali MAX sono esclusi. I filtri Stagione e Tipo Ufficiale possono restringere i candidati salvati/attuali, ad esempio S6 + Carro.", "Reserve resources for this Tank scenario. Exact ORV/SRV cost will be used only when published.": "Riserva risorse per questo scenario Carro. Il costo ORV/SRV esatto verrà usato solo dopo la pubblicazione.", "Plan specifically for": "Pianifica specificamente per", "Showing": "Visualizzazione di", "results": "risultati", "result": "risultato", "No Inventory values have been changed.": "Nessun valore dell’Inventario è stato modificato."}};
+function lang(){return (document.getElementById('appLanguage')?.value||document.documentElement.lang||'en').slice(0,2);}
+function replaceText(root){
+ const l=lang(),d=T[l]; if(!d)return;
+ const w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT); let n;
+ while(n=w.nextNode()){
+  if(['SCRIPT','STYLE'].includes(n.parentElement?.tagName))continue;
+  let s=n.nodeValue;
+  Object.keys(d).sort((a,b)=>b.length-a.length).forEach(k=>{if(s.includes(k))s=s.split(k).join(d[k]);});
+  if(s!==n.nodeValue)n.nodeValue=s;
+ }
+ (root||document.body).querySelectorAll('option,button,input[placeholder]').forEach(el=>{
+   let s=el.placeholder||el.textContent||'';
+   Object.keys(d).sort((a,b)=>b.length-a.length).forEach(k=>{if(s.includes(k))s=s.split(k).join(d[k]);});
+   if(el.placeholder)el.placeholder=s; else el.textContent=s;
+ });
+}
+let busy=false;
+const obs=new MutationObserver(()=>{if(busy)return;busy=true;requestAnimationFrame(()=>{replaceText(document.body);busy=false;});});
+document.addEventListener('DOMContentLoaded',()=>{replaceText(document.body);obs.observe(document.body,{childList:true,subtree:true,characterData:true});});
+document.addEventListener('change',e=>{if(e.target?.id==='appLanguage')setTimeout(()=>replaceText(document.body),80);});
+window.kowV4358Translate=()=>replaceText(document.body);
+})();
+</script>
+
+
+<script id="v4358-translation-fix2">
+(function(){
+const T={"fr": {"📅 Releases": "📅 Sorties", "Preview-only recommendations. This tool never spends or changes Inventory.": "Recommandations en aperçu uniquement. Cet outil ne dépense ni ne modifie jamais l’Inventaire.", "Future Officers are planning placeholders only. The session can suggest a type, or Type d’Officier futur can override it manually.": "Les futurs Officiers sont uniquement des scénarios de planification. La session peut suggérer un type, ou le Type d’Officier futur peut le remplacer manuellement.", "v4.3.58 LIVE adds Planification avancée multi-Officiers, Future Officer forecasting, focused Session/Season/Type filtering, saved Officer analysis, XP/Inventory integration and direct Releases-to-Planner navigation.": "v4.3.58 LIVE ajoute la planification avancée multi-Officiers, les prévisions d’Officiers futurs, les filtres ciblés Session/Saison/Type, l’analyse des Officiers enregistrés, l’intégration XP/Inventaire et la navigation directe des Sorties vers le Planificateur.", "📘 v4.3.58 — Advanced Planning & Future Officer Forecasting Guide": "📘 v4.3.58 — Guide de planification avancée et de prévision des futurs Officiers", "Future Officer Planning": "Planification des futurs Officiers", "Projected S8 resources": "Ressources S8 projetées", "Releases → Planner shortcut": "Raccourci Sorties → Planificateur", "3. Planning Session": "3. Session de planification", "1 projected Legendary Officer": "1 Officier légendaire projeté", "2 projected Legendary Officers": "2 Officiers légendaires projetés", "11. Releases → Advanced Planner": "11. Sorties → Planificateur avancé", "Review Releases and confirm the forecast percentage.": "Consultez les Sorties et confirmez le pourcentage de prévision.", "Choose whether to include Not Started Officers.": "Choisissez d’inclure ou non les Officiers Non commencés.", "PROJETÉ future Officers are planning scenarios only.": "Les futurs Officiers PROJETÉS sont uniquement des scénarios de planification.", "🔗 Planner Integration & Releases Link": "🔗 Intégration du Planificateur et lien avec les Sorties", "🔮 Saved Officers & S8 Resource Forecast": "🔮 Officiers enregistrés et prévision des ressources S8", "🧭 Saved Officers & Session Scope": "🧭 Officiers enregistrés et portée de la session", "🎯 Focused Advanced Planner": "🎯 Planificateur avancé ciblé", "Compare saved Officers in Season order. You can compare Not Started and In Progress Officers even when the main Officer Progress table is filtered differently.": "Comparez les Officiers enregistrés dans l’ordre des Saisons. Vous pouvez comparer les Officiers Non commencés et En cours même si le tableau principal de progression est filtré différemment.", "How to interpret the recommendation:": "Comment interpréter la recommandation :", "Use the Planner to compare your current saved Officers and Inventory against projected future Officer sessions, including expected resources for one or two future Officers.": "Utilisez le Planificateur pour comparer vos Officiers enregistrés et votre Inventaire aux futures sessions projetées, y compris les ressources prévues pour un ou deux futurs Officiers.", "Full app Advanced Planner Sorties Help / What's New": "Application complète · Planificateur avancé · Sorties · Aide / Nouveautés", "Advanced Planner": "Planificateur avancé", "Enregistré Officers": "Officiers enregistrés", "Saved Officers": "Officiers enregistrés", "All Officer Sessions": "Toutes les sessions d’Officiers", "Tank Destroyer": "Chasseur de chars", "Tank": "Char", "Infantry": "Infanterie", "Garrison": "Garnison"}, "de": {"📅 Releases": "📅 Veröffentlichungen", "Preview-only recommendations. This tool never spends or changes Inventory.": "Empfehlungen dienen nur der Vorschau. Dieses Werkzeug verbraucht oder verändert niemals Inventar.", "Future Officers are planning placeholders only. The session can suggest a type, or Zukünftiger Offizier-Typ can override it manually.": "Zukünftige Offiziere sind nur Planungsplatzhalter. Die Session kann einen Typ vorschlagen; der zukünftige Offizier-Typ kann ihn manuell überschreiben.", "v4.3.58 LIVE adds Erweiterte Multi-Offizier-Planung, Future Officer forecasting, focused Session/Season/Type filtering, saved Officer analysis, XP/Inventory integration and direct Releases-to-Planner navigation.": "v4.3.58 LIVE ergänzt erweiterte Multi-Offizier-Planung, Prognosen für zukünftige Offiziere, gezielte Session-/Saison-/Typ-Filter, Analyse gespeicherter Offiziere, XP-/Inventar-Integration und direkte Navigation von Veröffentlichungen zum Planer.", "📘 v4.3.58 — Advanced Planning & Future Officer Forecasting Guide": "📘 v4.3.58 — Anleitung für erweiterte Planung und Prognosen zukünftiger Offiziere", "Future Officer Planning": "Planung zukünftiger Offiziere", "Projected S8 resources": "Prognostizierte S8-Ressourcen", "Releases → Planner shortcut": "Veröffentlichungen → Planer-Verknüpfung", "3. Planning Session": "3. Planungssession", "1 projected Legendary Officer": "1 prognostizierter legendärer Offizier", "2 projected Legendary Officers": "2 prognostizierte legendäre Offiziere", "11. Releases → Advanced Planner": "11. Veröffentlichungen → Erweiterter Planer", "Review Releases and confirm the forecast percentage.": "Veröffentlichungen prüfen und den Prognoseprozentsatz bestätigen.", "Choose whether to include Not Started Officers.": "Wähle, ob nicht begonnene Offiziere einbezogen werden sollen.", "PROGNOSTIZIERT future Officers are planning scenarios only.": "PROGNOSTIZIERTE zukünftige Offiziere sind nur Planungsszenarien.", "🔗 Planner Integration & Releases Link": "🔗 Planer-Integration und Veröffentlichungslink", "🔮 Saved Officers & S8 Resource Forecast": "🔮 Gespeicherte Offiziere und S8-Ressourcenprognose", "🧭 Saved Officers & Session Scope": "🧭 Gespeicherte Offiziere und Session-Umfang", "🎯 Focused Advanced Planner": "🎯 Fokussierter erweiterter Planer", "Compare saved Officers in Season order. You can compare Not Started and In Progress Officers even when the main Officer Progress table is filtered differently.": "Vergleiche gespeicherte Offiziere in Saison-Reihenfolge. Nicht begonnene und laufende Offiziere können verglichen werden, auch wenn die Haupt-Fortschrittstabelle anders gefiltert ist.", "How to interpret the recommendation:": "So ist die Empfehlung zu verstehen:", "Use the Planner to compare your current saved Officers and Inventory against projected future Officer sessions, including expected resources for one or two future Officers.": "Nutze den Planer, um gespeicherte Offiziere und Inventar mit prognostizierten zukünftigen Offizier-Sessions zu vergleichen, einschließlich erwarteter Ressourcen für einen oder zwei zukünftige Offiziere.", "Full app Advanced Planner Veröffentlichungen Help / What's New": "Gesamte App · Erweiterter Planer · Veröffentlichungen · Hilfe / Neuigkeiten", "Advanced Planner": "Erweiterter Planer", "Gespeichert Officers": "Gespeicherte Offiziere", "Saved Officers": "Gespeicherte Offiziere", "All Officer Sessions": "Alle Offizier-Sessions", "Tank Destroyer": "Jagdpanzer", "Tank": "Panzer", "Infantry": "Infanterie", "Garrison": "Garnison"}, "it": {"📅 Releases": "📅 Uscite", "Preview-only recommendations. This tool never spends or changes Inventory.": "Raccomandazioni solo in anteprima. Questo strumento non spende né modifica mai l’Inventario.", "Future Officers are planning placeholders only. The session can suggest a type, or Tipo di Ufficiale futuro can override it manually.": "Gli Ufficiali futuri sono solo segnaposto di pianificazione. La sessione può suggerire un tipo oppure il Tipo di Ufficiale futuro può sostituirlo manualmente.", "v4.3.58 LIVE adds Pianificazione avanzata multi-Ufficiale, Future Officer forecasting, focused Session/Season/Type filtering, saved Officer analysis, XP/Inventory integration and direct Releases-to-Planner navigation.": "v4.3.58 LIVE aggiunge pianificazione avanzata multi-Ufficiale, previsioni per Ufficiali futuri, filtri mirati Sessione/Stagione/Tipo, analisi degli Ufficiali salvati, integrazione XP/Inventario e navigazione diretta dalle Uscite al Pianificatore.", "📘 v4.3.58 — Advanced Planning & Future Officer Forecasting Guide": "📘 v4.3.58 — Guida alla pianificazione avanzata e previsione degli Ufficiali futuri", "Future Officer Planning": "Pianificazione Ufficiali futuri", "Projected S8 resources": "Risorse S8 previste", "Releases → Planner shortcut": "Collegamento Uscite → Pianificatore", "3. Planning Session": "3. Sessione di pianificazione", "1 projected Legendary Officer": "1 Ufficiale leggendario previsto", "2 projected Legendary Officers": "2 Ufficiali leggendari previsti", "11. Releases → Advanced Planner": "11. Uscite → Pianificatore avanzato", "Review Releases and confirm the forecast percentage.": "Controlla le Uscite e conferma la percentuale di previsione.", "Choose whether to include Not Started Officers.": "Scegli se includere gli Ufficiali Non iniziati.", "PREVISTO future Officers are planning scenarios only.": "Gli Ufficiali futuri PREVISTI sono solo scenari di pianificazione.", "🔗 Planner Integration & Releases Link": "🔗 Integrazione Pianificatore e collegamento Uscite", "🔮 Saved Officers & S8 Resource Forecast": "🔮 Ufficiali salvati e previsione risorse S8", "🧭 Saved Officers & Session Scope": "🧭 Ufficiali salvati e ambito della sessione", "🎯 Focused Advanced Planner": "🎯 Pianificatore avanzato mirato", "Compare saved Officers in Season order. You can compare Not Started and In Progress Officers even when the main Officer Progress table is filtered differently.": "Confronta gli Ufficiali salvati in ordine di Stagione. Puoi confrontare Ufficiali Non iniziati e In corso anche quando la tabella principale dei progressi è filtrata diversamente.", "How to interpret the recommendation:": "Come interpretare la raccomandazione:", "Use the Planner to compare your current saved Officers and Inventory against projected future Officer sessions, including expected resources for one or two future Officers.": "Usa il Pianificatore per confrontare gli Ufficiali salvati e l’Inventario con le sessioni future previste, comprese le risorse attese per uno o due Ufficiali futuri.", "Full app Advanced Planner Uscite Help / What's New": "App completa · Pianificatore avanzato · Uscite · Aiuto / Novità", "Advanced Planner": "Pianificatore avanzato", "Salvato Officers": "Ufficiali salvati", "Saved Officers": "Ufficiali salvati", "All Officer Sessions": "Tutte le sessioni Ufficiali", "Tank Destroyer": "Cacciacarri", "Tank": "Carro", "Infantry": "Fanteria", "Garrison": "Guarnigione"}};
+function current(){return (document.getElementById('appLanguage')?.value||document.documentElement.lang||'en').slice(0,2);}
+function apply(root){
+ const d=T[current()]; if(!d)return;
+ const keys=Object.keys(d).sort((a,b)=>b.length-a.length);
+ const w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT); let n;
+ while(n=w.nextNode()){
+   if(['SCRIPT','STYLE'].includes(n.parentElement?.tagName))continue;
+   let s=n.nodeValue; keys.forEach(k=>{if(s.includes(k))s=s.split(k).join(d[k]);});
+   if(s!==n.nodeValue)n.nodeValue=s;
+ }
+}
+let lock=false;
+const o=new MutationObserver(()=>{if(lock)return;lock=true;requestAnimationFrame(()=>{apply(document.body);lock=false;});});
+document.addEventListener('DOMContentLoaded',()=>{apply(document.body);o.observe(document.body,{subtree:true,childList:true,characterData:true});});
+document.addEventListener('change',e=>{if(e.target?.id==='appLanguage')setTimeout(()=>apply(document.body),120);});
+window.kowV4358Translate2=()=>apply(document.body);
+})();
+</script>
+
+
+<script id="v4358-translation-fix3">
+(function(){
+const T={"fr": {"v4.3.58 expands KoW Companion from single-Officer resource tracking into advanced multi-Officer and future-session planning. It links your saved Officer progress, shared Inventory, recurring release schedule and projected future Officer costs so you can decide whether to finish current Officers or preserve resources for future releases.": "v4.3.58 fait évoluer KoW Companion du suivi des ressources d’un seul Officier vers une planification avancée multi-Officiers et des sessions futures. Il relie la progression enregistrée des Officiers, l’Inventaire partagé, le calendrier récurrent des sorties et les coûts projetés des futurs Officiers afin de décider s’il vaut mieux terminer les Officiers actuels ou préserver les ressources pour les futures sorties.", "linked to the Releases forecast growth setting.": "liée au paramètre de croissance des prévisions des Sorties.", "from Planificateur avancé recommendations.": "des recommandations du Planificateur avancé.", "Releases:": "Sorties :", "compare current candidates with projected future resource requirements before committing flexible resources.": "comparez les candidats actuels aux besoins projetés en ressources futures avant d’engager des ressources flexibles.", ". Running or refreshing a recommendation does not spend, deduct or change Inventory.": ". L’exécution ou l’actualisation d’une recommandation ne dépense, ne déduit et ne modifie aucune ressource de l’Inventaire.", "from Planificateur avancé recommendations because no further development resources are required for them.": "des recommandations du Planificateur avancé car aucune ressource de développement supplémentaire n’est nécessaire pour eux.", "— combine projected future Officer scenarios with eligible saved/current Officers.": "— combine les scénarios projetés de futurs Officiers avec les Officiers enregistrés/actuels éligibles.", "is selected, the résultats intentionally show only that projected future Officer scenario. For example,": "est sélectionnée, les résultats affichent volontairement uniquement ce scénario projeté de futur Officier. Par exemple,", "when you want projected Officers and saved/current Officers in the same report.": "lorsque vous souhaitez afficher les Officiers projetés et les Officiers enregistrés/actuels dans le même rapport.", ". The summary explains the active session/filter combination and the recommendation.": ". Le résumé explique la combinaison active de session/filtres ainsi que la recommandation.", "For projected Legendary Officers, the Planner shows resource requirements for both": "Pour les Officiers légendaires projetés, le Planificateur affiche les besoins en ressources pour", "The Releases page field": "Le champ de la page Sorties", "controls projected cost growth. The default shown by the app is a percentage, not a fixed number of ORV/SRV.": "contrôle la croissance projetée des coûts. La valeur affichée par défaut est un pourcentage et non un nombre fixe d’ORV/SRV.", ". They are estimates derived from the latest published cost baseline and the selected percentage/release distance. When actual future Officer costs are published, the published values should replace the forecast.": ". Il s’agit d’estimations calculées à partir du dernier coût publié et du pourcentage/nombre de sorties sélectionné. Lorsque les coûts réels des futurs Officiers sont publiés, les valeurs publiées doivent remplacer la prévision.", "section on Releases includes an": "de la page Sorties comprend une", "button. Use it after reviewing a future release forecast to move directly to the Planner and compare the projected release against your saved resources.": "bouton. Utilisez-le après avoir consulté une prévision de future sortie pour ouvrir directement le Planificateur et comparer la sortie projetée à vos ressources enregistrées.", "specific future sessions now show only their selected projected Officer (for example April — Chars → S8 Char — PROJETÉ); Saved/All reports use a Top 10 view with Tout afficher / Réduire; Session / Saison de l’Officier filtering supports All, Original and S2–S7; Season and Officer Type can be combined for reports such as S6 + Char; projected S8 planning includes one- and two-Officer resource requirements; Releases links directly to Planificateur avancé; and future ORV/SRV costs remain clearly identified as forecasts.": "les sessions futures spécifiques affichent uniquement l’Officier projeté sélectionné (par exemple Avril — Chars → S8 Char — PROJETÉ) ; les rapports Enregistrés/Tous utilisent une vue Top 10 avec Tout afficher / Réduire ; le filtre Session / Saison prend en charge Toutes, Original et S2–S7 ; Saison et Type peuvent être combinés, par exemple S6 + Char ; la planification S8 projetée comprend les ressources pour un ou deux Officiers ; les Sorties ouvrent directement le Planificateur avancé ; et les futurs coûts ORV/SRV restent clairement identifiés comme prévisions.", "The Planificateur avancé now receives saved Progress, Officer database data, XP Books and shared Inventory through an explicit bridge from the main app module. This resolves the module-scope issue that prevented Officiers enregistrés and XP held from appearing in Advanced Planning. The Releases Prévision du coût des futurs Officiers now also includes a note and direct": "Le Planificateur avancé reçoit désormais la Progression enregistrée, les données de la base des Officiers, les Livres XP et l’Inventaire partagé via une liaison explicite avec le module principal. Cela permet aux Officiers enregistrés et à l’XP détenue d’apparaître correctement dans la planification avancée. La Prévision du coût des futurs Officiers des Sorties comprend également une note et un accès direct", "data source used by the Progress screen, and reads XP Books and shared resources from the exact same global resource store used by the XP and Inventory calculations. This fixes Officiers enregistrés / Toutes les sessions candidate detection and projected XP readiness.": "source de données utilisée par l’écran Progression et lit les Livres XP et ressources partagées depuis le même stockage global que les calculs XP et Inventaire. Cela assure la détection des candidats Officiers enregistrés / Toutes les sessions et la préparation XP projetée.", "Officiers enregistrés and Toutes les sessions d’Officiers now use the actual saved profile store. MAXED Officers remain excluded. The Ressources requises projetées S8 now shows ORV and SRV forecasts derived from the Releases percentage growth setting, and the Releases input label now explicitly shows": "Les Officiers enregistrés et Toutes les sessions d’Officiers utilisent désormais les profils réellement sauvegardés. Les Officiers MAX restent exclus. Les Ressources requises projetées S8 affichent les prévisions ORV et SRV calculées à partir du pourcentage de croissance des Sorties, et le libellé des Sorties affiche désormais explicitement", "Officiers enregistrés mode now reads actual saved Officer profiles correctly. The Planificateur avancé also shows projected resource requirements for one and two future S8 Legendary Officers, including 1,600 / 3,200 badges, 98,000 / 196,000 Star value, and 199,646,700 / 399,293,400 XP. ORV and SRV amounts are explicitly labelled FORECAST until S8 costs are published.": "Le mode Officiers enregistrés lit correctement les profils sauvegardés. Le Planificateur avancé affiche aussi les besoins projetés pour un ou deux futurs Officiers légendaires S8 : 1 600 / 3 200 badges, 98 000 / 196 000 de valeur d’Étoiles et 199 646 700 / 399 293 400 XP. Les montants ORV et SRV sont clairement indiqués PRÉVISION jusqu’à publication des coûts S8.", "Advanced Planning now uses only genuinely saved Officer profiles for current candidates. Planning Session can be set to Officiers enregistrés only, Toutes les sessions d’Officiers, Prochaine session d’Officiers, or a specific recurring Officer session. Inclure Non commencé and Inclure les Officiers originaux remain optional toggles. MAXED Officers remain excluded, and future scenarios are projected as S8+ Officer types without assuming unpublished ORV/SRV costs.": "La planification avancée utilise uniquement les profils d’Officiers réellement enregistrés pour les candidats actuels. La Session de planification peut utiliser uniquement les Officiers enregistrés, Toutes les sessions d’Officiers, la Prochaine session d’Officiers ou une session récurrente précise. Inclure Non commencé et Inclure les Officiers originaux restent facultatifs. Les Officiers MAX sont exclus et les scénarios futurs sont projetés en types d’Officiers S8+ sans supposer de coûts ORV/SRV non publiés.", "Planification avancée multi-Officiers can now select a future Officer session and a specific future Officer Type: Char, Chasseur de chars, Infanterie, Rally or Garnison. Session defaults can be overridden manually. Future entries are clearly marked PROJETÉ, MAXED Officers are excluded, and the Home Officer Readiness card includes an Open Officer Progress shortcut.": "La Planification avancée multi-Officiers permet de sélectionner une future session et un Type d’Officier futur précis : Char, Chasseur de chars, Infanterie, Rally ou Garnison. Les valeurs par défaut de la session peuvent être remplacées manuellement. Les entrées futures sont clairement marquées PROJETÉ, les Officiers MAX sont exclus et la carte de préparation des Officiers de l’Accueil comprend un raccourci vers la Progression des Officiers."}, "de": {"v4.3.58 expands KoW Companion from single-Officer resource tracking into advanced multi-Officer and future-session planning. It links your saved Officer progress, shared Inventory, recurring release schedule and projected future Officer costs so you can decide whether to finish current Officers or preserve resources for future releases.": "v4.3.58 erweitert KoW Companion von der Ressourcenverfolgung einzelner Offiziere zur erweiterten Multi-Offizier- und Zukunftssessionsplanung. Gespeicherter Offizier-Fortschritt, gemeinsames Inventar, wiederkehrender Veröffentlichungsplan und prognostizierte Kosten zukünftiger Offiziere werden verbunden, damit entschieden werden kann, ob aktuelle Offiziere abgeschlossen oder Ressourcen für zukünftige Veröffentlichungen bewahrt werden sollen.", "linked to the Releases forecast growth setting.": "mit der Prognose-Wachstumseinstellung der Veröffentlichungen verknüpft.", "from Erweiterter Planer recommendations.": "aus den Empfehlungen des Erweiterten Planers.", "Releases:": "Veröffentlichungen:", "compare current candidates with projected future resource requirements before committing flexible resources.": "vergleiche aktuelle Kandidaten mit dem prognostizierten zukünftigen Ressourcenbedarf, bevor flexible Ressourcen eingesetzt werden.", ". Running or refreshing a recommendation does not spend, deduct or change Inventory.": ". Das Ausführen oder Aktualisieren einer Empfehlung verbraucht, reduziert oder verändert kein Inventar.", "from Erweiterter Planer recommendations because no further development resources are required for them.": "aus den Empfehlungen des Erweiterten Planers, da für sie keine weiteren Entwicklungsressourcen erforderlich sind.", "— combine projected future Officer scenarios with eligible saved/current Officers.": "— kombiniert prognostizierte zukünftige Offizier-Szenarien mit geeigneten gespeicherten/aktuellen Offizieren.", "is selected, the Ergebnissen intentionally show only that projected future Officer scenario. For example,": "ausgewählt ist, zeigen die Ergebnisse bewusst nur dieses prognostizierte zukünftige Offizier-Szenario. Zum Beispiel:", "when you want projected Officers and saved/current Officers in the same report.": "wenn prognostizierte Offiziere und gespeicherte/aktuelle Offiziere im selben Bericht angezeigt werden sollen.", ". The summary explains the active session/filter combination and the recommendation.": ". Die Zusammenfassung erläutert die aktive Session-/Filterkombination und die Empfehlung.", "For projected Legendary Officers, the Planner shows resource requirements for both": "Für prognostizierte legendäre Offiziere zeigt der Planer den Ressourcenbedarf für", "The Releases page field": "Das Feld auf der Seite Veröffentlichungen", "controls projected cost growth. The default shown by the app is a percentage, not a fixed number of ORV/SRV.": "steuert das prognostizierte Kostenwachstum. Der Standardwert der App ist ein Prozentsatz und keine feste ORV/SRV-Anzahl.", ". They are estimates derived from the latest published cost baseline and the selected percentage/release distance. When actual future Officer costs are published, the published values should replace the forecast.": ". Dies sind Schätzungen auf Basis der zuletzt veröffentlichten Kosten sowie des ausgewählten Prozentsatzes/Veröffentlichungsabstands. Sobald tatsächliche zukünftige Offizier-Kosten veröffentlicht werden, sollen die veröffentlichten Werte die Prognose ersetzen.", "section on Releases includes an": "Bereich unter Veröffentlichungen enthält eine", "button. Use it after reviewing a future release forecast to move directly to the Planner and compare the projected release against your saved resources.": "Schaltfläche. Nach Prüfung einer zukünftigen Veröffentlichungsprognose kann damit direkt zum Planer gewechselt und die prognostizierte Veröffentlichung mit den gespeicherten Ressourcen verglichen werden.", "specific future sessions now show only their selected projected Officer (for example April — Panzers → S8 Panzer — PROGNOSTIZIERT); Saved/All reports use a Top 10 view with Alle anzeigen / Einklappen; Offizier-Session / Saison filtering supports All, Original and S2–S7; Season and Officer Type can be combined for reports such as S6 + Panzer; projected S8 planning includes one- and two-Officer resource requirements; Releases links directly to Erweiterter Planer; and future ORV/SRV costs remain clearly identified as forecasts.": "bestimmte zukünftige Sessions zeigen nur den ausgewählten prognostizierten Offizier (z. B. April — Panzer → S8 Panzer — PROGNOSTIZIERT); Gespeichert-/Alle-Berichte verwenden eine Top-10-Ansicht mit Alle anzeigen / Einklappen; der Session-/Saison-Filter unterstützt Alle, Original und S2–S7; Saison und Offizier-Typ lassen sich kombinieren, z. B. S6 + Panzer; die S8-Prognose enthält Ressourcenbedarf für einen oder zwei Offiziere; Veröffentlichungen führen direkt zum Erweiterten Planer; zukünftige ORV/SRV-Kosten bleiben klar als Prognose gekennzeichnet.", "The Erweiterter Planer now receives saved Progress, Officer database data, XP Books and shared Inventory through an explicit bridge from the main app module. This resolves the module-scope issue that prevented Gespeicherte Offiziere and XP held from appearing in Advanced Planning. The Releases Kostenprognose für zukünftige Offiziere now also includes a note and direct": "Der Erweiterte Planer erhält nun gespeicherten Fortschritt, Offizier-Datenbankdaten, XP-Bücher und gemeinsames Inventar über eine direkte Verbindung zum Hauptmodul. Dadurch erscheinen Gespeicherte Offiziere und vorhandene XP korrekt in der erweiterten Planung. Die Kostenprognose für zukünftige Offiziere unter Veröffentlichungen enthält außerdem einen Hinweis und direkten", "data source used by the Progress screen, and reads XP Books and shared resources from the exact same global resource store used by the XP and Inventory calculations. This fixes Gespeicherte Offiziere / Alle Sessions candidate detection and projected XP readiness.": "Datenquelle wie die Fortschrittsanzeige und liest XP-Bücher sowie gemeinsame Ressourcen aus demselben globalen Ressourcenspeicher wie die XP- und Inventarberechnungen. Dadurch funktionieren Kandidatenerkennung für Gespeicherte Offiziere / Alle Sessions und die prognostizierte XP-Bereitschaft.", "Gespeicherte Offiziere and Alle Offizier-Sessions now use the actual saved profile store. MAXED Officers remain excluded. The Prognostizierter S8-Ressourcenbedarf now shows ORV and SRV forecasts derived from the Releases percentage growth setting, and the Releases input label now explicitly shows": "Gespeicherte Offiziere und Alle Offizier-Sessions verwenden nun die tatsächlich gespeicherten Profile. MAX-Offiziere bleiben ausgeschlossen. Der prognostizierte S8-Ressourcenbedarf zeigt ORV- und SRV-Prognosen auf Basis der prozentualen Wachstumseinstellung der Veröffentlichungen; das Eingabefeld zeigt nun ausdrücklich", "Gespeicherte Offiziere mode now reads actual saved Officer profiles correctly. The Erweiterter Planer also shows projected resource requirements for one and two future S8 Legendary Officers, including 1,600 / 3,200 badges, 98,000 / 196,000 Star value, and 199,646,700 / 399,293,400 XP. ORV and SRV amounts are explicitly labelled FORECAST until S8 costs are published.": "Der Modus Gespeicherte Offiziere liest gespeicherte Profile korrekt. Der Erweiterte Planer zeigt außerdem den prognostizierten Ressourcenbedarf für einen oder zwei zukünftige legendäre S8-Offiziere: 1.600 / 3.200 Abzeichen, 98.000 / 196.000 Sternwert und 199.646.700 / 399.293.400 XP. ORV- und SRV-Werte sind bis zur Veröffentlichung der S8-Kosten ausdrücklich als PROGNOSE gekennzeichnet.", "Advanced Planning now uses only genuinely saved Officer profiles for current candidates. Planning Session can be set to Gespeicherte Offiziere only, Alle Offizier-Sessions, Nächste Offizier-Session, or a specific recurring Officer session. Nicht begonnen einbeziehen and Original-Offiziere einbeziehen remain optional toggles. MAXED Officers remain excluded, and future scenarios are projected as S8+ Officer types without assuming unpublished ORV/SRV costs.": "Die erweiterte Planung verwendet für aktuelle Kandidaten nur tatsächlich gespeicherte Offizier-Profile. Die Planungssession kann auf Nur gespeicherte Offiziere, Alle Offizier-Sessions, Nächste Offizier-Session oder eine bestimmte wiederkehrende Session gesetzt werden. Nicht begonnen einbeziehen und Original-Offiziere einbeziehen bleiben optional. MAX-Offiziere sind ausgeschlossen; zukünftige Szenarien werden als S8+-Offizier-Typen prognostiziert, ohne unveröffentlichte ORV/SRV-Kosten anzunehmen.", "Erweiterte Multi-Offizier-Planung can now select a future Officer session and a specific future Officer Type: Panzer, Jagdpanzer, Infanterie, Rally or Garnison. Session defaults can be overridden manually. Future entries are clearly marked PROGNOSTIZIERT, MAXED Officers are excluded, and the Home Officer Readiness card includes an Open Officer Progress shortcut.": "Die Erweiterte Multi-Offizier-Planung kann nun eine zukünftige Offizier-Session und einen bestimmten zukünftigen Offizier-Typ auswählen: Panzer, Jagdpanzer, Infanterie, Rally oder Garnison. Session-Standards können manuell überschrieben werden. Zukünftige Einträge sind klar als PROGNOSTIZIERT markiert, MAX-Offiziere sind ausgeschlossen und die Offizier-Bereitschaftskarte auf der Startseite enthält einen direkten Link zum Offizier-Fortschritt."}, "it": {"v4.3.58 expands KoW Companion from single-Officer resource tracking into advanced multi-Officer and future-session planning. It links your saved Officer progress, shared Inventory, recurring release schedule and projected future Officer costs so you can decide whether to finish current Officers or preserve resources for future releases.": "v4.3.58 amplia KoW Companion dal monitoraggio delle risorse di un singolo Ufficiale alla pianificazione avanzata multi-Ufficiale e delle sessioni future. Collega i progressi salvati degli Ufficiali, l’Inventario condiviso, il calendario ricorrente delle uscite e i costi previsti dei futuri Ufficiali per aiutare a decidere se completare gli Ufficiali attuali o conservare risorse per le uscite future.", "linked to the Releases forecast growth setting.": "collegata all’impostazione di crescita della previsione delle Uscite.", "from Pianificatore avanzato recommendations.": "dalle raccomandazioni del Pianificatore avanzato.", "Releases:": "Uscite:", "compare current candidates with projected future resource requirements before committing flexible resources.": "confronta i candidati attuali con i requisiti di risorse future previsti prima di utilizzare risorse flessibili.", ". Running or refreshing a recommendation does not spend, deduct or change Inventory.": ". L’esecuzione o l’aggiornamento di una raccomandazione non spende, sottrae o modifica l’Inventario.", "from Pianificatore avanzato recommendations because no further development resources are required for them.": "dalle raccomandazioni del Pianificatore avanzato perché non richiedono ulteriori risorse di sviluppo.", "— combine projected future Officer scenarios with eligible saved/current Officers.": "— combina gli scenari previsti dei futuri Ufficiali con gli Ufficiali salvati/attuali idonei.", "is selected, the risultati intentionally show only that projected future Officer scenario. For example,": "è selezionata, i risultati mostrano intenzionalmente solo quello scenario previsto di Ufficiale futuro. Ad esempio,", "when you want projected Officers and saved/current Officers in the same report.": "quando vuoi visualizzare Ufficiali previsti e Ufficiali salvati/attuali nello stesso rapporto.", ". The summary explains the active session/filter combination and the recommendation.": ". Il riepilogo spiega la combinazione attiva di sessione/filtri e la raccomandazione.", "For projected Legendary Officers, the Planner shows resource requirements for both": "Per gli Ufficiali leggendari previsti, il Pianificatore mostra i requisiti di risorse per", "The Releases page field": "Il campo della pagina Uscite", "controls projected cost growth. The default shown by the app is a percentage, not a fixed number of ORV/SRV.": "controlla la crescita prevista dei costi. Il valore predefinito mostrato dall’app è una percentuale, non un numero fisso di ORV/SRV.", ". They are estimates derived from the latest published cost baseline and the selected percentage/release distance. When actual future Officer costs are published, the published values should replace the forecast.": ". Sono stime ricavate dall’ultimo costo pubblicato e dalla percentuale/distanza di uscita selezionata. Quando vengono pubblicati i costi reali dei futuri Ufficiali, i valori pubblicati devono sostituire la previsione.", "section on Releases includes an": "sezione delle Uscite include una", "button. Use it after reviewing a future release forecast to move directly to the Planner and compare the projected release against your saved resources.": "pulsante. Usalo dopo aver esaminato una previsione di uscita futura per passare direttamente al Pianificatore e confrontare l’uscita prevista con le risorse salvate.", "specific future sessions now show only their selected projected Officer (for example April — Carros → S8 Carro — PREVISTO); Saved/All reports use a Top 10 view with Mostra tutto / Comprimi; Sessione / Stagione Ufficiale filtering supports All, Originale and S2–S7; Season and Officer Type can be combined for reports such as S6 + Carro; projected S8 planning includes one- and two-Officer resource requirements; Releases links directly to Pianificatore avanzato; and future ORV/SRV costs remain clearly identified as forecasts.": "le sessioni future specifiche mostrano solo l’Ufficiale previsto selezionato (ad esempio Aprile — Carri → S8 Carro — PREVISTO); i rapporti Salvati/Tutti usano una vista Top 10 con Mostra tutto / Comprimi; il filtro Sessione / Stagione supporta Tutte, Originale e S2–S7; Stagione e Tipo Ufficiale possono essere combinati, ad esempio S6 + Carro; la pianificazione S8 prevista include le risorse per uno o due Ufficiali; le Uscite aprono direttamente il Pianificatore avanzato; i futuri costi ORV/SRV restano chiaramente indicati come previsioni.", "The Pianificatore avanzato now receives saved Progress, Officer database data, XP Books and shared Inventory through an explicit bridge from the main app module. This resolves the module-scope issue that prevented Ufficiali salvati and XP held from appearing in Advanced Planning. The Releases Previsione costi Ufficiali futuri now also includes a note and direct": "Il Pianificatore avanzato riceve ora Progressi salvati, dati del database Ufficiali, Libri XP e Inventario condiviso tramite un collegamento esplicito al modulo principale. Questo consente agli Ufficiali salvati e agli XP posseduti di apparire correttamente nella pianificazione avanzata. La Previsione costi Ufficiali futuri nelle Uscite include anche una nota e un accesso diretto", "data source used by the Progress screen, and reads XP Books and shared resources from the exact same global resource store used by the XP and Inventory calculations. This fixes Ufficiali salvati / Tutte le sessioni candidate detection and projected XP readiness.": "fonte dati usata dalla schermata Progressi e legge Libri XP e risorse condivise dallo stesso archivio globale usato dai calcoli XP e Inventario. Questo corregge il rilevamento dei candidati Ufficiali salvati / Tutte le sessioni e la preparazione XP prevista.", "Ufficiali salvati and Tutte le sessioni Ufficiali now use the actual saved profile store. MAXED Officers remain excluded. The Requisiti risorse S8 previsti now shows ORV and SRV forecasts derived from the Releases percentage growth setting, and the Releases input label now explicitly shows": "Ufficiali salvati e Tutte le sessioni Ufficiali usano ora i profili realmente salvati. Gli Ufficiali MAX restano esclusi. I Requisiti risorse S8 previsti mostrano le previsioni ORV e SRV calcolate dall’aumento percentuale delle Uscite, e l’etichetta delle Uscite ora mostra esplicitamente", "Ufficiali salvati mode now reads actual saved Officer profiles correctly. The Pianificatore avanzato also shows projected resource requirements for one and two future S8 Legendary Officers, including 1,600 / 3,200 badges, 98,000 / 196,000 Star value, and 199,646,700 / 399,293,400 XP. ORV and SRV amounts are explicitly labelled FORECAST until S8 costs are published.": "La modalità Ufficiali salvati legge correttamente i profili salvati. Il Pianificatore avanzato mostra anche i requisiti previsti per uno o due futuri Ufficiali leggendari S8: 1.600 / 3.200 distintivi, 98.000 / 196.000 valore Stelle e 199.646.700 / 399.293.400 XP. Gli importi ORV e SRV sono chiaramente indicati PREVISIONE fino alla pubblicazione dei costi S8.", "Advanced Planning now uses only genuinely saved Officer profiles for current candidates. Planning Session can be set to Ufficiali salvati only, Tutte le sessioni Ufficiali, Prossima sessione Ufficiali, or a specific recurring Officer session. Includi Non iniziati and Includi Ufficiali originali remain optional toggles. MAXED Officers remain excluded, and future scenarios are projected as S8+ Officer types without assuming unpublished ORV/SRV costs.": "La pianificazione avanzata usa solo profili Ufficiale realmente salvati per i candidati attuali. La Sessione di pianificazione può essere impostata su Solo Ufficiali salvati, Tutte le sessioni Ufficiali, Prossima sessione Ufficiali o una specifica sessione ricorrente. Includi Non iniziati e Includi Ufficiali originali restano opzioni facoltative. Gli Ufficiali MAX sono esclusi e gli scenari futuri sono previsti come tipi di Ufficiale S8+ senza presumere costi ORV/SRV non pubblicati.", "Pianificazione avanzata multi-Ufficiale can now select a future Officer session and a specific future Officer Type: Carro, Cacciacarri, Fanteria, Rally or Guarnigione. Session defaults can be overridden manually. Future entries are clearly marked PREVISTO, MAXED Officers are excluded, and the Home Officer Readiness card includes an Open Officer Progress shortcut.": "La Pianificazione avanzata multi-Ufficiale può ora selezionare una futura sessione Ufficiali e uno specifico Tipo di Ufficiale futuro: Carro, Cacciacarri, Fanteria, Rally o Guarnigione. I valori predefiniti della sessione possono essere sostituiti manualmente. Le voci future sono chiaramente marcate PREVISTO, gli Ufficiali MAX sono esclusi e la scheda Preparazione Ufficiali della Home include un collegamento diretto ai Progressi Ufficiale."}};
+function lng(){return (document.getElementById('appLanguage')?.value||document.documentElement.lang||'en').slice(0,2);}
+function apply(root){
+ const d=T[lng()]; if(!d)return;
+ const keys=Object.keys(d).sort((a,b)=>b.length-a.length);
+ const w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT); let n;
+ while(n=w.nextNode()){
+  if(['SCRIPT','STYLE'].includes(n.parentElement?.tagName))continue;
+  let s=n.nodeValue; keys.forEach(k=>{if(s.includes(k))s=s.split(k).join(d[k]);});
+  if(s!==n.nodeValue)n.nodeValue=s;
+ }
+}
+let busy=false; const ob=new MutationObserver(()=>{if(busy)return;busy=true;requestAnimationFrame(()=>{apply(document.body);busy=false;});});
+document.addEventListener('DOMContentLoaded',()=>{apply(document.body);ob.observe(document.body,{subtree:true,childList:true,characterData:true});});
+document.addEventListener('change',e=>{if(e.target?.id==='appLanguage')setTimeout(()=>apply(document.body),150);});
+window.kowV4358Translate3=()=>apply(document.body);
+})();
+</script>
+
+<script id="v4358-language-qa">
+(function(){
+'use strict';
+let lastReport=null;
+const LANGS=['en','fr','de','it'];
+const NAMES={en:'English',fr:'French',de:'German',it:'Italian'};
+const ALLOWED=new Set(['XP','ORV','SRV','MAX','S2','S3','S4','S5','S6','S7','S8','English','Français','Deutsch','Italiano','FireStorm','KoW Companion']);
+function dict(l){return (window.KOW_LANG&&window.KOW_LANG[l])||window['KOW_LANG_'+l]||{};}
+function flatten(o,p='',r={}){
+ if(!o||typeof o!=='object')return r;
+ Object.keys(o).forEach(k=>{const v=o[k],q=p?p+'.'+k:k;if(v&&typeof v==='object')flatten(v,q,r);else r[q]=v;});
+ return r;
+}
+function scopeRoot(scope){
+ if(scope==='planner')return document.getElementById('planner');
+ if(scope==='releases')return document.getElementById('releases');
+ if(scope==='help')return document.getElementById('help');
+ return document.querySelector('main')||document.body;
+}
+function visibleStrings(root){
+ const arr=[]; const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+ let n; while(n=walker.nextNode()){
+   if(['SCRIPT','STYLE','OPTION'].includes(n.parentElement?.tagName))continue;
+   const s=(n.nodeValue||'').replace(/\s+/g,' ').trim();
+   if(s.length>=3)arr.push(s);
+ }
+ root.querySelectorAll('button,label,option,input[placeholder],select').forEach(el=>{
+   const s=(el.placeholder||el.textContent||'').replace(/\s+/g,' ').trim(); if(s.length>=3)arr.push(s);
+ });
+ return [...new Set(arr)];
+}
+function englishResiduals(strings,l){
+ if(l==='en')return [];
+ const markers=['Advanced Planner','Advanced Multi-Officer Planning','Planning session','Saved Officers','All Officer sessions','Officer Session','Future Officer','Projected','Resource Requirement','Show all','Collapse','Inventory detected','Recommendation','Releases','What’s New','Help & Instructions','Analyse Planning Session','Refresh Recommendation','Include Not Started','Include Original Officers'];
+ return strings.filter(s=>markers.some(m=>s.toLowerCase().includes(m.toLowerCase()))&&!ALLOWED.has(s));
+}
+async function testLanguage(l,scope){
+ const before=localStorage.getItem('kow_language')||localStorage.getItem('appLanguage')||'en';
+ if(typeof window.kowApplyLanguage==='function')window.kowApplyLanguage(l);
+ const sel=document.getElementById('appLanguage'); if(sel){sel.value=l;sel.dispatchEvent(new Event('change',{bubbles:true}));}
+ await new Promise(r=>setTimeout(r,180));
+ const switched=(document.documentElement.lang||'').slice(0,2)===l || (sel&&sel.value===l);
+ const en=flatten(dict('en')), tr=flatten(dict(l));
+ const missing=l==='en'?[]:Object.keys(en).filter(k=>!(k in tr)||tr[k]===null||tr[k]==='');
+ const strings=visibleStrings(scopeRoot(scope));
+ const residual=englishResiduals(strings,l);
+ const status=(!switched||missing.length>0||residual.length>0)?(switched?'WARNING':'FAIL'):'PASS';
+ return {language:l,name:NAMES[l],scope,status,switched,missingKeys:missing,residualEnglish:residual,visibleStringCount:strings.length};
+}
+async function run(){
+ const target=document.getElementById('languageQaTarget').value,scope=document.getElementById('languageQaScope').value;
+ const langs=target==='all'?LANGS:[target], results=[];
+ for(const l of langs)results.push(await testLanguage(l,scope));
+ // Always verify return to English after an All Languages run.
+ if(target==='all'&&typeof window.kowApplyLanguage==='function')window.kowApplyLanguage('en');
+ const fail=results.filter(x=>x.status==='FAIL').length,warn=results.filter(x=>x.status==='WARNING').length;
+ const overall=fail?'FAIL':warn?'WARNING':'PASS';
+ lastReport={appVersion:'4.3.58',build:'Multilingual Language QA',generated:new Date().toISOString(),scope,overall,results};
+ const sum=document.getElementById('languageQaSummary');
+ sum.innerHTML='<b>'+overall+'</b> — '+results.length+' language test(s): '+(results.length-fail-warn)+' PASS, '+warn+' WARNING, '+fail+' FAIL.';
+ document.getElementById('languageQaResults').innerHTML=results.map(x=>'<div class="result-box"><b>'+x.name+' — '+x.status+'</b><br>Switch test: '+(x.switched?'PASS':'FAIL')+' · Missing translation keys: '+x.missingKeys.length+' · Residual English flags: '+x.residualEnglish.length+(x.missingKeys.length?'<br><small>Missing: '+x.missingKeys.slice(0,30).join(', ')+'</small>':'')+(x.residualEnglish.length?'<br><small>Residual English: '+x.residualEnglish.slice(0,30).join(' | ')+'</small>':'')+'</div>').join('');
+ document.getElementById('downloadLanguageQa').disabled=false;
+}
+function download(){
+ if(!lastReport)return;
+ const blob=new Blob([JSON.stringify(lastReport,null,2)],{type:'application/json;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='KoW-Language-QA-v4.3.58-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+document.addEventListener('click',e=>{
+ if(e.target?.id==='runLanguageQa')run();
+ if(e.target?.id==='downloadLanguageQa')download();
+});
+})();
+</script>
+
 </body>
 </html>
