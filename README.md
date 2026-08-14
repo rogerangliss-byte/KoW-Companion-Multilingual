@@ -1,4 +1,4 @@
-# KoW Companion Multilingual v4.3.58 LIVE
+# KoW Companion v4.3.58 LIVE
 
 ## What's New — v4.3.58 LIVE
 
