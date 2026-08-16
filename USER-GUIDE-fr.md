@@ -1,53 +1,63 @@
-## Guide v4.3.58 — Planification avancée
-Utilisez d’abord **Inventaire**, puis enregistrez la progression des **Officiers**, vérifiez **Progression**, consultez **Sorties**, puis ouvrez le **Planificateur avancé**. Le filtre Session/Saison (Original, S2–S7) fonctionne avec le Type d’Officier. Exemple : **S6 + Char**. Une session future précise telle que **Avril — Chars** affiche uniquement **S8 Char — PROJETÉ**. Les Officiers MAX sont exclus. Les prévisions ORV/SRV sont des estimations jusqu’à publication des coûts réels. Le planificateur est en lecture seule et ne dépense aucune ressource.
+# KoW Companion — Guide utilisateur
+## v4.4.0 TEST
 
-# Nouveautés v4.3.58 LIVE — Planification avancée
-v4.3.58 ajoute la planification multi-Officiers, les prévisions d'Officiers futurs et des filtres ciblés Session / Saison / Type. Les sessions récurrentes sont Octobre, Janvier, Avril et Juillet. Une sélection précise, par exemple **Avril — Chars — S8**, affiche uniquement le scénario Char S8 PROJETÉ. Saison et Type peuvent être combinés, par exemple **S6 + Char**. Les Officiers MAX sont exclus des recommandations. Les futurs coûts ORV/SRV restent clairement marqués **PRÉVISION** jusqu'à publication des coûts réels.
+### Flux de travail recommandé
+1. **Inventaire** — saisissez et enregistrez d’abord toutes les ressources détenues.
+2. **Officier** — sélectionnez chaque Officier et enregistrez sa progression actuelle.
+3. **Étoiles** — vérifiez le niveau actuel, l’objectif et les ressources d’Étoiles.
+4. **Développement** — renseignez le déblocage, les branches de compétences et l’entraînement.
+5. **XP** — renseignez le niveau actuel, le niveau cible et les Livres XP détenus.
+6. **Progression** — contrôlez les états MAXIMUM, EN COURS et NON COMMENCÉ.
+7. **Sorties** — consultez le calendrier récurrent et les prévisions de coûts.
+8. **Planificateur** — analysez les besoins actuels et futurs sans dépenser de ressources.
+9. **Enregistrer la progression** après toute modification importante.
 
-Le Planner utilise la progression sauvegardée, l'Inventaire partagé et les Livres XP. Saved Officers et All Officer Sessions utilisent les profils réellement sauvegardés; Show all / Collapse facilite les rapports longs. Releases ouvre directement le Planner avancé.
+## Inventaire
+L’Inventaire est partagé par toute l’application. Il contient notamment les Coffres de Badges légendaires, les Coffres de sélection de Badges légendaires, ORV, SRV, les Badges universels Légendaires/Épiques/Élite, les Étoiles par rareté, les Livres XP et les Badges individuels des Officiers.
 
+Un Coffre de Badge d’Officier légendaire fournit **1 Badge légendaire universel**. Un Coffre de sélection peut fournir **1 Badge légendaire universel** ou, lorsqu’un Officier saisonnier éligible est concerné, la valeur ORV publiée correspondante.
 
-# Guide utilisateur KoW Companion v4.3.36
+## Officier
+Utilisez la recherche, la Saison, la Rareté et le Rôle pour sélectionner un Officier. Les noms propres des Officiers et les données de jeu restent inchangés. Chaque Officier conserve son propre profil de progression, tandis que l’Inventaire partagé reste disponible lors d’un changement d’Officier.
 
-Flux conseillé :
-Officier → Étoiles → Développement → XP → Planificateur, puis utilisez
-Enregistrer la progression
-. Utilisez
-Sauvegarde et restauration
-dans Paramètres avant de gros changements ou pour transférer les données entre appareils.
-✨ Nouveautés — v4.3.36 LIVE
-Les raretés Légendaire, Épique et Élite sont maintenant prises en charge séparément.
-Le Développement, les Étoiles, les Badges universels, les totaux d'entraînement et les calculs de progression suivent la rareté de l'Officier sélectionné.
-1. Officier
-Utilisez Rechercher un Officier, Saison, Rareté et Rôle pour choisir un Officier. Les noms des Officiers et les données du jeu ne sont pas traduits. Chaque Officier conserve son propre profil de progression, tandis que les inventaires partagés restent renseignés lors d'un changement d'Officier.
-La v4.3.36 ajoute les Officiers Épiques Dorothea, Abigail, Monica, Linda, Riven, Maria, Evelyn et Helena, ainsi que les Officiers Élite Marjorie et Jeanne. Leurs portraits et rôles sont inclus.
-2. Étoiles
-L'onglet Étoiles suit la rareté de l'Officier. Légendaire, Épique et Élite disposent chacun de leur propre inventaire d'Étoiles I / II / III. Les Bons de préparation d'Étoile (SRV) sont réservés aux Officiers Légendaires.
-3. Développement
-Les branches de compétence se débloquent selon le niveau d'Étoiles actuel : 0★ = Branche 1, 1★ = Branches 1–2, 2★ = Branches 1–3 et 3★+ = les quatre branches. Le niveau 1 est gratuit lorsqu'une branche devient disponible.
-Légendaire :
-Déblocage 10 + Promotion 690 + Entraînement 5 × 180 = 900 →
-1 600 badges au total.
-Épique :
-Déblocage 10 + Promotion 440 + Entraînement 25 × 180 = 4 500 →
-4 950 badges au total.
-Élite :
-Déblocage 10 + Promotion 440 + Entraînement 100 × 180 = 18 000 →
-18 450 badges au total.
-Séquence de Promotion Épique et Élite : 10, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 45, 45 = 440.
-La page Développement actualise la rareté à chaque changement d'Officier afin d'éviter qu'une valeur Épique, Élite ou Légendaire reste affichée depuis l'Officier précédent.
-4. Progression
-Progression affiche MAXIMISÉ, EN COURS ou NON COMMENCÉ. Un Officier MAX possède 5★, Niveau 70, est débloqué, ses quatre branches sont au Niveau 5 et son Entraînement est à 180. La v4.3.36 harmonise les résultats entre Accueil et Progression.
-5. XP
-Saisissez le niveau actuel et le niveau cible de l'Officier ainsi que les Livres d'XP détenus. L'application calcule l'XP détenu, requis et manquant.
-6. Planificateur
-Utilisez le Planificateur après Étoiles, Développement et XP. Les objectifs comprennent Maximiser l'Officier, Étoile suivante, Atteindre 5★, Compétences MAX et Entraînement MAX. L'Optimiseur est uniquement un aperçu et ne dépense aucune ressource.
-7. Base de données et Sorties
-La Base de données contient la liste maître des Officiers. Sorties affiche le calendrier annuel récurrent et la prévision du coût des futurs Officiers.
-8. Paramètres, Langue, Sauvegarde et restauration
-Choisissez English, Français, Deutsch ou Italiano. Votre choix de langue est enregistré sur cet appareil. Une réinitialisation de l'application revient à l'anglais.
-Exporter la sauvegarde de l'application crée un fichier JSON portable contenant les données KoW Companion enregistrées localement. Restaurer la sauvegarde recharge une sauvegarde précédente, y compris les progressions individuelles et les inventaires partagés.
-9. Version
-Cette version multilingue est la
-v4.3.36
-. Le contrôle d'Intégrité de la version dans Paramètres doit indiquer v4.3.36 partout.
+Les Officiers Légendaires d’origine ne peuvent pas utiliser ORV ou SRV. Les Officiers Légendaires saisonniers éligibles peuvent les utiliser selon leur coût publié. Les Officiers Épiques et Élite utilisent leurs propres ressources de rareté.
+
+## Étoiles
+Les ressources d’Étoiles sont séparées par rareté. Les seuils Légendaires sont 500, 1 000, 6 500, 25 000 et 65 000, soit **98 000** au total pour atteindre 5★. SRV est réservé aux Officiers Légendaires saisonniers éligibles.
+
+## Développement
+Les branches de compétences se débloquent selon le niveau d’Étoiles actuel : 0★ = branche 1, 1★ = branches 1–2, 2★ = branches 1–3 et 3★+ = les quatre branches. Le niveau 1 est gratuit lorsqu’une branche devient disponible.
+
+- **Légendaire** : déblocage 10 + compétences 690 + entraînement 900 = **1 600 Badges**.
+- **Épique** : déblocage 10 + compétences 440 + entraînement 4 500 = **4 950 Badges**.
+- **Élite** : déblocage 10 + compétences 440 + entraînement 18 000 = **18 450 Badges**.
+
+## XP
+Saisissez le niveau actuel, le niveau cible et les Livres XP détenus. L’application calcule les XP détenus, requis et manquants. Le total pour passer du niveau initial au niveau 70 est **199 646 700 XP**.
+
+## Progression et comparaison
+Progression classe les Officiers en MAXIMUM, EN COURS ou NON COMMENCÉ. Un Officier MAX possède 5★, niveau 70, est débloqué, dispose de quatre branches au niveau 5 et d’un entraînement à 180. La comparaison utilise les mêmes données enregistrées.
+
+## Planificateur avancé
+Le Planificateur est un outil d’aperçu : il ne dépense aucune ressource et ne modifie pas la progression enregistrée. Les Officiers MAX sont exclus des recommandations.
+
+Les sessions disponibles couvrent les Officiers enregistrés, toutes les sessions, la prochaine session ou une session récurrente précise : Octobre — Ralliement/Garnison, Janvier — Infanterie, Avril — Chars, Juillet — Chasseurs de chars. Saison et Type peuvent être combinés.
+
+Les scénarios futurs sont clairement marqués **PROJETÉ**. Les valeurs ORV/SRV futures restent des **PRÉVISIONS** jusqu’à publication des coûts réels.
+
+## Tableau de préparation à la planification
+Les scénarios futurs enregistrés affichent la préparation en Badges, Étoiles et XP. La préparation globale utilise la ressource la plus limitante. L’Objectif prioritaire indique le scénario nécessitant le plus d’attention et l’Action suivante suggérée indique quelle ressource économiser en priorité.
+
+## Sorties
+Sorties affiche le calendrier annuel récurrent et la prévision des coûts futurs des Officiers. Les estimations ne remplacent jamais les coûts officiels publiés.
+
+## Paramètres, langue et sauvegarde
+Choisissez English, Français, Deutsch ou Italiano. Le choix de langue est enregistré sur l’appareil. La réinitialisation de l’application revient à l’anglais.
+
+**Exporter la sauvegarde de l’application** crée une sauvegarde JSON des données locales. **Restaurer la sauvegarde de l’application** recharge une sauvegarde précédente, notamment la progression des Officiers et l’Inventaire partagé.
+
+## Contrôle des traductions
+Le contrôle multilingue v4.4.0 vérifie l’interface rendue et le Guide utilisateur dans la langue sélectionnée. ORV, SRV, XP, MAX, TEST, les noms d’Officiers et les termes de jeu explicitement conservés ne sont pas considérés comme des erreurs de traduction.
+
+## Version
+Cette version est **KoW Companion v4.4.0 TEST**. Elle doit conserver l’identification TEST jusqu’à validation pour Multilingual Live.

@@ -1,0 +1,41 @@
+/* KoW Companion v4.4.0 TEST — clean multilingual runtime, clean13.
+   Final generated database-summary translation fix. */
+(function(){
+'use strict';
+const KEY='kow_language_clean_v440';
+const LANGS=['en','fr','de','it'];
+const LEGACY_KEYS=['kow_language','appLanguage','kowLanguage','kow_lang','kowLang','language','selectedLanguage','kow_language_v4357','kow_language_v440','kow_i18n_language'];
+const dicts=()=>({en:window.KOW_I18N_EN||{},fr:window.KOW_I18N_FR||{},de:window.KOW_I18N_DE||{},it:window.KOW_I18N_IT||{}});
+const normalise=v=>LANGS.includes(String(v||'').slice(0,2).toLowerCase())?String(v).slice(0,2).toLowerCase():'en';
+function safeGet(k){try{return localStorage.getItem(k)}catch(_){return null}}
+function safeSet(k,v){try{localStorage.setItem(k,v)}catch(_){}}
+let activeLang=normalise(safeGet(KEY)||'en');
+let applying=false,queued=false,phraseCache={};
+const textBase=new WeakMap(),textLast=new WeakMap(),attrBase=new WeakMap(),attrLast=new WeakMap();
+let helpEnglishHTML='';
+const RESIDUAL={
+ fr:[['Guns: Field · Jets: Fighter','Armes : Terrain · Jets : Chasseur'],['officers shown','officiers affichés'],['Database validation passed.','Validation de la base de données réussie.'],['20% growth per Officer release from the latest known 600 ORV / 300 SRV release. For 1,600 badges and 98,000 Star value (891 Exclusive Stars), plan for approximately','20 % de croissance par sortie d’Officier à partir de la dernière sortie connue à 600 ORV / 300 SRV. Pour 1 600 Badges et une valeur d’Étoiles de 98 000 (891 Étoiles exclusives), prévoyez environ']],
+ de:[['officers shown','Offiziere angezeigt'],['Database validation passed.','Datenbankprüfung erfolgreich.']],
+ it:[['officers shown','Officieri visualizzati'],['Database validation passed.','Validazione del database riuscita.']]
+};
+function current(){return activeLang}
+function purgeLegacyLanguageState(){LEGACY_KEYS.forEach(k=>{try{localStorage.removeItem(k)}catch(_){}});try{Object.keys(sessionStorage).filter(k=>k!==KEY&&/lang|i18n/i.test(k)).forEach(k=>sessionStorage.removeItem(k))}catch(_){}}
+function exact(raw,d){const s=String(raw??''),t=s.trim();if(!t)return s;if(Object.prototype.hasOwnProperty.call(d,t)&&d[t]!==t)return s.replace(t,d[t]);const m=t.match(/^([^A-Za-zÀ-ÿ0-9]*)(.+)$/u);if(m&&m[1]&&Object.prototype.hasOwnProperty.call(d,m[2])&&d[m[2]]!==m[2])return s.replace(t,m[1]+d[m[2]]);return s}
+function phraseKeys(lang,d){if(phraseCache[lang])return phraseCache[lang];return phraseCache[lang]=Object.keys(d).filter(k=>k&&d[k]!==k&&k.length>=4&&/[A-Za-z]/.test(k)&&!/^S\d\b/.test(k)).sort((a,b)=>b.length-a.length)}
+function phraseTranslate(raw,lang,d){let out=String(raw??'');if(lang==='en'||!out.trim())return out;for(const k of phraseKeys(lang,d)){if(!out.includes(k))continue;const esc=k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');try{out=out.replace(new RegExp(`(^|[^A-Za-zÀ-ÿ0-9])${esc}(?=$|[^A-Za-zÀ-ÿ0-9])`,'gu'),(m,p)=>p+d[k])}catch(_){}}return out}
+function residualTranslate(raw,lang){let out=String(raw??'');for(const [src,dst] of RESIDUAL[lang]||[]){if(out.includes(src))out=out.split(src).join(dst)}return out}
+function translateStructured(raw,d,lang=current()){const s=String(raw??'');if(lang==='en')return s;let out=residualTranslate(s,lang);if(out!==s)return out;out=exact(s,d);if(out!==s)return residualTranslate(out,lang);const lead=s.match(/^(\s*)(.*?)(\s*)$/s);if(!lead)return s;const pre=lead[1],body=lead[2],post=lead[3];const part=x=>{const t=x.trim();if(!t)return x;const v=exact(t,d);return v===t?x:x.replace(t,v)};let m=body.match(/^(.+?)(\s+\d[\s\S]*)$/);if(m){const a=part(m[1]);if(a!==m[1])return residualTranslate(pre+a+m[2]+post,lang)}m=body.match(/^(.+?)(:\s*[\d.,%+\-][\s\S]*)$/);if(m){const a=part(m[1]);if(a!==m[1])return residualTranslate(pre+a+m[2]+post,lang)}const pieces=body.split(/(\s+[—·]\s+|:\s+)/);let changed=false;for(let i=0;i<pieces.length;i+=2){const v=part(pieces[i]);if(v!==pieces[i]){pieces[i]=v;changed=true}}if(changed)return residualTranslate(pre+pieces.join('')+post,lang);out=phraseTranslate(body,lang,d);return residualTranslate(out!==body?pre+out+post:s,lang)}
+function canonicalText(n){const now=String(n.nodeValue??''),last=textLast.get(n);if(!textBase.has(n)||last===undefined||now!==last)textBase.set(n,now);return textBase.get(n)}
+function processTextNode(n,l,d){if(!n||n.nodeType!==3||!n.parentElement)return;if(['SCRIPT','STYLE','NOSCRIPT','TEXTAREA','CODE','PRE'].includes(n.parentElement.tagName))return;const base=canonicalText(n),next=l==='en'?base:translateStructured(base,d,l);textLast.set(n,next);if(n.nodeValue!==next)n.nodeValue=next}
+function attrMaps(el){let b=attrBase.get(el),last=attrLast.get(el);if(!b){b={};attrBase.set(el,b)}if(!last){last={};attrLast.set(el,last)}return {b,last}}
+function processAttributes(el,l,d){if(!el||el.nodeType!==1)return;const {b,last}=attrMaps(el);['placeholder','title','aria-label'].forEach(a=>{if(!el.hasAttribute(a))return;const now=el.getAttribute(a);if(!(a in b)||!(a in last)||now!==last[a])b[a]=now;const next=l==='en'?b[a]:translateStructured(b[a],d,l);last[a]=next;if(now!==next)el.setAttribute(a,next)})}
+function applyLocalizedHelp(l=current(),d=dicts()[l]||{}){const article=document.querySelector('#help > article.card');if(!article)return;if(!helpEnglishHTML)helpEnglishHTML=article.innerHTML;if(l==='en'){if(article.dataset.v440LocalizedHelp){article.innerHTML=helpEnglishHTML;delete article.dataset.v440LocalizedHelp}return}const html=window.KOW_HELP_HTML_V440?.[l];if(!html||article.dataset.v440LocalizedHelp===l)return;article.innerHTML=`<h2>${exact('❓ Help & Instructions',d)}</h2>${html}`;article.dataset.v440LocalizedHelp=l}
+function translateNode(root=document.body,l=current()){if(!root||applying)return;const d=dicts()[l]||{};applying=true;try{if(root===document.body||root.nodeType===9)applyLocalizedHelp(l,d);if(root.nodeType===3)processTextNode(root,l,d);else if(root.nodeType===1||root.nodeType===9){if(root.nodeType===1)processAttributes(root,l,d);const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode()))processTextNode(n,l,d);root.querySelectorAll?.('[placeholder],[title],[aria-label]').forEach(el=>processAttributes(el,l,d))}}finally{applying=false}}
+function syncSelector(){const s=document.getElementById('appLanguage');if(s&&s.value!==activeLang)s.value=activeLang}
+function forceApply(){document.documentElement.lang=activeLang;applyLocalizedHelp(activeLang,dicts()[activeLang]||{});translateNode(document.body,activeLang)}
+function setLanguage(next){activeLang=normalise(next);purgeLegacyLanguageState();safeSet(KEY,activeLang);phraseCache={};document.documentElement.lang=activeLang;syncSelector();applyLocalizedHelp(activeLang,dicts()[activeLang]||{});translateNode(document.body,activeLang);requestAnimationFrame(()=>translateNode(document.body,activeLang));setTimeout(()=>translateNode(document.body,activeLang),120)}
+function translateAllSoon(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;forceApply()})}
+function start(){const help=document.querySelector('#help > article.card');if(help&&!helpEnglishHTML)helpEnglishHTML=help.innerHTML;purgeLegacyLanguageState();safeSet(KEY,activeLang);syncSelector();forceApply();document.addEventListener('change',e=>{const s=e.target;if(!s||s.id!=='appLanguage')return;e.stopImmediatePropagation();setLanguage(s.value)},true);const obs=new MutationObserver(ms=>{if(applying)return;let full=false;for(const m of ms){if(m.type==='characterData'){translateNode(m.target);continue}if(m.type==='attributes'){processAttributes(m.target,activeLang,dicts()[activeLang]||{});continue}if(m.addedNodes?.length){m.addedNodes.forEach(n=>translateNode(n,activeLang));full=true}}if(full)translateAllSoon()});obs.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','title','aria-label']});window.addEventListener('load',()=>{syncSelector();forceApply()})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+window.KOW_CLEAN_I18N={apply:forceApply,current,setLanguage,translateNode,translateStructured,phraseTranslate,residualTranslate,applyLocalizedHelp,purgeLegacyLanguageState,forceApply,getCanonicalKeys:()=>Object.keys(dicts().en).sort((a,b)=>a.localeCompare(b)),getDictionaries:dicts};
+})();

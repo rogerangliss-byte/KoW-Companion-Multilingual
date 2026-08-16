@@ -1,53 +1,63 @@
-## Anleitung v4.3.58 — Erweiterte Planung
-Beginne mit **Inventar**, speichere danach den Fortschritt der **Offiziere**, prüfe **Fortschritt**, öffne **Veröffentlichungen** und anschließend den **Erweiterten Planer**. Der Session/Saison-Filter (Original, S2–S7) funktioniert zusammen mit dem Offizier-Typ. Beispiel: **S6 + Panzer**. Eine bestimmte zukünftige Session wie **April — Panzer** zeigt nur **S8 Panzer — PROGNOSTIZIERT**. MAX-Offiziere sind ausgeschlossen. ORV/SRV-Prognosen bleiben Schätzungen, bis echte Kosten veröffentlicht werden. Der Planer verändert oder verbraucht keine Ressourcen.
+# KoW Companion — Benutzerhandbuch
+## v4.4.0 TEST
 
-# Neu in v4.3.58 LIVE — Erweiterte Planung
-v4.3.58 ergänzt Multi-Offizier-Planung, Prognosen für zukünftige Offiziere und gezielte Filter nach Session / Saison / Typ. Wiederkehrende Sessions sind Oktober, Januar, April und Juli. Eine genaue Auswahl wie **April — Panzer — S8** zeigt nur das PROGNOSTIZIERTE S8-Panzer-Szenario. Saison und Typ lassen sich kombinieren, z. B. **S6 + Panzer**. MAX-Offiziere werden aus Empfehlungen ausgeschlossen. Zukünftige ORV/SRV-Kosten bleiben als **PROGNOSE** gekennzeichnet, bis echte Kosten veröffentlicht sind.
+### Empfohlener Ablauf
+1. **Inventar** — zuerst alle vorhandenen Ressourcen eingeben und speichern.
+2. **Offizier** — jeden Offizier auswählen und den aktuellen Fortschritt speichern.
+3. **Sterne** — aktuelle Sternstufe, Ziel und Sternressourcen prüfen.
+4. **Entwicklung** — Freischaltung, Fähigkeitsstränge und Training erfassen.
+5. **XP** — aktuelle Stufe, Zielstufe und vorhandene XP-Bücher eingeben.
+6. **Fortschritt** — MAXIMIERT, IN ARBEIT und NICHT BEGONNEN prüfen.
+7. **Veröffentlichungen** — wiederkehrenden Kalender und Kostenprognosen prüfen.
+8. **Planer** — aktuelle und zukünftige Bedarfe analysieren, ohne Ressourcen auszugeben.
+9. Nach wichtigen Änderungen **Fortschritt speichern**.
 
-Der Planner verwendet gespeicherten Fortschritt, gemeinsames Inventar und XP-Bücher. Saved Officers und All Officer Sessions lesen die tatsächlich gespeicherten Profile; Show all / Collapse steuert lange Berichte. Releases führt direkt zum erweiterten Planner.
+## Inventar
+Das Inventar wird von der gesamten App gemeinsam genutzt. Es enthält unter anderem Legendäre Offiziersabzeichen-Truhen, Legendäre Offiziersabzeichen-Auswahltruhen, ORV, SRV, universelle Abzeichen für Legendär/Episch/Elite, Sterne je Seltenheit, XP-Bücher und individuelle Offiziersabzeichen.
 
+Eine Legendäre Offiziersabzeichen-Truhe liefert **1 universelles legendäres Abzeichen**. Eine Auswahltruhe kann **1 universelles legendäres Abzeichen** oder bei einem berechtigten saisonalen Offizier den veröffentlichten ORV-Wert liefern.
 
-# KoW Companion Benutzerleitfaden v4.3.36
+## Offizier
+Nutze Suche, Saison, Seltenheit und Rolle, um einen Offizier auszuwählen. Eigennamen der Offiziere und Spieldaten bleiben unverändert. Jeder Offizier behält sein eigenes Fortschrittsprofil; das gemeinsame Inventar bleibt beim Wechsel erhalten.
 
-Empfohlener Ablauf:
-Offizier → Sterne → Entwicklung → XP → Planer, danach
-Fortschritt speichern
-. Nutze
-Sichern & Wiederherstellen
-in den Einstellungen vor größeren Änderungen oder beim Übertragen zwischen Geräten.
-✨ Neu in v4.3.36 LIVE
-Legendäre, Epische und Elite-Offiziere werden jetzt als getrennte Seltenheiten vollständig unterstützt.
-Entwicklung, Sterne, Universalabzeichen, Trainingssummen und Fortschritt richten sich nach der Seltenheit des ausgewählten Offiziers.
-1. Offizier
-Nutze Offizier suchen, Saison, Seltenheit und Rolle, um einen Offizier auszuwählen. Offiziersnamen und Spieldaten werden nicht übersetzt. Jeder Offizier besitzt ein eigenes Fortschrittsprofil, während gemeinsame Ressourcen beim Wechsel erhalten bleiben.
-v4.3.36 enthält zusätzlich die epischen Offiziere Dorothea, Abigail, Monica, Linda, Riven, Maria, Evelyn und Helena sowie die Elite-Offiziere Marjorie und Jeanne. Porträts und Rollen sind enthalten.
-2. Sterne
-Der Sterne-Tab folgt der Offiziersseltenheit. Legendär, Episch und Elite besitzen jeweils eigene Stern-I/II/III-Inventare. Stern-Bereitschaftsgutscheine (SRV) gelten nur für Legendäre Offiziere.
-3. Entwicklung
-Fähigkeitsstränge werden nach der aktuellen Sternstufe freigeschaltet: 0★ = Strang 1, 1★ = Stränge 1–2, 2★ = Stränge 1–3 und 3★+ = alle vier Stränge. Stufe 1 ist beim Freischalten kostenlos.
-Legendär:
-Freischalten 10 + Beförderung 690 + Training 5 × 180 = 900 →
-1.600 Abzeichen gesamt.
-Episch:
-Freischalten 10 + Beförderung 440 + Training 25 × 180 = 4.500 →
-4.950 Abzeichen gesamt.
-Elite:
-Freischalten 10 + Beförderung 440 + Training 100 × 180 = 18.000 →
-18.450 Abzeichen gesamt.
-Beförderungsfolge für Episch und Elite: 10, 10, 15, 15, 20, 20, 25, 25, 30, 30, 35, 35, 40, 40, 45, 45 = 440.
-Die Entwicklung aktualisiert die Seltenheitsdaten bei jedem Offizierswechsel, damit Werte des vorherigen Offiziers nicht stehen bleiben.
-4. Fortschritt
-Fortschritt zeigt MAXIMIERT, IN ARBEIT oder NICHT BEGONNEN. Ein MAX-Offizier hat 5★, Stufe 70, ist freigeschaltet, alle vier Fähigkeitsstränge sind Stufe 5 und Training ist 180. v4.3.36 hält Startseite und Fortschritt konsistent.
-5. XP
-Gib aktuelle und Zielstufe sowie die vorhandenen XP-Bücher ein. Die App berechnet vorhandene, benötigte und fehlende XP.
-6. Planer
-Nutze den Planer nach Sterne, Entwicklung und XP. Ziele umfassen Offizier maximieren, Nächster Stern, 5★ erreichen, Fähigkeiten MAX und Training MAX. Der Ressourcenoptimierer ist nur eine Vorschau und gibt keine Ressourcen aus.
-7. Datenbank & Veröffentlichungen
-Die Datenbank enthält die Offiziers-Masterliste. Veröffentlichungen zeigt den wiederkehrenden Jahreskalender und die Prognose zukünftiger Offizierskosten.
-8. Einstellungen, Sprache, Sichern & Wiederherstellen
-Wähle English, Français, Deutsch oder Italiano. Die Sprache wird auf diesem Gerät gespeichert. App zurücksetzen setzt die Sprache auf Englisch zurück.
-App-Sicherung exportieren erstellt eine portable JSON-Sicherung der lokal gespeicherten KoW-Companion-Daten. App-Sicherung wiederherstellen lädt eine frühere Sicherung einschließlich Offiziersfortschritt und gemeinsamer Ressourcen.
-9. Version
-Diese mehrsprachige Version ist
-v4.3.36
-. Die Versionsintegritätsprüfung in Einstellungen muss überall v4.3.36 melden.
+Ursprüngliche legendäre Offiziere können weder ORV noch SRV verwenden. Berechtigte saisonale legendäre Offiziere können sie entsprechend den veröffentlichten Kosten verwenden. Epische und Elite-Offiziere verwenden ihre eigenen Seltenheitsressourcen.
+
+## Sterne
+Sternressourcen sind nach Seltenheit getrennt. Die legendären Schwellenwerte sind 500, 1.000, 6.500, 25.000 und 65.000, insgesamt **98.000** bis 5★. SRV gilt nur für berechtigte saisonale legendäre Offiziere.
+
+## Entwicklung
+Fähigkeitsstränge werden nach der aktuellen Sternstufe freigeschaltet: 0★ = Strang 1, 1★ = Stränge 1–2, 2★ = Stränge 1–3 und 3★+ = alle vier. Stufe 1 ist beim Freischalten kostenlos.
+
+- **Legendär**: Freischaltung 10 + Fähigkeiten 690 + Training 900 = **1.600 Abzeichen**.
+- **Episch**: Freischaltung 10 + Fähigkeiten 440 + Training 4.500 = **4.950 Abzeichen**.
+- **Elite**: Freischaltung 10 + Fähigkeiten 440 + Training 18.000 = **18.450 Abzeichen**.
+
+## XP
+Gib aktuelle Stufe, Zielstufe und vorhandene XP-Bücher ein. Die App berechnet vorhandene, benötigte und fehlende XP. Die Gesamtsumme bis Stufe 70 beträgt **199.646.700 XP**.
+
+## Fortschritt und Vergleich
+Fortschritt ordnet Offiziere als MAXIMIERT, IN ARBEIT oder NICHT BEGONNEN ein. Ein MAX-Offizier besitzt 5★, Stufe 70, ist freigeschaltet, hat vier Fähigkeitsstränge auf Stufe 5 und Training 180. Der Vergleich verwendet dieselben gespeicherten Daten.
+
+## Erweiterter Planer
+Der Planer ist eine Vorschau. Er gibt keine Ressourcen aus und verändert den gespeicherten Fortschritt nicht. MAX-Offiziere sind von Empfehlungen ausgeschlossen.
+
+Verfügbare Sessions umfassen gespeicherte Offiziere, alle Sessions, die nächste Session oder eine bestimmte wiederkehrende Session: Oktober — Rally/Garnison, Januar — Infanterie, April — Panzer, Juli — Jagdpanzer. Saison und Typ können kombiniert werden.
+
+Zukünftige Szenarien sind klar als **PROGNOSTIZIERT** gekennzeichnet. Zukünftige ORV/SRV-Werte bleiben **PROGNOSEN**, bis echte Kosten veröffentlicht werden.
+
+## Planungsbereitschaft
+Gespeicherte Zukunftsszenarien zeigen die Bereitschaft für Abzeichen, Sterne und XP. Die Gesamtbereitschaft richtet sich nach der knappsten Ressource. Das Prioritätsziel zeigt das Szenario mit dem größten Handlungsbedarf; die empfohlene nächste Aktion zeigt, welche Ressource als Nächstes gespart werden sollte.
+
+## Veröffentlichungen
+Veröffentlichungen zeigt den wiederkehrenden Jahreskalender und die Prognose zukünftiger Offizierskosten. Prognosen ersetzen niemals offiziell veröffentlichte Kosten.
+
+## Einstellungen, Sprache und Sicherung
+Wähle English, Français, Deutsch oder Italiano. Die Sprachauswahl wird auf dem Gerät gespeichert. App zurücksetzen setzt die Sprache auf Englisch zurück.
+
+**App-Sicherung exportieren** erstellt eine JSON-Sicherung der lokalen Daten. **App-Sicherung wiederherstellen** lädt eine frühere Sicherung einschließlich Offiziersfortschritt und gemeinsamem Inventar.
+
+## Übersetzungsprüfung
+Die mehrsprachige v4.4.0-Prüfung kontrolliert die gerenderte Oberfläche und das Benutzerhandbuch in der ausgewählten Sprache. ORV, SRV, XP, MAX, TEST, Offiziersnamen und ausdrücklich beibehaltene Spielbegriffe gelten nicht als Übersetzungsfehler.
+
+## Version
+Diese Version ist **KoW Companion v4.4.0 TEST**. Die TEST-Kennzeichnung bleibt bis zur Freigabe für Multilingual Live bestehen.
