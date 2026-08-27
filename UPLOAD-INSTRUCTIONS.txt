@@ -1,9 +1,0 @@
-KoW Companion Multilingual v4.5.03 — COMPLETE SELF-CONTAINED ZIP
-
-Upload/replace the ZIP contents at the root of KoW-Companion--Multilingual-Test.
-
-This package INCLUDES the complete lang/ folder. Upload/update the language files too.
-Keep the existing officer-portraits/ folder and background images if they are not included in this archive.
-Test site: https://multilingualtest.firestorm-companion.uk/
-
-After deployment, select French, German and Italian separately in Settings and run Runtime Language QA for each active language.
