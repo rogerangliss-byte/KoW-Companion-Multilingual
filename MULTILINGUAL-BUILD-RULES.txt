@@ -1,0 +1,61 @@
+KoW Companion v4.6.0 — Multilingual Build Rules
+
+SINGLE SOURCE OF TRUTH
+----------------------
+KoW-Companion-English-v4.6.0-STABLE.zip is the complete functional application.
+
+PERMITTED MULTILINGUAL DIFFERENCES ONLY
+---------------------------------------
+1. CNAME = multilingualtest.firestorm-companion.uk
+2. Multilingual-Test service-worker cache namespace
+3. /lang presentation-only dictionaries, translated Help, language selector and QA
+4. One final bootstrap <script> immediately before </body>
+5. Multilingual TEST identity/banner
+6. English-Live-only release note may be omitted
+
+FORBIDDEN
+---------
+- No Multilingual copy/rewrite of Officer Edit, MAX Officer, strands, Stars, XP,
+  Inventory, Planner, Database, Progress, Releases, calculations, persistence,
+  save/load, forecasting, backup/restore or any other application function.
+- No Multilingual MutationObserver over application controls.
+- No Multilingual dispatchEvent/click automation into application functionality.
+- No duplicate MAX implementation.
+- No functional patch may be made only in Multilingual.
+Any functional correction must be made in English Stable/Test first, validated there,
+then inherited unchanged by Multilingual.
+
+QA8 RULE:
+Language QA is read-only and may not click controls, dispatch events, change form values, or invoke application functions.
+
+PERMANENT ROBUST LANGUAGE QA RELEASE GATE
+QA11 or later is mandatory before every Multilingual Live promotion. It must check rendered English bleed, EN→FR/DE/IT unchanged text, dynamic-source translation coverage, dictionary quality, Help and the EN/FR/DE/IT selector. A generic/lightweight QA PASS is not sufficient. Functional code remains inherited from English Stable.
+
+QA12 REPORT-DRIVEN CLOSURE
+Every returned robust QA JSON is the authoritative translation defect list. All FR/DE/IT FAIL findings must be closed or explicitly classified as proper nouns/game terminology before Live. Robust QA may not be weakened to obtain PASS.
+
+QA14 PERMANENT USER GUIDE + ROBUST QA RELEASE GATE
+- FR/DE/IT User Guide must be fully translated with zero English bleed.
+- FR/DE/IT User Guide must render over an opaque/dark black reading surface on desktop, tablet and mobile.
+- Robust QA14 or later must PASS EN/FR/DE/IT before Multilingual Live promotion.
+- QA may not be weakened to obtain PASS; residual findings must be fixed or explicitly classified as proper nouns/game terms.
+
+
+QA15 PERMANENT FULL-RECONCILIATION RULE
+- Every Multilingual release starts from the Stable English functional source of truth.
+- Before QA, reconcile the complete user-facing English string inventory: static DOM, dynamic templates,
+  alerts/confirms/prompts, generated planner/release text, Settings, modals and the complete User Guide.
+- FR/DE/IT User Guides are canonical complete translated HTML and MUST NOT be run through partial phrase substitution.
+- Robust Language QA15 or later remains mandatory and may not be weakened to obtain PASS.
+- User Guide readability requires an opaque black/dark reading surface in FR/DE/IT on desktop/tablet/mobile.
+
+QA18 PIPELINE PRECEDENCE RULE
+- Canonical source-level complete-message translation rules MUST execute before legacy/exact dictionary lookup.
+- Legacy dictionary entries may never override a newer canonical complete-message translation.
+- QA labels, run button, report filename and internal version must always match the active QA version.
+
+QA19 SELF-AUDIT EXCLUSION RULE
+- Robust language QA must not fail on its own QA panel labels/status text.
+- Officer names and version/product identifiers are proper nouns/identifiers, not translation defects.
+- Accessibility labels such as Application language must still be genuinely localized.
+- Genuine rendered bleed remains blocking.

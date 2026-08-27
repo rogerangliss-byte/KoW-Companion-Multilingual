@@ -1,0 +1,14 @@
+KoW Companion Multilingual v4.6.0 TEST — QA17 SOURCE PIPELINE CLOSURE
+
+Purpose: close QA16 rendered-English failures at the complete-message translation stage before dictionary substring fallback.
+
+Changes:
+- Complete-message translation rules run before partial dictionary substitutions.
+- FR inventory/development/releases/dashboard QA16 failures corrected.
+- DE inventory/development/releases QA16 failures corrected.
+- IT dashboard/inventory/development/releases/settings/help QA16 failures corrected.
+- QA diagnostics translated; proper names/version identifiers are excluded from unchanged-English differential.
+- QA remains read-only and strict.
+- English functional truth is unchanged.
+
+TEST BUILD — NOT LIVE.

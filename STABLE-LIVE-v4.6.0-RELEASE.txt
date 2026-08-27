@@ -1,0 +1,21 @@
+KoW Companion Multilingual v4.6.0 — STABLE LIVE
+Release date: 27 August 2026
+Languages: English, French, German, Italian
+
+VALIDATED PROMOTION SOURCE
+KoW Companion Multilingual v4.6.0 TEST — QA20
+Language QA20: EN PASS / FR PASS / DE PASS / IT PASS
+Final functional regression: 20/20 PASS
+
+LIVE PROMOTION
+- Validated application logic retained unchanged.
+- Validated FR/DE/IT translation content retained unchanged.
+- Test banner removed.
+- Language QA controls/runtime removed from Live.
+- Stable Live cache metadata applied.
+- CNAME: multilingual.firestorm-companion.uk
+
+SOURCE-OF-TRUTH
+This archive is the Stable Multilingual Live v4.6.0 source-of-truth ZIP.
+Future Multilingual development must begin from the appropriate stable source-of-truth,
+be tested in Multilingual Test, and only then be mechanically promoted to Live.
