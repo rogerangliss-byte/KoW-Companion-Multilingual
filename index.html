@@ -2787,6 +2787,9 @@ function renderReleases(){
  const names=['January','February','March','April','May','June','July','August','September','October','November','December'];
  const currentMonth=names[now.getMonth()];
  const currentEntry=RELEASES.find(([m])=>m===currentMonth);
+ const releaseMonthNames={fr:{January:'janvier',February:'février',March:'mars',April:'avril',May:'mai',June:'juin',July:'juillet',August:'août',September:'septembre',October:'octobre',November:'novembre',December:'décembre'},de:{January:'Januar',February:'Februar',March:'März',April:'April',May:'Mai',June:'Juni',July:'Juli',August:'August',September:'September',October:'Oktober',November:'November',December:'Dezember'},it:{January:'gennaio',February:'febbraio',March:'marzo',April:'aprile',May:'maggio',June:'giugno',July:'luglio',August:'agosto',September:'settembre',October:'ottobre',November:'novembre',December:'dicembre'}};
+ const releaseLanguage=()=>window.KOW_PRESENTATION_I18N?.getLanguage?.()||'en';
+ const releaseMonth=m=>releaseMonthNames[releaseLanguage()]?.[m]||m;
  const recurring=RELEASES.map(([m,r])=>({m,r,idx:names.indexOf(m)})).filter(x=>x.r!=='—');
 
  let next=recurring
@@ -2795,12 +2798,12 @@ function renderReleases(){
  if(!next) next=recurring.sort((a,b)=>a.idx-b.idx)[0];
 
  const currentText=currentEntry && currentEntry[1]!=='—'
-   ? `${currentEntry[0]} — ${currentEntry[1]}`
-   : `${currentMonth} — No scheduled release`;
+   ? `${releaseMonth(currentEntry[0])} — ${currentEntry[1]}`
+   : `${releaseMonth(currentMonth)} — No scheduled release`;
 
  $('nextRelease').innerHTML=
    `<b>Current month:</b> ${currentText}<br>`+
-   `<b>Next scheduled release:</b> ${next.m} — ${next.r}`;
+   `<b>Next scheduled release:</b> ${releaseMonth(next.m)} — ${next.r}`;
 
  let html='<div style="display:grid;gap:8px">';
  RELEASES.forEach(([m,r])=>{
