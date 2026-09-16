@@ -2664,12 +2664,21 @@ function updateSmartDashboard(){
  ];
  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
  const currentMonth=monthNames[new Date().getMonth()];
+ const monthTranslations={
+  fr:{January:'janvier',February:'février',March:'mars',April:'avril',May:'mai',June:'juin',July:'juillet',August:'août',September:'septembre',October:'octobre',November:'novembre',December:'décembre'},
+  de:{January:'Januar',February:'Februar',March:'März',April:'April',May:'Mai',June:'Juni',July:'Juli',August:'August',September:'September',October:'Oktober',November:'November',December:'Dezember'},
+  it:{January:'gennaio',February:'febbraio',March:'marzo',April:'aprile',May:'maggio',June:'giugno',July:'luglio',August:'agosto',September:'settembre',October:'ottobre',November:'novembre',December:'dicembre'}
+ };
+ const displayMonth=(month)=>{
+  const lang=(localStorage.getItem('kowLang')||localStorage.getItem('language')||'en').toLowerCase().slice(0,2);
+  return monthTranslations[lang]?.[month]||month;
+ };
  const idx=releases.findIndex(r=>r[0]===currentMonth);
  const current=releases[idx>=0?idx:0];
  let ni=(idx+1)%releases.length;
  while(releases[ni][1]==='No scheduled release')ni=(ni+1)%releases.length;
  const next=releases[ni];
- $('dashRelease').innerHTML=`<b>${current[0]}:</b> ${current[1]}<br><span class="muted">Next: ${next[0]} — ${next[1]}</span>`;
+ $('dashRelease').innerHTML=`<b>${displayMonth(current[0])}:</b> ${current[1]}<br><span class="muted">Next: ${displayMonth(next[0])} — ${next[1]}</span>`;
 
  if(allOK){
   $('dashWarning').textContent=`${officerName} can be maxed with the resources currently entered in the app.`;
