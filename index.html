@@ -2670,7 +2670,7 @@ function updateSmartDashboard(){
   it:{January:'gennaio',February:'febbraio',March:'marzo',April:'aprile',May:'maggio',June:'giugno',July:'luglio',August:'agosto',September:'settembre',October:'ottobre',November:'novembre',December:'dicembre'}
  };
  const displayMonth=(month)=>{
-  const lang=(localStorage.getItem('kowLang')||localStorage.getItem('language')||'en').toLowerCase().slice(0,2);
+  const lang=(localStorage.getItem('kow-language-v460-strict')||'en').toLowerCase().slice(0,2);
   return monthTranslations[lang]?.[month]||month;
  };
  const idx=releases.findIndex(r=>r[0]===currentMonth);
