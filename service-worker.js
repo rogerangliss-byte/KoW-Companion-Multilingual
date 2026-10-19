@@ -1,4 +1,4 @@
-const CACHE='kow-multilingual-live-v4.6.0';
+const CACHE='kow-multilingual-live-v4.6.0-data-sync-20261019';
 self.addEventListener('install',event=>{self.skipWaiting();});
 self.addEventListener('activate',event=>{
   event.waitUntil(
