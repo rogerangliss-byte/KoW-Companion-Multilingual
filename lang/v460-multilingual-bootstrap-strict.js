@@ -4,8 +4,8 @@
 function load(src){return new Promise((ok,bad)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=bad;document.body.appendChild(s);});}
 async function start(){
  for(const src of [
- './lang/v460-en.js?v=v470-multilingual-live-qa21-pass-20261111','./lang/v460-fr.js?v=v470-multilingual-live-qa21-pass-20261111','./lang/v460-de.js?v=v470-multilingual-live-qa21-pass-20261111','./lang/v460-it.js?v=v470-multilingual-live-qa21-pass-20261111',
- './lang/v460-full-help.js?v=v470-help-qa21-20261111','./lang/v460-presentation-only.js?v=v470-multilingual-live-qa21-pass-20261111'
+ './lang/v460-en.js?v=v470-multilingual-live-bannerfix-20261111b','./lang/v460-fr.js?v=v470-multilingual-live-bannerfix-20261111b','./lang/v460-de.js?v=v470-multilingual-live-bannerfix-20261111b','./lang/v460-it.js?v=v470-multilingual-live-bannerfix-20261111b',
+ './lang/v460-full-help.js?v=v470-help-qa21-20261111','./lang/v460-presentation-only.js?v=v470-multilingual-live-bannerfix-20261111b'
  ]) await load(src);
 }
 if(document.readyState==='complete') setTimeout(start,0);
