@@ -60,4 +60,4 @@ Choisissez English, Français, Deutsch ou Italiano. Le choix de langue est enreg
 Le contrôle multilingue v4.7.0 vérifie l’interface rendue et le Guide utilisateur dans la langue sélectionnée. ORV, SRV, XP, MAX, TEST, les noms d’Officiers et les termes de jeu explicitement conservés ne sont pas considérés comme des erreurs de traduction.
 
 ## Version
-Cette version est **KoW Companion v4.7.0 — Multilingual Live**. Elle doit conserver l’identification TEST jusqu’à validation pour Multilingual Live.
+Cette version est **KoW Companion v4.7.0 — Multilingual Live**. Il s’agit du guide de la version Multilingual Live v4.7.0 ; aucune identification ni bannière TEST ne s’applique.
