@@ -1,27 +1,23 @@
-# KoW Companion v4.6.0 LIVE
+# KoW Companion v4.7.0 — Multilingual Live
 
-**English Live production release**
+**Production multilingual application**
 
-KoW Companion is an Officer development, Inventory, Progress and planning companion for *Kiss of War*. v4.6.0 adds Upgrade Targets & Recommendations, Dynamic Officer Data and database-driven Future Officer Cost Forecasting while retaining the stable v4.5.0 core.
+KoW Companion is an officer development, inventory, progress-tracking and planning companion for Kiss of War. This repository contains the multilingual Live application.
 
-## v4.6.0 highlights
-- Upgrade Targets & Recommendations (non-destructive)
-- Dynamic Officer dataset in `officers.json`
-- Versioned Officer-data manifest in `officer-data-version.json`
-- Global Officer Data status in Settings
-- Data-driven future Officer cost forecasting
-- Working-state persistence retained
-- Correct Legendary Badge Chest and Selection Chest rules retained
-- Approved Central Inventory ordering retained
-- 50 XP Book remains removed
+## Current release
 
-## Forecast baseline
-At release, the latest confirmed Legendary seasonal baseline is **S7 Tank Destroyers — 600 ORV per Badge / 300 SRV per Exclusive Star**. Future forecast values are estimates until confirmed release data is published.
+The application entry page identifies this release as **v4.7.0**. The multilingual presentation layer is loaded through supporting language files and a multilingual bootstrap script. Keep those dependencies intact unless they have been checked and the application has been tested.
 
 ## Deployment
-This package is the clean **English Live v4.6.0** release. `index.html` is a static production entry file; TEST-only build wrappers and obsolete upload instructions are not included.
 
-See `USER-GUIDE.md` for the full guide.
+The production multilingual site is:
+https://rogerangliss-byte.github.io/KoW-Companion-Multilingual/
 
----
-**Created by FireStorm (371)**
+The production custom domain is configured in CNAME. Do not add Test-only banners or development-only files to this repository.
+
+## Maintenance
+
+- Preserve the approved Live functionality and language support.
+- Make changes only after inspecting the actual source, translations and dependencies.
+- Verify language rendering and check for English text bleed before release.
+- Do not change the application version or promote unapproved changes.
