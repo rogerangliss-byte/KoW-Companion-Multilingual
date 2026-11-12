@@ -1,5 +1,5 @@
 # KoW Companion — Guide utilisateur
-## v4.4.0 TEST
+## v4.7.0 — Guide utilisateur
 
 ### Flux de travail recommandé
 1. **Inventaire** — saisissez et enregistrez d’abord toutes les ressources détenues.
@@ -15,7 +15,7 @@
 ## Inventaire
 L’Inventaire est partagé par toute l’application. Il contient notamment les Coffres de Badges légendaires, les Coffres de sélection de Badges légendaires, ORV, SRV, les Badges universels Légendaires/Épiques/Élite, les Étoiles par rareté, les Livres XP et les Badges individuels des Officiers.
 
-Un Coffre de Badge d’Officier légendaire fournit **1 Badge légendaire universel**. Un Coffre de sélection peut fournir **1 Badge légendaire universel** ou, lorsqu’un Officier saisonnier éligible est concerné, la valeur ORV publiée correspondante.
+Un Coffre de Badge d’Officier légendaire fournit **1 Badge légendaire universel** ou l’équivalent ORV publié. La valeur actuelle de référence pour S8 Rallye/Garnison (octobre 2026) est **720 ORV**. Un Coffre de sélection peut fournir **1 Badge légendaire universel** ou la valeur ORV publiée de l’Officier saisonnier éligible. Ne comptez jamais les deux options pour un même coffre.
 
 ## Officier
 Utilisez la recherche, la Saison, la Rareté et le Rôle pour sélectionner un Officier. Les noms propres des Officiers et les données de jeu restent inchangés. Chaque Officier conserve son propre profil de progression, tandis que l’Inventaire partagé reste disponible lors d’un changement d’Officier.
@@ -26,17 +26,17 @@ Les Officiers Légendaires d’origine ne peuvent pas utiliser ORV ou SRV. Les O
 Les ressources d’Étoiles sont séparées par rareté. Les seuils Légendaires sont 500, 1 000, 6 500, 25 000 et 65 000, soit **98 000** au total pour atteindre 5★. SRV est réservé aux Officiers Légendaires saisonniers éligibles.
 
 ## Développement
-Les branches de compétences se débloquent selon le niveau d’Étoiles actuel : 0★ = branche 1, 1★ = branches 1–2, 2★ = branches 1–3 et 3★+ = les quatre branches. Le niveau 1 est gratuit lorsqu’une branche devient disponible.
+Les branches de compétences se débloquent selon le niveau d’Étoiles actuel : 0★ = branche 1, 1★ = branches 1–2, 2★ = branches 1–3 et 3★+ = les quatre branches. Les quatre branches de compétences utilisent le système actuel de niveaux 1 à 10. Le niveau 1 est gratuit lorsqu’une branche devient disponible. La cinquième branche, lorsqu’elle existe pour le type d’Officier concerné, se débloque uniquement lorsque les quatre premières atteignent le niveau 10.
 
 - **Légendaire** : déblocage 10 + compétences 690 + entraînement 900 = **1 600 Badges**.
 - **Épique** : déblocage 10 + compétences 440 + entraînement 4 500 = **4 950 Badges**.
-- **Élite** : déblocage 10 + compétences 440 + entraînement 18 000 = **18 450 Badges**.
+- **Élite** : déblocage 10 + compétences 340 + entraînement 18 000 = **18 350 Badges**.
 
 ## XP
 Saisissez le niveau actuel, le niveau cible et les Livres XP détenus. L’application calcule les XP détenus, requis et manquants. Le total pour passer du niveau initial au niveau 70 est **199 646 700 XP**.
 
 ## Progression et comparaison
-Progression classe les Officiers en MAXIMUM, EN COURS ou NON COMMENCÉ. Un Officier MAX possède 5★, niveau 70, est débloqué, dispose de quatre branches au niveau 5 et d’un entraînement à 180. La comparaison utilise les mêmes données enregistrées.
+Progression classe les Officiers en MAXIMUM, EN COURS ou NON COMMENCÉ. Un Officier MAX possède 5★, niveau 70, est débloqué, dispose de quatre branches au niveau 10 et d’un entraînement à 180. La comparaison utilise les mêmes données enregistrées.
 
 ## Planificateur avancé
 Le Planificateur est un outil d’aperçu : il ne dépense aucune ressource et ne modifie pas la progression enregistrée. Les Officiers MAX sont exclus des recommandations.
@@ -57,7 +57,7 @@ Choisissez English, Français, Deutsch ou Italiano. Le choix de langue est enreg
 **Exporter la sauvegarde de l’application** crée une sauvegarde JSON des données locales. **Restaurer la sauvegarde de l’application** recharge une sauvegarde précédente, notamment la progression des Officiers et l’Inventaire partagé.
 
 ## Contrôle des traductions
-Le contrôle multilingue v4.4.0 vérifie l’interface rendue et le Guide utilisateur dans la langue sélectionnée. ORV, SRV, XP, MAX, TEST, les noms d’Officiers et les termes de jeu explicitement conservés ne sont pas considérés comme des erreurs de traduction.
+Le contrôle multilingue v4.7.0 vérifie l’interface rendue et le Guide utilisateur dans la langue sélectionnée. ORV, SRV, XP, MAX, TEST, les noms d’Officiers et les termes de jeu explicitement conservés ne sont pas considérés comme des erreurs de traduction.
 
 ## Version
-Cette version est **KoW Companion v4.4.0 TEST**. Elle doit conserver l’identification TEST jusqu’à validation pour Multilingual Live.
+Cette version est **KoW Companion v4.7.0 — Multilingual Live**. Elle doit conserver l’identification TEST jusqu’à validation pour Multilingual Live.
