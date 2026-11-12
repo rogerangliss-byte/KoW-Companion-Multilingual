@@ -1,8 +1,8 @@
-KoW Companion v4.6.0 — Multilingual Build Rules
+KoW Companion v4.7.0 — Multilingual Build Rules
 
 SINGLE SOURCE OF TRUTH
 ----------------------
-KoW-Companion-English-v4.6.0-STABLE.zip is the complete functional application.
+The current English v4.7.0 Live repository is the complete functional application and functional source of truth. Do not use archived v4.6.0 ZIPs as the current baseline.
 
 PERMITTED MULTILINGUAL DIFFERENCES ONLY
 ---------------------------------------
@@ -22,8 +22,7 @@ FORBIDDEN
 - No Multilingual dispatchEvent/click automation into application functionality.
 - No duplicate MAX implementation.
 - No functional patch may be made only in Multilingual.
-Any functional correction must be made in English Stable/Test first, validated there,
-then inherited unchanged by Multilingual.
+Any functional correction must be made in English Test first, validated there, and only then promoted to English Live with explicit approval. The validated functional source is then inherited unchanged by Multilingual Test; Multilingual Live is updated only after explicit approval.
 
 QA8 RULE:
 Language QA is read-only and may not click controls, dispatch events, change form values, or invoke application functions.
@@ -59,3 +58,10 @@ QA19 SELF-AUDIT EXCLUSION RULE
 - Officer names and version/product identifiers are proper nouns/identifiers, not translation defects.
 - Accessibility labels such as Application language must still be genuinely localized.
 - Genuine rendered bleed remains blocking.
+
+
+CURRENT RELEASE IDENTITY
+- Application version: v4.7.0
+- Multilingual Test custom domain: multilingualtest.firestorm-companion.uk
+- Multilingual Live custom domain: multilingual.firestorm-companion.uk
+- The current Multilingual Test QA21 result was EN PASS / FR PASS / DE PASS / IT PASS. Any later code or translation changes require a fresh full regression run.
