@@ -1,5 +1,5 @@
 # KoW Companion — Benutzerhandbuch
-## v4.4.0 TEST
+## v4.7.0 — Benutzerhandbuch
 
 ### Empfohlener Ablauf
 1. **Inventar** — zuerst alle vorhandenen Ressourcen eingeben und speichern.
@@ -15,7 +15,7 @@
 ## Inventar
 Das Inventar wird von der gesamten App gemeinsam genutzt. Es enthält unter anderem Legendäre Offiziersabzeichen-Truhen, Legendäre Offiziersabzeichen-Auswahltruhen, ORV, SRV, universelle Abzeichen für Legendär/Episch/Elite, Sterne je Seltenheit, XP-Bücher und individuelle Offiziersabzeichen.
 
-Eine Legendäre Offiziersabzeichen-Truhe liefert **1 universelles legendäres Abzeichen**. Eine Auswahltruhe kann **1 universelles legendäres Abzeichen** oder bei einem berechtigten saisonalen Offizier den veröffentlichten ORV-Wert liefern.
+Eine Legendäre Offiziersabzeichen-Truhe liefert **1 universelles legendäres Abzeichen** oder den veröffentlichten ORV-Gegenwert. Der aktuelle S8-Basiswert für Rallye/Garnison (Oktober 2026) beträgt **720 ORV**. Eine Auswahltruhe kann **1 universelles legendäres Abzeichen** oder den veröffentlichten ORV-Wert des berechtigten saisonalen Offiziers liefern. Zähle niemals beide Optionen für dieselbe Truhe.
 
 ## Offizier
 Nutze Suche, Saison, Seltenheit und Rolle, um einen Offizier auszuwählen. Eigennamen der Offiziere und Spieldaten bleiben unverändert. Jeder Offizier behält sein eigenes Fortschrittsprofil; das gemeinsame Inventar bleibt beim Wechsel erhalten.
@@ -26,17 +26,17 @@ Ursprüngliche legendäre Offiziere können weder ORV noch SRV verwenden. Berech
 Sternressourcen sind nach Seltenheit getrennt. Die legendären Schwellenwerte sind 500, 1.000, 6.500, 25.000 und 65.000, insgesamt **98.000** bis 5★. SRV gilt nur für berechtigte saisonale legendäre Offiziere.
 
 ## Entwicklung
-Fähigkeitsstränge werden nach der aktuellen Sternstufe freigeschaltet: 0★ = Strang 1, 1★ = Stränge 1–2, 2★ = Stränge 1–3 und 3★+ = alle vier. Stufe 1 ist beim Freischalten kostenlos.
+Fähigkeitsstränge werden nach der aktuellen Sternstufe freigeschaltet: 0★ = Strang 1, 1★ = Stränge 1–2, 2★ = Stränge 1–3 und 3★+ = alle vier. Die vier Fähigkeitsstränge verwenden das aktuelle Stufensystem von 1 bis 10. Stufe 1 ist beim Freischalten kostenlos. Ein fünfter Fähigkeitsstrang wird – sofern der Offizierstyp einen besitzt – erst freigeschaltet, wenn die ersten vier Stränge Stufe 10 erreicht haben.
 
 - **Legendär**: Freischaltung 10 + Fähigkeiten 690 + Training 900 = **1.600 Abzeichen**.
 - **Episch**: Freischaltung 10 + Fähigkeiten 440 + Training 4.500 = **4.950 Abzeichen**.
-- **Elite**: Freischaltung 10 + Fähigkeiten 440 + Training 18.000 = **18.450 Abzeichen**.
+- **Elite**: Freischaltung 10 + Fähigkeiten 340 + Training 18.000 = **18.350 Abzeichen**.
 
 ## XP
 Gib aktuelle Stufe, Zielstufe und vorhandene XP-Bücher ein. Die App berechnet vorhandene, benötigte und fehlende XP. Die Gesamtsumme bis Stufe 70 beträgt **199.646.700 XP**.
 
 ## Fortschritt und Vergleich
-Fortschritt ordnet Offiziere als MAXIMIERT, IN ARBEIT oder NICHT BEGONNEN ein. Ein MAX-Offizier besitzt 5★, Stufe 70, ist freigeschaltet, hat vier Fähigkeitsstränge auf Stufe 5 und Training 180. Der Vergleich verwendet dieselben gespeicherten Daten.
+Fortschritt ordnet Offiziere als MAXIMIERT, IN ARBEIT oder NICHT BEGONNEN ein. Ein MAX-Offizier besitzt 5★, Stufe 70, ist freigeschaltet, hat vier Fähigkeitsstränge auf Stufe 10 und Training 180. Der Vergleich verwendet dieselben gespeicherten Daten.
 
 ## Erweiterter Planer
 Der Planer ist eine Vorschau. Er gibt keine Ressourcen aus und verändert den gespeicherten Fortschritt nicht. MAX-Offiziere sind von Empfehlungen ausgeschlossen.
@@ -57,7 +57,7 @@ Wähle English, Français, Deutsch oder Italiano. Die Sprachauswahl wird auf dem
 **App-Sicherung exportieren** erstellt eine JSON-Sicherung der lokalen Daten. **App-Sicherung wiederherstellen** lädt eine frühere Sicherung einschließlich Offiziersfortschritt und gemeinsamem Inventar.
 
 ## Übersetzungsprüfung
-Die mehrsprachige v4.4.0-Prüfung kontrolliert die gerenderte Oberfläche und das Benutzerhandbuch in der ausgewählten Sprache. ORV, SRV, XP, MAX, TEST, Offiziersnamen und ausdrücklich beibehaltene Spielbegriffe gelten nicht als Übersetzungsfehler.
+Die mehrsprachige v4.7.0-Prüfung kontrolliert die gerenderte Oberfläche und das Benutzerhandbuch in der ausgewählten Sprache. ORV, SRV, XP, MAX, TEST, Offiziersnamen und ausdrücklich beibehaltene Spielbegriffe gelten nicht als Übersetzungsfehler.
 
 ## Version
-Diese Version ist **KoW Companion v4.4.0 TEST**. Die TEST-Kennzeichnung bleibt bis zur Freigabe für Multilingual Live bestehen.
+Diese Version ist **KoW Companion v4.7.0 — Multilingual Live**. Die TEST-Kennzeichnung bleibt bis zur Freigabe für Multilingual Live bestehen.
