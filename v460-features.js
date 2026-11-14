@@ -72,6 +72,7 @@
 
       officers=ordered;
       window.KOW_PUBLISHED_OFFICERS=data.map(o=>typeof normalizeOfficer==='function'?normalizeOfficer(o):o);
+      if(typeof updateLegendaryChestRateLabels==='function')updateLegendaryChestRateLabels();
       if(typeof saveOfficers==='function')saveOfficers();
       if(typeof renderDb==='function')renderDb();
       if(typeof renderOfficerFilters==='function')renderOfficerFilters();
@@ -157,7 +158,7 @@
         badgeAvailable+=val('legendarySelectionChestHeld');
       }
       let orvHeld=val('orvHeld');
-      if(chestMode==='orv')orvHeld+=badgeChests*600;
+      if(chestMode==='orv')orvHeld+=badgeChests*(typeof latestLegendaryOrvChestRate==='function'?latestLegendaryOrvChestRate():720);
       if(readiness&&Number(o.orv)>0)badgeAvailable+=Math.floor(orvHeld/Number(o.orv));
     }
 
