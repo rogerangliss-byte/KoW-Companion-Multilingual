@@ -3447,7 +3447,7 @@ function kowInvList(m){const e=document.getElementById('invOfficerList');if(!e)r
 function kowInvLoad(){const x=kowInvGet();KOW_INV_IDS.forEach(id=>{const e=document.getElementById(id);if(e)e.value=+x[id]||0});const s=document.getElementById('inventorySavedStatus');if(s)s.textContent=x.savedAt?'Last saved: '+new Date(x.savedAt).toLocaleString():'Inventory not yet saved.';kowInvList(x.officerBadges);return x;}
 function kowInvApply(x){
  [['orvHeld','invOrv'],['multiOrv','invOrv'],['srvHeld','invSrv'],['universalBadgeHeld','invUniversalLegendary'],['universalEpicBadgeHeld','invUniversalEpic'],['universalEliteBadgeHeld','invUniversalElite'],['multiUniversal','invUniversalLegendary'],['legendaryBadgeChestHeld','invLegendaryBadgeChests'],['multiChests','invLegendaryBadgeChests'],['legendarySelectionChestHeld','invLegendarySelectionChests'],['multiSelectionChests','invLegendarySelectionChests']].forEach(a=>kowInvField(a[0],x[a[1]]));
- // Keep Star Planner Held fields aligned with Central Inventory in both Test builds.
+ // Keep Star Planner Held fields aligned with Central Inventory in both builds.
  [['ls1','invLegStar1'],['ls2','invLegStar2'],['ls3','invLegStar3'],
   ['es1','invEpicStar1'],['es2','invEpicStar2'],['es3','invEpicStar3'],
   ['bs1','invEliteStar1'],['bs2','invEliteStar2'],['bs3','invEliteStar3']]
@@ -3734,7 +3734,7 @@ document.addEventListener("click",function(e){
       var f=bridge.releaseForecast(steps);
       return {orv:f.orvPerBadge,srv:f.srvPerStar,source:f.source+' · '+steps+' future release step'+(steps===1?'':'s'),pct:f.growth};
     }
-    return {orv:720,srv:360,source:'Test forecast starting cost (720 ORV / 360 SRV)',pct:20};
+    return {orv:720,srv:360,source:'Forecast starting cost (720 ORV / 360 SRV)',pct:20};
   }
 function projectedResourceHtml(projected,inv,mode){
     var box=document.getElementById('kowProjectedResourceForecast');if(!box)return;
@@ -4184,7 +4184,7 @@ window.kowEditOfficerMax=function(){
 })();
 </script>
 
-<!-- MULTILINGUAL TEST presentation layer only. Stable English v4.7.0 functional code above remains unchanged. -->
+<!-- Multilingual presentation layer. Core application logic remains unchanged. -->
 <script src="./lang/v460-multilingual-bootstrap-strict.js?v=v470-live-noqa-r2"></script>
 </body>
 </html>
