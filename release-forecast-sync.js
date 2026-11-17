@@ -1,4 +1,4 @@
-/* Officer Command Centre v4.7.0 LIVE — data-driven future release forecast.
+/* KoW Companion v4.6.0 TEST — data-driven future release forecast.
    Uses the approved English Test starting estimate, then compounds growth by
    future Officer release. All projected costs remain estimates until confirmed. */
 (()=>{
@@ -106,7 +106,7 @@
     if($('forecastTotalSrv'))$('forecastTotalSrv').textContent=fmt(totalSrv);
 
     const label=select.options[select.selectedIndex]?.textContent||'Future Officer';
-    if($('forecastNote'))$('forecastNote').innerHTML=`<b>${label}</b><br>Planning estimate using ${String($('forecastGrowth')?.value||20)}% growth per future Officer release from <b>${base.source}</b> (${fmt(base.orv)} ORV / ${fmt(base.srv)} SRV). For ${fmt(badges)} Officer Badges (including the 690 Officer Badges for Skills within the 1,600 total) and ${fmt(starValue)} Star value (${fmt(exclusiveStars)} Exclusive Stars), plan for approximately <b>${fmt(totalOrv)} ORV</b> and <b>${fmt(totalSrv)} SRV</b>. Forecast only — replace with confirmed costs when released.`;
+    if($('forecastNote'))$('forecastNote').innerHTML=`<b>${label}</b><br>Test planning estimate using ${String($('forecastGrowth')?.value||20)}% growth per future Officer release from <b>${base.source}</b> (${fmt(base.orv)} ORV / ${fmt(base.srv)} SRV). For ${fmt(badges)} Officer Badges (including the 690 Officer Badges for Skills within the 1,600 total) and ${fmt(starValue)} Star value (${fmt(exclusiveStars)} Exclusive Stars), plan for approximately <b>${fmt(totalOrv)} ORV</b> and <b>${fmt(totalSrv)} SRV</b>. Forecast only — replace with confirmed costs when released.`;
 
     const card=$('futureOfficerForecastCard');
     const intro=card?.querySelector('p.muted');
