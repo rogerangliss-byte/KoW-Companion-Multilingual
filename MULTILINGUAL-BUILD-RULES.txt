@@ -1,8 +1,8 @@
-KoW Companion v4.7.0 — Multilingual Build Rules
+KoW Companion v4.6.0 — Multilingual Build Rules
 
 SINGLE SOURCE OF TRUTH
 ----------------------
-The current English v4.7.0 Live repository is the complete functional application and functional source of truth. Do not use archived v4.6.0 ZIPs as the current baseline.
+KoW-Companion-English-v4.6.0-STABLE.zip is the complete functional application.
 
 PERMITTED MULTILINGUAL DIFFERENCES ONLY
 ---------------------------------------
@@ -22,7 +22,8 @@ FORBIDDEN
 - No Multilingual dispatchEvent/click automation into application functionality.
 - No duplicate MAX implementation.
 - No functional patch may be made only in Multilingual.
-Any functional correction must be made in English Test first, validated there, and only then promoted to English Live with explicit approval. The validated functional source is then inherited unchanged by Multilingual Test; Multilingual Live is updated only after explicit approval.
+Any functional correction must be made in English Stable/Test first, validated there,
+then inherited unchanged by Multilingual.
 
 QA8 RULE:
 Language QA is read-only and may not click controls, dispatch events, change form values, or invoke application functions.
@@ -60,8 +61,12 @@ QA19 SELF-AUDIT EXCLUSION RULE
 - Genuine rendered bleed remains blocking.
 
 
-CURRENT RELEASE IDENTITY
-- Application version: v4.7.0
-- Multilingual Test custom domain: multilingualtest.firestorm-companion.uk
-- Multilingual Live custom domain: multilingual.firestorm-companion.uk
-- The current Multilingual Test QA21 result was EN PASS / FR PASS / DE PASS / IT PASS. Any later code or translation changes require a fresh full regression run.
+V4.7.0 MULTILINGUAL ARCHITECTURE RULES
+- The v4.7.0 English application remains the sole functional source of truth.
+- The central localisation runtime is lang/v470-i18n-core.js. New interface strings must use stable semantic message keys through KOW_I18N.t(key, params, language); English-source hash keys are a migration bridge, not a reason to add more sentence-matching patches.
+- Exact source lookup must precede parameterised message-template lookup; controlled glossary fallback is last and may not override a complete-message translation.
+- No body-wide MutationObserver is permitted. Re-translation must use explicit render hooks and delegated presentation refreshes only.
+- Localisation code may translate text and accessibility attributes only. It must not modify calculator logic, resource values, application state, persistence, officer data, or control behaviour.
+- Do not reuse obsolete v4.6.0 source strings or values as v4.7.0 truth. Reconcile the locale catalogue against the current v4.7.0 English UI and current officer data.
+- Keep the QA diagnostic read-only and at least as strict as QA21. Verify static and dynamic text, popups, modal content, Help, attributes, and all 14 roots.
+- Test repository changes must remain isolated from both Live repositories. Live promotion requires a separate explicit approval after full Test acceptance.
