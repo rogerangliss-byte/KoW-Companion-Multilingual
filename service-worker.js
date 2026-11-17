@@ -1,4 +1,4 @@
-const CACHE='occ-multilingual-live-v4.7.0-20261114-r2';
+const CACHE='occ-multilingual-live-v4.7.0-20261117-r1';
 self.addEventListener('install',event=>{self.skipWaiting();});
 self.addEventListener('activate',event=>{
   event.waitUntil(
