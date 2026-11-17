@@ -86,6 +86,12 @@ const templates=[
 ,{source:'Forecast starting cost (720 ORV / 360 SRV)',fr:'Coût prévisionnel de départ (720 ORV / 360 SRV)',de:'Prognostizierte Ausgangskosten (720 ORV / 360 SRV)',it:'Costo iniziale previsto (720 ORV / 360 SRV)'}
 ,{source:'Fallback: S8 Rally / Garrison cost (720 ORV / 360 SRV)',fr:'Valeur de secours : coût S8 Rallye / Garnison (720 ORV / 360 SRV)',de:'Ersatzwert: Kosten für S8 Rallye / Garnison (720 ORV / 360 SRV)',it:'Valore di ripiego: costo S8 Rally / Guarnigione (720 ORV / 360 SRV)'}
 
+{source:'Showing {count} of {total} Officers · Highest progress in this filtered view: {name} ({pct}%).',fr:'Affichage de {count} sur {total} officiers · Progression la plus élevée dans cette vue filtrée : {name} ({pct} %).',de:'{count} von {total} Offizieren angezeigt · Höchster Fortschritt in dieser gefilterten Ansicht: {name} ({pct} %).',it:'Visualizzati {count} di {total} Ufficiali · Progressi più alti in questa vista filtrata: {name} ({pct}%).'},
+{source:'Level {level} / 10 · Free starting level',fr:'Niveau {level} / 10 · Niveau initial gratuit',de:'Stufe {level} / 10 · Kostenlose Anfangsstufe',it:'Livello {level} / 10 · Livello iniziale gratuito'},
+{source:'{used} / 36 paid upgrades · {pct}%',fr:'{used} / 36 améliorations payantes · {pct} %',de:'{used} / 36 kostenpflichtige Verbesserungen · {pct} %',it:'{used} / 36 potenziamenti a pagamento · {pct}%'},
+{source:'Level {level} / 70',fr:'Niveau {level} / 70',de:'Stufe {level} / 70',it:'Livello {level} / 70'},
+{source:'Officer unlocked · Training {training} / 180 · Skill Badges {used} / {total} used',fr:'Officier débloqué · Entraînement {training} / 180 · Insignes de compétence {used} / {total} utilisés',de:'Offizier freigeschaltet · Training {training} / 180 · Fähigkeitsabzeichen {used} / {total} verwendet',it:'Ufficiale sbloccato · Addestramento {training} / 180 · Badge abilità {used} / {total} utilizzati'},
+{source:'Officer not yet unlocked · Training {training} / 180 · Skill Badges {used} / {total} used',fr:'Officier non débloqué · Entraînement {training} / 180 · Insignes de compétence {used} / {total} utilisés',de:'Offizier noch nicht freigeschaltet · Training {training} / 180 · Fähigkeitsabzeichen {used} / {total} verwendet',it:'Ufficiale non ancora sbloccato · Addestramento {training} / 180 · Badge abilità {used} / {total} utilizzati'},
 ];
 function compileTemplate(source){
  const parts=source.split(/(\{[a-z]+\})/g);
