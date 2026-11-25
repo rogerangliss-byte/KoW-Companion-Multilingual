@@ -1,7 +1,7 @@
 /* Strict multilingual bootstrap: presentation layer only, after English app load. */
 (function(){
 'use strict';
-const EXPECTED='v470-i18n-core-23',CORE_CACHE='v470-i18n-core-23-fix2';
+const EXPECTED='v470-i18n-core-23',CORE_CACHE='v470-i18n-core-23-fix5';
 const state=window.KOW_MULTILINGUAL_BOOTSTRAP={status:'loading',expected_runtime:EXPECTED,loaded:[],error:null};
 function load(src){return new Promise((ok,bad)=>{const s=document.createElement('script');s.src=src;s.onload=()=>{state.loaded.push(src);ok()};s.onerror=()=>bad(new Error('Failed to load '+src));document.body.appendChild(s);});}
 async function start(){
